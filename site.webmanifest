@@ -1,0 +1,16 @@
+{
+  "name": "Recursos da Tia Cris",
+  "short_name": "Tia Cris",
+  "description": "Recursos pedagógicos criativos e lúdicos, feitos à mão, para crianças, famílias, professoras, profissionais e escolas.",
+  "lang": "pt-BR",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fff7f1",
+  "theme_color": "#fff7f1",
+  "icons": [
+    { "src": "/assets/img/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/assets/img/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/assets/img/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
