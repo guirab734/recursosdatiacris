@@ -1,0 +1,17 @@
+{
+  "name": "recursos-da-tia-cris",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site institucional e catálogo dos recursos pedagógicos da Tia Cris.",
+  "scripts": {
+    "build": "python3 build/gerar_site.py",
+    "fontes": "bash build/baixar_fontes.sh",
+    "dev": "python3 -m http.server 8099",
+    "teste": "node build/teste.js",
+    "shots": "node build/screenshots.js desk && node build/screenshots.js mob"
+  },
+  "devDependencies": {
+    "axe-core": "^4.10.2",
+    "playwright": "^1.49.1"
+  }
+}
