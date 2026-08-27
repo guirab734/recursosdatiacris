@@ -119,10 +119,10 @@
   }
 
   /* ---------- 4. Revelação no scroll ---------- */
-  var reveláveis = document.querySelectorAll(".revelar");
+  var revelaveis = document.querySelectorAll(".revelar");
 
   if (semMovimento || !("IntersectionObserver" in window)) {
-    reveláveis.forEach(function (el) { el.classList.add("visivel"); });
+    revelaveis.forEach(function (el) { el.classList.add("visivel"); });
   } else {
     var observador = new IntersectionObserver(function (entradas) {
       entradas.forEach(function (entrada) {
@@ -132,7 +132,7 @@
       });
     }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
 
-    reveláveis.forEach(function (el, i) {
+    revelaveis.forEach(function (el, i) {
       // escalona levemente os itens de uma mesma linha
       el.style.transitionDelay = (i % 3) * 70 + "ms";
       observador.observe(el);
