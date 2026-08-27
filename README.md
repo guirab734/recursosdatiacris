@@ -53,11 +53,59 @@ npm run shots     # screenshots desktop e mobile
 
 1. Coloque a foto em `assets/img/` como `slug-700.jpg`, `slug-700.webp`,
    `slug-420.jpg` e `slug-420.webp` (quadradas, sem tarja preta).
-2. Acrescente uma entrada em `PRODUTOS` com o mesmo `slug`.
+2. Acrescente uma entrada em `PRODUTOS` com o mesmo `slug`, incluindo `hab`
+   (a lista de habilidades que aparece no "Ver habilidades trabalhadas").
 3. `npm run build`.
 
 Se a categoria for nova, adicione-a também em `CATEGORIAS` (com um par de cores)
 e em `CURTO` (o rótulo curto do botão de filtro).
+
+---
+
+## ⚠️ Fotos que ainda precisam ser trocadas
+
+**23 recursos estão com foto tirada do vídeo do catálogo do WhatsApp.** O vídeo
+é 348x380, bem abaixo dos 700x700 que o site usa, então essas fotos estão mais
+suaves que as demais. `build/extrair_fotos_video.py` tira o máximo da fonte
+(soma vários quadros parados para cancelar o ruído, depois amplia), mas não
+substitui a foto original.
+
+**5 recursos estão com imagem provisória** — papel rosa com o logo esmaecido,
+gerada por `build/gerar_placeholders.py`:
+
+- Meu Primeiro Livro Pedagógico
+- Mata Moscas de 1 a 20
+- UNO – Campeonato
+- Pescando as Sílabas
+- Martelinho da Matemática
+
+Para trocar qualquer uma: salve a foto original como quadrada e rode
+
+```bash
+python3 - <<'EOF'
+from PIL import Image
+slug = "pescando-as-silabas"          # o slug do recurso
+im = Image.open("foto-original.jpg").convert("RGB")
+s = min(im.size); l = (im.size[0]-s)//2; t = (im.size[1]-s)//2
+im = im.crop((l, t, l+s, t+s))
+for w in (700, 420):
+    r = im.resize((w, w), Image.LANCZOS)
+    r.save(f"assets/img/{slug}-{w}.webp", "WEBP", quality=84, method=6)
+    r.save(f"assets/img/{slug}-{w}.jpg", "JPEG", quality=84, optimize=True, progressive=True)
+EOF
+```
+
+Não precisa mexer no `gerar_site.py` — o slug já está lá.
+
+## Preços a conferir com a Tia Cris
+
+O catálogo do WhatsApp e o site divergem em dois recursos. O site manteve o
+preço antigo (com selo de oferta); o catálogo cobra o cheio:
+
+| Recurso | No site | No catálogo |
+|---|---|---|
+| Livro Pareamento | R$ 120 (de 130) | R$ 130 |
+| Livro Estimulação Cognitiva 2 | R$ 110 (de 130) | R$ 130 |
 
 ## Estrutura
 

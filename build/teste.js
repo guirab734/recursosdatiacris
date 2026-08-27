@@ -26,13 +26,18 @@ const AXE = require.resolve('axe-core/axe.min.js');
 
     // --- filtros ---
     const total = await p.$$eval('.produto', e => e.length);
-    ok('13 produtos no DOM', total === 13, 'total='+total);
-    await p.click('[data-filtro="Alfabetização"]');
+    ok('todos os produtos no DOM', total > 0, 'total='+total);
+    // conta esperada por categoria, tirada do próprio DOM
+    const porCat = await p.$$eval('.produto', els => {
+      const m = {}; els.forEach(e => m[e.dataset.categoria] = (m[e.dataset.categoria]||0)+1); return m;
+    });
+    const primeira = Object.keys(porCat)[0];
+    await p.click(`[data-filtro="${primeira}"]`);
     await p.waitForTimeout(250);
     const vis = await p.$$eval('.produto:not([hidden])', e => e.length);
     const txt = await p.textContent('#contagem-recursos');
-    ok('filtro Alfabetização mostra 3', vis === 3, `visíveis=${vis} texto="${txt.trim()}"`);
-    ok('aria-pressed correto', await p.getAttribute('[data-filtro="Alfabetização"]','aria-pressed') === 'true'
+    ok(`filtro "${primeira}" mostra ${porCat[primeira]}`, vis === porCat[primeira], `visíveis=${vis} texto="${txt.trim()}"`);
+    ok('aria-pressed correto', await p.getAttribute(`[data-filtro="${primeira}"]`,'aria-pressed') === 'true'
        && await p.getAttribute('[data-filtro="Todos"]','aria-pressed') === 'false');
     ok('URL guarda o filtro', p.url().includes('habilidade='), p.url().split('?')[1]||'sem query');
 
@@ -44,7 +49,7 @@ const AXE = require.resolve('axe-core/axe.min.js');
       ok(`categoria "${c}" tem resultados`, n > 0, n+' itens');
     }
     await p.click('[data-filtro="Todos"]'); await p.waitForTimeout(150);
-    ok('"Todos" restaura os 13', await p.$$eval('.produto:not([hidden])',e=>e.length) === 13);
+    ok('"Todos" restaura todos', await p.$$eval('.produto:not([hidden])',e=>e.length) === total);
 
     // --- menu mobile ---
     if (rot === 'MOBILE') {

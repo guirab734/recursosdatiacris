@@ -30,6 +30,7 @@
   --pom-rosa:     #ff3bae;  --ink-rosa:  #c00a6b;
   --pom-ambar:    #f5a623;  --ink-ambar: #8c5200;
   --pom-coral:    #f2604c;  --ink-coral: #b03526;
+  --pom-turquesa: #1fa9a0;  --ink-turquesa: #0b6f69;
 
   --zap:          #11833f;   /* verde WhatsApp escurecido: 4.84:1 com branco */
 
@@ -349,6 +350,27 @@ h3{font-size:var(--t-h3);line-height:1.2;font-variation-settings:"SOFT" 60,"WONK
 .produto-corpo{padding:1.35rem;display:flex;flex-direction:column;flex:1}
 .produto-corpo h3{margin-bottom:.5rem}
 .produto-corpo p{color:var(--tinta-suave);font-size:.93rem;line-height:1.5;flex:1}
+.habilidades-produto{margin-top:1rem;border-top:1px solid var(--linha);padding-top:.85rem}
+.habilidades-produto summary{
+  display:flex;align-items:center;gap:.45rem;cursor:pointer;list-style:none;
+  font-size:.84rem;font-weight:800;color:var(--etq,var(--rosa-tinta));
+}
+.habilidades-produto summary::-webkit-details-marker{display:none}
+.habilidades-produto summary::after{
+  content:"";width:7px;height:7px;flex:none;
+  border-right:2px solid currentColor;border-bottom:2px solid currentColor;
+  rotate:45deg;translate:0 -2px;transition:rotate .2s ease;
+}
+.habilidades-produto[open] summary::after{rotate:225deg;translate:0 1px}
+.habilidades-produto ul{margin:.8rem 0 .2rem;display:grid;gap:.5rem}
+.habilidades-produto li{
+  position:relative;padding-left:1.05rem;list-style:none;
+  font-size:.86rem;line-height:1.45;color:var(--tinta-suave);
+}
+.habilidades-produto li::before{
+  content:"";position:absolute;left:0;top:.5em;
+  width:6px;height:6px;border-radius:50%;background:var(--pom,var(--rosa-viva));
+}
 .preco{display:flex;align-items:baseline;gap:.55rem;margin:1.15rem 0 1rem;flex-wrap:wrap}
 .preco strong{font-family:var(--display);font-size:1.6rem;font-weight:700;color:var(--rosa-tinta);font-variation-settings:"SOFT" 60,"WONK" 0}
 .preco-antigo{text-decoration:line-through;color:var(--tinta-tenue);font-size:.9rem;font-weight:700}
