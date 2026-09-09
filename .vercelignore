@@ -1,5 +1,7 @@
 node_modules
 build
-package.json
 README.md
 .git
+.env*
+tests
+.local

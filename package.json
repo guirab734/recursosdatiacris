@@ -1,17 +1,39 @@
 {
   "name": "recursos-da-tia-cris",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "description": "Site institucional e catálogo dos recursos pedagógicos da Tia Cris.",
   "scripts": {
-    "build": "python3 build/gerar_site.py",
+    "build": "next build",
     "fontes": "bash build/baixar_fontes.sh",
-    "dev": "python3 -m http.server 8099",
+    "dev": "next dev --hostname 127.0.0.1 --port 3000",
+    "start": "next start --hostname 127.0.0.1 --port 3000",
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test tests/*.test.ts",
+    "seed": "node --env-file=.env.local scripts/seed.mjs",
+    "build:legacy": "python build/gerar_site.py",
     "teste": "node build/teste.js",
     "shots": "node build/screenshots.js desk && node build/screenshots.js mob"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.8",
+    "@types/node": "^26.5.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
     "axe-core": "^4.10.2",
-    "playwright": "^1.49.1"
+    "playwright": "^1.49.1",
+    "prettier": "^3.9.6",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.116.0",
+    "lucide-react": "^1.43.0",
+    "next": "^16.3.4",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "server-only": "^0.0.1",
+    "zod": "^4.5.4"
   }
 }

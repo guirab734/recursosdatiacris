@@ -11,14 +11,22 @@ cancela o ruído de compressão do H.264 —, depois ampliada e com máscara de
 nitidez. Quando a Tia Cris mandar as fotos originais, troque os arquivos
 correspondentes em assets/img/ e apague este passo.
 """
-import subprocess, os, imageio_ffmpeg
+import argparse, pathlib, subprocess, os, imageio_ffmpeg
 from PIL import Image, ImageFilter
 import numpy as np
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
-VIDEO = "/root/.claude/uploads/179a3a1e-87f9-5c67-97ff-79883bea69f4/f154b967-Gravando_20260827_115731.mp4"
-TMP = "/tmp/claude-0/-home-user-recursosdatiacris/179a3a1e-87f9-5c67-97ff-79883bea69f4/scratchpad/extr"
-OUT = "assets/img"
+RAIZ = pathlib.Path(__file__).resolve().parent.parent
+parser = argparse.ArgumentParser(description="Extrai fotos do vídeo original do catálogo.")
+parser.add_argument("video", type=pathlib.Path, help="Caminho do vídeo do catálogo.")
+parser.add_argument("--temporarios", type=pathlib.Path, default=RAIZ / ".local" / "extr")
+parser.add_argument("--saida", type=pathlib.Path, default=RAIZ / "assets" / "img")
+args = parser.parse_args()
+if not args.video.is_file():
+    parser.error("O arquivo de vídeo informado não existe.")
+VIDEO = str(args.video.resolve())
+TMP = str(args.temporarios.resolve())
+OUT = str(args.saida.resolve())
 os.makedirs(TMP, exist_ok=True); os.makedirs(OUT, exist_ok=True)
 
 # slug -> (segundo, recorte vertical opcional dentro da faixa detectada)

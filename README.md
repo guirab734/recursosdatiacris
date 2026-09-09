@@ -1,145 +1,58 @@
 # Recursos da Tia Cris
 
-Site institucional e catálogo dos recursos pedagógicos artesanais da Tia Cris —
-psicopedagoga e graduanda em Neuropsicopedagogia.
+Loja em Next.js 16, React, Supabase Auth, Postgres e Storage. Catálogo, detalhe com galeria, busca, filtros, carrinho e checkout por WhatsApp. Gestão em `/admin/login`, sem links no site público.
 
-**Instagram:** [@recursosdatiacris](https://www.instagram.com/recursosdatiacris/)
+O login administrativo solicita **somente a senha**. A conta dedicada já está criada no Supabase e autorizada em `admins`. Seu identificador interno fica em `ADMIN_AUTH_EMAIL`, exclusivo do servidor. A senha é validada pelo Supabase, sem cópia no código, no `.env.local` ou no navegador. O cadastro público continua desativado.
 
----
+## Executar localmente
 
-## ⚠️ Verificar antes de divulgar: o número do WhatsApp
-
-Todos os botões apontam para `wa.me/557999226515`, ou seja **+55 (79) 9922-6515** —
-esse número tem **8 dígitos** depois do DDD. Celulares no Brasil têm 9 dígitos
-desde 2016 (`9XXXX-XXXX`), então esse link provavelmente **não abre a conversa**.
-
-Se o número certo for, por exemplo, 99922-6515, o conserto é numa linha só:
-
-```python
-# build/gerar_site.py
-ZAP = "5579999226515"
+```powershell
+npm install
+if (-not (Test-Path .env.local)) { Copy-Item .env.example .env.local }
+npm run dev
 ```
 
-Depois é só rodar `npm run build`. O número aparece em um único lugar no código —
-todos os 17 links do site são gerados a partir dele. O texto exibido no rodapé
-está em `build/gerar_site.py`, na seção `Contato`.
+Ao clonar o repositório, copie `.env.example` para `.env.local` e preencha as variáveis antes de usar o painel. Se `.env.local` já existir, preserve sua configuração. Abra http://127.0.0.1:3000. O `.env.local` é ignorado pelo Git. As chaves do Supabase não são enviadas ao navegador. Use sempre a mesma origem configurada em `APP_ORIGIN`.
 
----
+`DEMO_MODE=true` seleciona explicitamente a prévia em desenvolvimento, mesmo com o Supabase configurado. Os 36 produtos com fotos reais vieram do catálogo existente. Os cinco produtos que só tinham imagens ilustrativas foram excluídos da importação. Os preços são históricos; o estoque 12 é exclusivamente demonstrativo. Não existe login administrativo alternativo, senha padrão ou bypass de autenticação. Métricas demonstrativas não são armazenadas nem apresentadas como reais.
 
-## Como mexer no site
+## Conectar o Supabase
 
-O `index.html` é **gerado** — não edite ele à mão, porque a próxima build
-sobrescreve tudo. O conteúdo mora em `build/gerar_site.py`:
+1. Preencha `SUPABASE_URL`, `SUPABASE_ANON_KEY` e `SUPABASE_SERVICE_ROLE_KEY` em `.env.local`. Não use prefixo `NEXT_PUBLIC_`. Confirme `WHATSAPP_NUMBER`, herdado do site original como `557999226515`.
+2. Execute o conteúdo de `supabase/migrations/001_store.sql` no SQL Editor do seu projeto Supabase. A migração cria tabelas, índices, funções, políticas RLS e bucket. Execute uma única vez em um projeto novo. Projetos com tabelas homônimas precisam de migração adaptada antes da execução.
+3. Para uma nova instalação, desative o cadastro público de usuários em Authentication, crie a conta administrativa manualmente e defina seu e-mail interno em `ADMIN_AUTH_EMAIL` no servidor. Depois autorize o UUID dessa conta no SQL Editor. Nesta instalação, a conta e a restrição já estão configuradas:
 
-| O que você quer mudar | Onde mexer |
-|---|---|
-| Preço, nome ou descrição de um recurso | lista `PRODUTOS` |
-| Adicionar/remover um recurso | lista `PRODUTOS` (+ a foto em `assets/img/`) |
-| Perguntas frequentes | lista `FAQ` |
-| Passos do "Como funciona" | lista `PASSOS` |
-| Habilidades da seção escura | lista `HABILIDADES` |
-| Categorias e suas cores | dicionário `CATEGORIAS` |
-| Número do WhatsApp | constante `ZAP` |
-| Endereço do site (SEO) | constante `SITE` |
-
-```bash
-npm run build     # regera o index.html
-npm run dev       # serve em http://localhost:8099
-npm run teste     # acessibilidade (axe) + testes funcionais
-npm run shots     # screenshots desktop e mobile
+```sql
+insert into public.admins(user_id) values ('UUID-DA-CONTA-CRIADA');
 ```
 
-### Adicionar um recurso novo
+4. Opcionalmente, execute `npm run seed` para enviar as fotos existentes ao Storage e importar o catálogo. Todos os produtos são importados **inativos e com estoque zero**, para que você revise preço e disponibilidade. O importador preserva registros já cadastrados. A importação inicial já foi executada neste projeto.
+5. Acesse `/admin/login`, entre somente com sua senha, revise os recursos, informe o estoque real e ative os produtos. Defina `DEMO_MODE=false` ao concluir a configuração. Se necessário, reinicie `npm run dev` depois de alterar as variáveis.
 
-1. Coloque a foto em `assets/img/` como `slug-700.jpg`, `slug-700.webp`,
-   `slug-420.jpg` e `slug-420.webp` (quadradas, sem tarja preta).
-2. Acrescente uma entrada em `PRODUTOS` com o mesmo `slug`, incluindo `hab`
-   (a lista de habilidades que aparece no "Ver habilidades trabalhadas").
-3. `npm run build`.
+Para revogar a gestão, remova o UUID de `public.admins`. A autorização é conferida novamente em cada requisição, mesmo que a sessão Auth ainda seja válida. Não é suficiente saber o endereço do painel.
 
-Se a categoria for nova, adicione-a também em `CATEGORIAS` (com um par de cores)
-e em `CURTO` (o rótulo curto do botão de filtro).
+## Segurança e comportamento
 
----
+Todas as leituras e escritas da aplicação passam pelo backend. O cliente guarda somente IDs e quantidades no localStorage. Os preços públicos de venda são enviados para exibição; são públicos por definição. O preço usado para checkout e o estoque exato são consultados novamente no servidor. Os valores monetários usam centavos inteiros. IDs duplicados são somados antes da checagem de estoque.
 
-## ⚠️ Fotos que ainda precisam ser trocadas
+Sessões Auth usam cookies HttpOnly, SameSite e Secure em produção. A API valida a origem exata, formato, tamanho e conteúdo dos formulários. A sessão é verificada com `getUser()` e o papel é consultado na tabela `admins`. O banco reforça as permissões por RLS, com leitura anônima apenas de produtos ativos e sem acesso à coluna de estoque. O service role é usado exclusivamente pelo servidor para catálogo, métricas recebidas, limites e limpeza; operações administrativas de produto usam também a sessão do admin e RLS.
 
-**23 recursos estão com foto tirada do vídeo do catálogo do WhatsApp.** O vídeo
-é 348x380, bem abaixo dos 700x700 que o site usa, então essas fotos estão mais
-suaves que as demais. `build/extrair_fotos_video.py` tira o máximo da fonte
-(soma vários quadros parados para cancelar o ruído, depois amplia), mas não
-substitui a foto original.
+Os limites de requisição são persistidos no Postgres quando conectado. Por padrão, ignoram cabeçalhos de IP enviados pelo solicitante e usam um limite compartilhado. Configure `TRUST_PROXY_HEADERS=true` somente se um proxy confiável substituir `x-forwarded-for` antes de encaminhar as requisições. Sem essa garantia, mantenha `false`. Ajuste limites e proxy conforme o volume real da loja.
 
-**5 recursos estão com imagem provisória** — papel rosa com o logo esmaecido,
-gerada por `build/gerar_placeholders.py`:
+As fotos e vídeos de produtos são públicos no bucket `products-media`. Não envie dados pessoais ou documentos particulares para ele. Uploads passam pelo servidor, exigem admin e têm checagem de assinatura, MIME e limite de 20 MB. O cadastro e a ordem das mídias são gravados na mesma transação. A exclusão de referências enfileira a limpeza do arquivo; o próximo carregamento de produtos na gestão tenta apagar os objetos sem referências. Uploads abandonados ficam elegíveis para limpeza após 24 horas. Falhas continuam na fila para nova tentativa.
 
-- Meu Primeiro Livro Pedagógico
-- Mata Moscas de 1 a 20
-- UNO – Campeonato
-- Pescando as Sílabas
-- Martelinho da Matemática
+O checkout valida os preços e estoque no momento da preparação. Como a compra depende de confirmação humana no WhatsApp, o link não reserva nem baixa estoque. O admin atualiza as quantidades após confirmar a venda. Endereço e coordenadas não são persistidos em banco ou localStorage: são usados na mensagem, onde passam a ser compartilhados com WhatsApp/Meta quando o cliente abre o link. Não há envio automático de mensagem.
 
-Para trocar qualquer uma: salve a foto original como quadrada e rode
+As métricas contam visualizações, adições ao carrinho e cliques de saída para o WhatsApp. O gráfico mostra 14 dias; os indicadores de interação mostram 30 dias. Um clique não comprova mensagem enviada ou venda concluída. Há rate limit, deduplicação por evento e redução de visualizações repetidas na mesma aba, mas métricas de navegador são estimativas e não auditoria financeira.
 
-```bash
-python3 - <<'EOF'
-from PIL import Image
-slug = "pescando-as-silabas"          # o slug do recurso
-im = Image.open("foto-original.jpg").convert("RGB")
-s = min(im.size); l = (im.size[0]-s)//2; t = (im.size[1]-s)//2
-im = im.crop((l, t, l+s, t+s))
-for w in (700, 420):
-    r = im.resize((w, w), Image.LANCZOS)
-    r.save(f"assets/img/{slug}-{w}.webp", "WEBP", quality=84, method=6)
-    r.save(f"assets/img/{slug}-{w}.jpg", "JPEG", quality=84, optimize=True, progressive=True)
-EOF
+## Verificação
+
+```powershell
+npm run typecheck
+npm test
+npm run build
 ```
 
-Não precisa mexer no `gerar_site.py` — o slug já está lá.
+Os testes exercitam adulteração de preços, quantidades inválidas, soma de itens duplicados, produtos inativos, localização obrigatória e cálculo em centavos. A migração é executada em PostgreSQL local via PGlite para validar RLS, autorização, transação, limpeza, métricas e limites. O Supabase real foi validado para Storage, políticas e login por senha, incluindo acesso ao painel, bloqueio de senha incorreta e logout. O script `scripts/check-admin-login.mjs` recebe a senha apenas pela variável temporária `ADMIN_BOOTSTRAP_PASSWORD` do processo de teste, sem gravá-la ou exibi-la.
 
-## Preços a conferir com a Tia Cris
-
-O catálogo do WhatsApp e o site divergem em dois recursos. O site manteve o
-preço antigo (com selo de oferta); o catálogo cobra o cheio:
-
-| Recurso | No site | No catálogo |
-|---|---|---|
-| Livro Pareamento | R$ 120 (de 130) | R$ 130 |
-| Livro Estimulação Cognitiva 2 | R$ 110 (de 130) | R$ 130 |
-
-## Estrutura
-
-```
-index.html              gerado por build/gerar_site.py — não editar à mão
-assets/css/styles.css   estilos (escrito à mão, este sim se edita)
-assets/css/fontes.css   gerado por build/baixar_fontes.sh
-assets/js/main.js       menu, filtros, revelação no scroll
-assets/fonts/           Fraunces + Nunito auto-hospedadas (subsetadas)
-assets/img/             fotos em WebP + JPG, dois tamanhos cada
-build/                  gerador, download de fontes, testes, screenshots
-vercel.json             cache das imagens e cabeçalhos de segurança
-```
-
-## Decisões técnicas
-
-- **Fontes auto-hospedadas e subsetadas.** Fraunces (títulos) e Nunito (texto),
-  cortadas para o alfabeto português e com os eixos variáveis fixados no que o
-  site usa: 300 KB → 70 KB, sem depender do Google Fonts (melhor para LGPD e
-  para o tempo de carregamento).
-- **Imagens fora do HTML.** A versão anterior era um arquivo único de 10 MB com
-  as fotos em base64. Agora são arquivos WebP/JPG com `srcset`, o que deixa o
-  HTML em 52 KB e permite cache no navegador.
-- **Cor como informação.** Cada categoria tem uma cor de pompom, e ela é a mesma
-  no botão de filtro e na etiqueta sobre a foto — a cor identifica a categoria,
-  não decora.
-- **Funciona sem JavaScript.** Sem JS, o menu fica visível e os 13 recursos
-  aparecem; o JS só adiciona os filtros e as animações.
-
-## Publicação
-
-Hospedado na Vercel a partir da branch de produção. É um site estático: não há
-build step na Vercel, ela apenas serve os arquivos.
-
-Ao trocar o domínio, atualize a constante `SITE` em `build/gerar_site.py`
-(ela alimenta o canonical, as tags Open Graph e os dados estruturados) e os
-endereços em `robots.txt` e `sitemap.xml`.
+O site anterior permanece em `index.html`, `assets/` e `build/` como referência histórica, sem ser servido pelo Next.js. Os ativos usados na loja estão em `public/assets/`. Em produção, use `npm run build` e `npm start` ou uma plataforma com suporte a Next.js, configure a origem HTTPS e as variáveis no servidor.

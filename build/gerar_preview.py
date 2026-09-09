@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 """Empacota o site num único HTML autocontido (para preview compartilhável).
 Não é o site de produção — é o index.html com CSS, JS, fontes e fotos embutidos."""
-import re, base64, pathlib
+import argparse, re, base64, pathlib
 
 RAIZ = pathlib.Path(__file__).resolve().parent.parent
-SAIDA = pathlib.Path("/tmp/claude-0/-home-user-recursosdatiacris/179a3a1e-87f9-5c67-97ff-79883bea69f4/scratchpad/preview-tia-cris.html")
+parser = argparse.ArgumentParser(description="Gera uma prévia autocontida do site anterior.")
+parser.add_argument("--saida", type=pathlib.Path, default=RAIZ / ".local" / "preview-tia-cris.html")
+SAIDA = parser.parse_args().saida.resolve()
+SAIDA.parent.mkdir(parents=True, exist_ok=True)
 
 def b64(rel, mime):
     return f"data:{mime};base64," + base64.b64encode((RAIZ/rel).read_bytes()).decode()

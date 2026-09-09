@@ -2,3 +2,12 @@ node_modules/
 .vercel/
 .DS_Store
 *.log
+.next/
+.env*
+!.env.example
+.local/
+*.tsbuildinfo
+test-results/
+AGENTS.md
+CLAUDE.md
+__pycache__/
