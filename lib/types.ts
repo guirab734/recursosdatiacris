@@ -3,6 +3,7 @@ export type Media = {
   type: "image" | "video";
   url: string;
   position: number;
+  upload_receipt?: string;
 };
 export type Product = {
   id: string;
@@ -17,7 +18,6 @@ export type Product = {
   in_stock: boolean;
 };
 export type AdminProduct = Omit<Product, "in_stock"> & {
-  stock: number;
   active: boolean;
   created_at: string;
   updated_at: string;

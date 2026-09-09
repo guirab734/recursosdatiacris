@@ -10,7 +10,6 @@ import {
   Search,
   Eye,
   MessageCircle,
-  TriangleAlert,
   ArrowUpRight,
   Pencil,
   Trash2,
@@ -33,7 +32,6 @@ type Metrics = {
   views: number;
   cart_adds: number;
   whatsapp_clicks: number;
-  low_stock: { id: string; name: string; stock: number }[];
   popular: { id: string; name: string; views: number; clicks: number }[];
   daily: { date: string; clicks: number }[];
 };
@@ -44,7 +42,6 @@ type Draft = {
   description: string;
   price: string;
   category: string;
-  stock: number;
   active: boolean;
   badge: string;
   skills: string;
@@ -56,7 +53,6 @@ const blank = (): Draft => ({
   description: "",
   price: "",
   category: categories[0],
-  stock: 0,
   active: false,
   badge: "",
   skills: "",
@@ -85,6 +81,42 @@ async function api(path: string, options?: RequestInit) {
   if (!response.ok) throw new Error(data.error || "Não foi possível concluir.");
   return data;
 }
+function sendMediaFile(
+  url: string,
+  file: File,
+  onProgress: (percent: number) => void,
+) {
+  return new Promise<void>((resolve, reject) => {
+    const request = new XMLHttpRequest();
+    request.open("PUT", url);
+    request.setRequestHeader("Content-Type", file.type);
+    request.setRequestHeader("x-upsert", "false");
+    request.timeout = 180000;
+    request.upload.onprogress = (event) => {
+      if (event.lengthComputable)
+        onProgress(Math.round((event.loaded / event.total) * 100));
+    };
+    request.onload = () =>
+      request.status >= 200 && request.status < 300
+        ? resolve()
+        : reject(
+            new Error("Não foi possível enviar o arquivo. Tente novamente."),
+          );
+    request.onerror = () =>
+      reject(
+        new Error(
+          "A conexão foi interrompida. Tente enviar o arquivo novamente.",
+        ),
+      );
+    request.ontimeout = () =>
+      reject(
+        new Error(
+          "O envio demorou mais que o esperado. Confira sua conexão e tente novamente.",
+        ),
+      );
+    request.send(file);
+  });
+}
 export function AdminDashboard({
   email,
   demo = false,
@@ -103,12 +135,19 @@ export function AdminDashboard({
   const [saveError, setSaveError] = useState("");
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<{
+    name: string;
+    index: number;
+    total: number;
+    percent: number;
+  } | null>(null);
   const [deleting, setDeleting] = useState<AdminProduct | null>(null);
   const [deleteBusy, setDeleteBusy] = useState(false);
   const [deleteError, setDeleteError] = useState("");
   const editor = useRef<HTMLDialogElement>(null);
   const confirmation = useRef<HTMLDialogElement>(null);
   const uploadRef = useRef<HTMLInputElement>(null);
+  const videoUploadRef = useRef<HTMLInputElement>(null);
   const { notify } = useShop();
   const refresh = useCallback(async () => {
     setLoading(true);
@@ -148,7 +187,6 @@ export function AdminDashboard({
             description: product.description,
             price: (product.price_cents / 100).toFixed(2).replace(".", ","),
             category: product.category,
-            stock: product.stock,
             active: product.active,
             badge: product.badge || "",
             skills: product.skills.join("\n"),
@@ -193,7 +231,7 @@ export function AdminDashboard({
     }
   }
   async function upload(files: FileList | null) {
-    if (!files) return;
+    if (!files?.length || uploading) return;
     setSaveError("");
     if (draft.media.length + files.length > 20) {
       setSaveError("Você pode incluir até 20 fotos e vídeos.");
@@ -201,14 +239,44 @@ export function AdminDashboard({
     }
     setUploading(true);
     try {
-      for (const file of Array.from(files)) {
-        if (file.size > 20 * 1024 * 1024)
-          throw new Error("Cada arquivo pode ter até 20 MB.");
-        const form = new FormData();
-        form.append("file", file);
+      for (const [index, file] of Array.from(files).entries()) {
+        if (!file.size || file.size > 20 * 1024 * 1024)
+          throw new Error(`${file.name}: escolha um arquivo de até 20 MB.`);
+        if (
+          ![
+            "image/jpeg",
+            "image/png",
+            "image/webp",
+            "video/mp4",
+            "video/webm",
+          ].includes(file.type)
+        )
+          throw new Error(`${file.name}: use JPG, PNG, WebP, MP4 ou WebM.`);
+        setUploadProgress({
+          name: file.name,
+          index: index + 1,
+          total: files.length,
+          percent: 0,
+        });
+        const prepared = await api("/api/admin/media", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "prepare",
+            type: file.type,
+            size: file.size,
+          }),
+        });
+        await sendMediaFile(prepared.uploadUrl, file, (percent) => {
+          setUploadProgress((old) => (old ? { ...old, percent } : old));
+        });
         const result = await api("/api/admin/media", {
           method: "POST",
-          body: form,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "complete",
+            receipt: prepared.receipt,
+          }),
         });
         setDraft((old) => ({
           ...old,
@@ -218,11 +286,14 @@ export function AdminDashboard({
           ],
         }));
       }
+      notify("Arquivos adicionados. Salve o produto para publicar.");
     } catch (e) {
       setSaveError((e as Error).message);
     } finally {
       setUploading(false);
+      setUploadProgress(null);
       if (uploadRef.current) uploadRef.current.value = "";
+      if (videoUploadRef.current) videoUploadRef.current.value = "";
     }
   }
   function moveMedia(index: number, direction: number) {
@@ -333,9 +404,9 @@ export function AdminDashboard({
             <div className="setup-note">
               <strong>A vitrine está em prévia local.</strong>
               <p>
-                Seus cadastros são salvos no Supabase. Após revisar preços e
-                estoque, defina DEMO_MODE=false no .env.local para exibir os
-                produtos reais na loja.
+                Seus cadastros são salvos no Supabase. Após revisar os preços,
+                defina DEMO_MODE=false no .env.local para exibir os produtos
+                reais na loja.
               </p>
             </div>
           )}
@@ -393,10 +464,10 @@ export function AdminDashboard({
                   color="green"
                 />
                 <Metric
-                  icon={<TriangleAlert />}
-                  label="Precisam de reposição"
-                  value={metrics?.low_stock.length ?? 0}
-                  note="Recursos ativos com até 5 unidades"
+                  icon={<ShoppingBag />}
+                  label="Adições ao carrinho"
+                  value={metrics?.cart_adds ?? 0}
+                  note="Últimos 30 dias"
                   color="orange"
                 />
               </div>
@@ -448,33 +519,31 @@ export function AdminDashboard({
                 <section className="admin-panel">
                   <div className="panel-heading">
                     <div>
-                      <h2>Um carinho no estoque</h2>
-                      <p>Recursos com até 5 unidades disponíveis</p>
+                      <h2>Sua vitrine está pronta</h2>
+                      <p>
+                        Recursos ativos ficam sempre disponíveis para pedidos
+                      </p>
                     </div>
-                    <TriangleAlert size={20} />
+                    <Package size={20} />
                   </div>
-                  {metrics?.low_stock.length ? (
-                    <div className="low-stock-list">
-                      {metrics.low_stock.slice(0, 6).map((p) => (
-                        <button
-                          key={p.id}
-                          onClick={() =>
-                            edit(products.find((x) => x.id === p.id))
-                          }
-                        >
-                          <span>{p.name}</span>
-                          <b>{p.stock === 0 ? "Esgotado" : `${p.stock} un.`}</b>
-                          <Pencil size={14} />
-                        </button>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="panel-empty">
-                      <Check size={30} />
-                      <h3>Tudo em dia por aqui.</h3>
-                      <p>Nenhum recurso ativo precisa de reposição.</p>
-                    </div>
-                  )}
+                  <div className="panel-empty">
+                    <Check size={30} />
+                    <h3>{metrics?.active_products ?? 0} recursos na loja.</h3>
+                    <p>
+                      {Math.max(
+                        0,
+                        (metrics?.total_products ?? 0) -
+                          (metrics?.active_products ?? 0),
+                      )}{" "}
+                      inativos. Você escolhe o que aparece na sua vitrine.
+                    </p>
+                    <button
+                      className="button secondary"
+                      onClick={() => setTab("products")}
+                    >
+                      Cuidar dos meus recursos
+                    </button>
+                  </div>
                 </section>
               </div>
               <section className="admin-panel popular-panel">
@@ -558,7 +627,6 @@ export function AdminDashboard({
                       <th>Recurso</th>
                       <th>Categoria</th>
                       <th>Preço</th>
-                      <th>Estoque</th>
                       <th>Status</th>
                       <th>
                         <span className="sr-only">Ações</span>
@@ -589,11 +657,6 @@ export function AdminDashboard({
                         </td>
                         <td>{p.category}</td>
                         <td className="nowrap">{money(p.price_cents)}</td>
-                        <td>
-                          <span className={p.stock <= 5 ? "stock-low" : ""}>
-                            {p.stock} un.
-                          </span>
-                        </td>
                         <td>
                           <button
                             className={
@@ -720,37 +783,19 @@ export function AdminDashboard({
                     placeholder="Conte como esse recurso transforma o brincar."
                   />
                 </label>
-                <div className="field-row">
-                  <label className="field">
-                    Preço (R$)
-                    <input
-                      inputMode="decimal"
-                      value={draft.price}
-                      onChange={(e) =>
-                        setDraft((d) => ({ ...d, price: e.target.value }))
-                      }
-                      required
-                      pattern="[0-9]+([,.][0-9]{1,2})?"
-                      placeholder="0,00"
-                    />
-                  </label>
-                  <label className="field">
-                    Quantidade disponível
-                    <input
-                      type="number"
-                      min={0}
-                      max={100000}
-                      value={draft.stock}
-                      onChange={(e) =>
-                        setDraft((d) => ({
-                          ...d,
-                          stock: Number(e.target.value),
-                        }))
-                      }
-                      required
-                    />
-                  </label>
-                </div>
+                <label className="field">
+                  Preço (R$)
+                  <input
+                    inputMode="decimal"
+                    value={draft.price}
+                    onChange={(e) =>
+                      setDraft((d) => ({ ...d, price: e.target.value }))
+                    }
+                    required
+                    pattern="[0-9]+([,.][0-9]{1,2})?"
+                    placeholder="0,00"
+                  />
+                </label>
                 <label className="field">
                   Categoria
                   <select
@@ -802,29 +847,69 @@ export function AdminDashboard({
                     arquivo.
                   </span>
                 </div>
-                <label className="upload-area">
-                  <Upload size={27} />
-                  <strong>
-                    {uploading
-                      ? "Enviando arquivos..."
-                      : "Adicione fotos e vídeos"}
-                  </strong>
-                  <span>JPG, PNG, WebP, MP4 e WebM</span>
-                  <input
-                    ref={uploadRef}
-                    type="file"
-                    accept="image/jpeg,image/png,image/webp,video/mp4,video/webm"
-                    multiple
-                    onChange={(e) => void upload(e.target.files)}
-                  />
-                </label>
+                <div className="upload-choices">
+                  <label className="upload-area">
+                    <Upload size={27} />
+                    <strong>Adicionar fotos</strong>
+                    <span>JPG, PNG ou WebP</span>
+                    <input
+                      ref={uploadRef}
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp"
+                      aria-label="Anexar fotos do produto"
+                      multiple
+                      onChange={(e) => void upload(e.target.files)}
+                    />
+                  </label>
+                  <label className="upload-area">
+                    <Play size={27} />
+                    <strong>Adicionar vídeos</strong>
+                    <span>MP4 ou WebM</span>
+                    <input
+                      ref={videoUploadRef}
+                      type="file"
+                      accept="video/mp4,video/webm,.mp4,.webm"
+                      aria-label="Anexar vídeos do produto"
+                      multiple
+                      onChange={(event) => void upload(event.target.files)}
+                    />
+                  </label>
+                </div>
+                {uploadProgress && (
+                  <div
+                    className="upload-progress"
+                    role="status"
+                    aria-live="polite"
+                  >
+                    <div>
+                      <strong>
+                        {uploadProgress.percent === 100
+                          ? "Conferindo arquivo"
+                          : "Enviando"}{" "}
+                        {uploadProgress.index} de {uploadProgress.total}
+                      </strong>
+                      <span>{uploadProgress.percent}%</span>
+                    </div>
+                    <progress
+                      value={uploadProgress.percent}
+                      max="100"
+                      aria-label="Progresso do envio"
+                    />
+                    <small>{uploadProgress.name}</small>
+                  </div>
+                )}
                 <div className="media-grid">
                   {draft.media.map((m, i) => (
                     <div key={m.id} className="media-tile">
                       {m.type === "image" ? (
                         <img src={m.url} alt={"Foto " + (i + 1)} />
                       ) : (
-                        <video src={m.url} controls preload="metadata" />
+                        <video
+                          src={m.url}
+                          controls
+                          playsInline
+                          preload="metadata"
+                        />
                       )}
                       <div>
                         <button

@@ -33,7 +33,7 @@ for (const product of products) {
     data: { publicUrl },
   } = client.storage.from("products-media").getPublicUrl(path);
   const { media, ...record } = product;
-  // Never invent production stock. Owner reviews old prices before activating.
+  // Keep the unused legacy column compatible. Review prices before publishing.
   const { error } = await client
     .from("products")
     .insert({ ...record, active: false, stock: 0 });
@@ -48,5 +48,5 @@ for (const product of products) {
   console.log("Importado, inativo: " + product.name);
 }
 console.log(
-  "Catálogo importado. Revise preços e estoque no painel antes de ativar os produtos.",
+  "Catálogo importado. Revise os preços no painel antes de ativar os produtos.",
 );

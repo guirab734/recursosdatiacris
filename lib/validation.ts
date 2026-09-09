@@ -55,7 +55,6 @@ export const productSchema = z
     description: text(10, 5000),
     price_cents: z.number().int().min(1).max(10000000),
     category: z.enum(categories as [string, ...string[]]),
-    stock: z.number().int().min(0).max(100000),
     active: z.boolean(),
     badge: z
       .enum(["Escolha da Tia Cris", "Novidade", "Mais vendido"])
@@ -69,6 +68,7 @@ export const productSchema = z
             type: z.enum(["image", "video"]),
             url: z.url().max(1500),
             position: z.number().int().min(0).max(19),
+            upload_receipt: z.string().max(3000).optional(),
           })
           .strict(),
       )
@@ -98,10 +98,6 @@ export function calculateQuote(
       throw new Error(
         "Um recurso do seu carrinho não está mais disponível. Remova-o para continuar.",
       );
-    if (product.stock < item.quantity)
-      throw new Error(
-        `A quantidade de ${product.name} está indisponível. Diminua a quantidade para continuar.`,
-      );
     return {
       product_id: product.id,
       name: product.name,
@@ -121,5 +117,5 @@ export function checkoutMessage(
   delivery: z.infer<typeof deliverySchema>,
 ) {
   const name = delivery.name.replace(/[*_~`]/g, "");
-  return `${quote.demo ? "PRÉVIA LOCAL, SUJEITA A CONFIRMAÇÃO\n\n" : ""}Olá, Tia Cris! Quero fazer um pedido. 🌻\n\n${quote.items.map((x) => `• ${x.quantity} × ${x.name}: ${money(x.subtotal_cents)}`).join("\n")}\n\nTotal estimado dos produtos: ${money(quote.total_cents)}\nFrete a combinar.\n\nNome: ${name}\n${delivery.method === "address" ? `Endereço: ${delivery.address}` : `Localização: https://maps.google.com/?q=${delivery.latitude},${delivery.longitude}`}${delivery.complement ? `\nComplemento/referência: ${delivery.complement}` : ""}\n\nPode confirmar disponibilidade, prazo, entrega e pagamento?`;
+  return `${quote.demo ? "PRÉVIA LOCAL, SUJEITA A CONFIRMAÇÃO\n\n" : ""}Olá, Tia Cris! Quero fazer um pedido. 🌻\n\n${quote.items.map((x) => `• ${x.quantity} × ${x.name}: ${money(x.subtotal_cents)}`).join("\n")}\n\nTotal estimado dos produtos: ${money(quote.total_cents)}\nFrete a combinar.\n\nNome: ${name}\n${delivery.method === "address" ? `Endereço: ${delivery.address}` : `Localização: https://maps.google.com/?q=${delivery.latitude},${delivery.longitude}`}${delivery.complement ? `\nComplemento/referência: ${delivery.complement}` : ""}\n\nPode confirmar prazo, entrega e pagamento?`;
 }

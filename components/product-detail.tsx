@@ -8,12 +8,12 @@ import {
   ShoppingBag,
   HandHeart,
   MessageCircle,
-  Play,
   ArrowRight,
 } from "lucide-react";
 import { Header, Footer } from "./header";
 import { ProductCard } from "./storefront";
 import { useShop } from "./shop-provider";
+import { ProductGallery } from "./product-gallery";
 import { money, type Product } from "@/lib/types";
 import { track } from "@/lib/client-events";
 export function Quantity({
@@ -52,10 +52,8 @@ export function ProductDetail({
   product: Product;
   related: Product[];
 }) {
-  const [selected, setSelected] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const { add } = useShop();
-  const media = product.media[selected];
   useEffect(() => {
     const key = "view-" + product.id;
     try {
@@ -76,45 +74,11 @@ export function ProductDetail({
           <span>{product.name}</span>
         </div>
         <div className="detail-grid">
-          <div>
-            <div className="gallery-main">
-              {media?.type === "video" ? (
-                <video
-                  key={media.id}
-                  src={media.url}
-                  controls
-                  playsInline
-                  preload="metadata"
-                />
-              ) : media ? (
-                <img
-                  src={media.url}
-                  alt={product.name}
-                  width="700"
-                  height="700"
-                />
-              ) : null}
-            </div>
-            {product.media.length > 1 && (
-              <div className="gallery-thumbs" aria-label="Galeria do produto">
-                {product.media.map((m, i) => (
-                  <button
-                    key={m.id}
-                    className={i === selected ? "selected" : ""}
-                    onClick={() => setSelected(i)}
-                    aria-label={`Ver ${m.type === "video" ? "vídeo" : "foto"} ${i + 1}`}
-                    aria-pressed={i === selected}
-                  >
-                    {m.type === "image" ? (
-                      <img src={m.url} alt="" width="72" height="72" />
-                    ) : (
-                      <Play />
-                    )}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
+          <ProductGallery
+            key={product.id}
+            media={product.media}
+            name={product.name}
+          />
           <div className="detail-copy">
             <span className="eyebrow">{product.category}</span>
             <h1>{product.name}</h1>
@@ -127,13 +91,10 @@ export function ProductDetail({
               <Quantity value={quantity} onChange={setQuantity} />
               <button
                 className="button primary"
-                disabled={!product.in_stock}
                 onClick={() => add(product.id, quantity)}
               >
                 <ShoppingBag size={18} />
-                {product.in_stock
-                  ? "Adicionar ao carrinho"
-                  : "Indisponível no momento"}
+                Adicionar ao carrinho
               </button>
             </div>
             <Link href="/carrinho" className="continue-link">

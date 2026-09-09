@@ -67,10 +67,11 @@ if (catalog.demo) {
   assert.equal(quoteResponse.status, 200);
   const quote = await quoteResponse.json();
   assert.equal(quote.total_cents, p.price_cents * 2);
-  const invalidStock = await post("/api/cart", {
+  const maximumQuantity = await post("/api/cart", {
     items: [{ product_id: p.id, quantity: 99 }],
   });
-  assert.equal(invalidStock.status, 409);
+  assert.equal(maximumQuantity.status, 200);
+  assert.equal((await maximumQuantity.json()).total_cents, p.price_cents * 99);
   const checkout = await post("/api/checkout", {
     items: [{ product_id: p.id, quantity: 2 }],
     delivery: {

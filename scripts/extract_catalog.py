@@ -11,7 +11,7 @@ for item in node.value.elts:
     p = {kw.arg: ast.literal_eval(kw.value) for kw in item.keywords}
     if p['slug'] in placeholders:
         continue
-    records.append(dict(id=str(uuid.uuid5(uuid.NAMESPACE_URL, 'recursosdatiacris/' + p['slug'])), slug=p['slug'], name=p['nome'].replace(' – ', ': ').replace(' — ', ': '), description=p['desc'], skills=p['hab'], price_cents=round(p['preco']*100), category=p['cat'], stock=12, active=True, badge='Escolha da Tia Cris' if p['slug'] in priority[:3] else None, created_at='2026-09-09T12:00:00Z', updated_at='2026-09-09T12:00:00Z', media=[dict(id=str(uuid.uuid5(uuid.NAMESPACE_URL, p['slug'] + '/cover')), type='image', url='/assets/img/' + p['slug'] + '-700.webp', position=0)]))
+    records.append(dict(id=str(uuid.uuid5(uuid.NAMESPACE_URL, 'recursosdatiacris/' + p['slug'])), slug=p['slug'], name=p['nome'].replace(' – ', ': ').replace(' — ', ': '), description=p['desc'], skills=p['hab'], price_cents=round(p['preco']*100), category=p['cat'], active=True, badge='Escolha da Tia Cris' if p['slug'] in priority[:3] else None, created_at='2026-09-09T12:00:00Z', updated_at='2026-09-09T12:00:00Z', media=[dict(id=str(uuid.uuid5(uuid.NAMESPACE_URL, p['slug'] + '/cover')), type='image', url='/assets/img/' + p['slug'] + '-700.webp', position=0)]))
 records.sort(key=lambda p: priority.index(p['slug']) if p['slug'] in priority else 99)
 (root/'lib/catalog-seed.json').write_text(json.dumps(records, ensure_ascii=False, indent=2), encoding='utf-8')
-print(f'{len(records)} produtos com fotos reais importados. Estoque de demonstração: 12. Seed de produção usa estoque 0 e status inativo.')
+print(f'{len(records)} produtos com fotos reais importados. A importação de produção mantém os novos recursos inativos para revisão de preços.')

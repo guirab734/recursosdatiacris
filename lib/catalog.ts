@@ -30,7 +30,7 @@ export function publicProduct(p: AdminProduct): Product {
     category: p.category,
     badge: p.badge,
     media: [...p.media].sort((a, b) => a.position - b.position),
-    in_stock: p.stock > 0,
+    in_stock: p.active,
   };
 }
 export async function allProducts(
@@ -39,7 +39,9 @@ export async function allProducts(
   if (demoMode()) return seed as AdminProduct[];
   let query = db()
     .from("products")
-    .select("*, media:product_media(id,type,url,position)")
+    .select(
+      "id,slug,name,description,skills,price_cents,category,badge,active,created_at,updated_at,media:product_media(id,type,url,position)",
+    )
     .order("created_at", { ascending: false });
   if (!includeInactive) query = query.eq("active", true);
   const { data, error } = await query;

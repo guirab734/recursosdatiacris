@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { Header, Footer } from "./header";
 import { useShop } from "./shop-provider";
+import { ProductGallery } from "./product-gallery";
 import { categories, money, type Product } from "@/lib/types";
 const categoryNames = [
   "Alfabetização",
@@ -50,7 +51,6 @@ export function ProductCard({
   index?: number;
 }) {
   const { add } = useShop();
-  const cover = product.media.find((x) => x.type === "image");
   return (
     <article
       className="product-card"
@@ -62,26 +62,13 @@ export function ProductCard({
         } as React.CSSProperties
       }
     >
-      <Link className="product-image" href={"/produto/" + product.slug}>
-        {cover && (
-          <img
-            src={cover.url}
-            alt={product.name}
-            loading="lazy"
-            width="700"
-            height="700"
-          />
-        )}
-        {product.badge && (
-          <span className="product-badge">
-            <Sparkles size={12} />
-            {product.badge}
-          </span>
-        )}
-        <span className="view-product">
-          Conhecer o recurso <ArrowUpRight size={17} />
-        </span>
-      </Link>
+      <ProductGallery
+        key={product.id}
+        media={product.media}
+        name={product.name}
+        href={"/produto/" + product.slug}
+        badge={product.badge}
+      />
       <div className="product-info">
         <span className="product-category">{product.category}</span>
         <Link href={"/produto/" + product.slug}>
@@ -95,16 +82,12 @@ export function ProductCard({
           </div>
           <button
             className="add-button"
-            disabled={!product.in_stock}
             onClick={() => add(product.id)}
             aria-label={"Adicionar " + product.name + " ao carrinho"}
           >
             <Plus size={21} />
           </button>
         </div>
-        {!product.in_stock && (
-          <span className="unavailable">Temporariamente indisponível</span>
-        )}
       </div>
     </article>
   );
@@ -372,8 +355,8 @@ export function Storefront({
           )}
           {demo && (
             <p className="demo-note">
-              Prévia local com os valores do catálogo original. A
-              disponibilidade é ilustrativa até a conexão com o estoque da loja.
+              Prévia local com os valores do catálogo original. Os pedidos da
+              loja são combinados pelo WhatsApp.
             </p>
           )}
         </section>

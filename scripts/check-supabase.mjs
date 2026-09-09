@@ -13,20 +13,31 @@ const anon = createClient(
 );
 const { data: products, error } = await server
   .from("products")
-  .select("id,active,stock");
+  .select("id,active");
 assert.ifError(error);
-assert.equal(products.length, 36);
-assert.ok(products.every((p) => p.stock === 0 && !p.active));
+assert.ok(products.length > 0);
 const { data: media, error: mediaError } = await server
   .from("product_media")
-  .select("id,url");
+  .select("id,product_id,url,type");
 assert.ifError(mediaError);
-assert.equal(media.length, 36);
+assert.ok(
+  products
+    .filter((p) => p.active)
+    .every((p) =>
+      media.some((m) => m.product_id === p.id && m.type === "image"),
+    ),
+);
 const cover = await fetch(media[0].url, { method: "HEAD" });
 assert.equal(cover.status, 200);
 const publicRead = await anon.from("products").select("id,name,price_cents");
 assert.ifError(publicRead.error);
-assert.equal(publicRead.data.length, 0);
+assert.deepEqual(
+  publicRead.data.map((p) => p.id).sort(),
+  products
+    .filter((p) => p.active)
+    .map((p) => p.id)
+    .sort(),
+);
 for (const table of [
   "admins",
   "analytics_events",
@@ -51,5 +62,5 @@ assert.equal(settingsResponse.status, 200);
 const authSettings = await settingsResponse.json();
 assert.equal(authSettings.disable_signup, true);
 console.log(
-  "Supabase real: 36 produtos inativos, 36 fotos no Storage, estoque privado, tabelas administrativas protegidas, cadastro público desativado.",
+  `Supabase real: ${products.length} produtos, ${products.filter((p) => p.active).length} ativos, ${media.length} mídias no Storage, campos internos e tabelas administrativas protegidos, cadastro público desativado.`,
 );

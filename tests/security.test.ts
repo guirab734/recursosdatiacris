@@ -20,7 +20,6 @@ const product: AdminProduct = {
   skills: [],
   price_cents: 6500,
   category: "Alfabetização",
-  stock: 3,
   active: true,
   badge: null,
   media: [],
@@ -41,17 +40,21 @@ test("checkout rejects client prices and malformed quantities", () => {
     );
   assert.equal(cartSchema.safeParse({ items: [] }).success, false);
 });
-test("checkout aggregates duplicates before validating stock", () => {
-  assert.throws(
-    () =>
-      calculateQuote(
-        [
-          { product_id: id, quantity: 2 },
-          { product_id: id, quantity: 2 },
-        ],
-        [product],
-      ),
-    /indisponível/,
+test("checkout aggregates duplicates and active products remain available with zero legacy stock", () => {
+  const legacyProduct = { ...product, stock: 0 };
+  const available = calculateQuote(
+    [
+      { product_id: id, quantity: 2 },
+      { product_id: id, quantity: 2 },
+    ],
+    [legacyProduct],
+  );
+  assert.equal(available.items.length, 1);
+  assert.equal(available.items[0].quantity, 4);
+  assert.equal(available.total_cents, 26000);
+  assert.equal(
+    calculateQuote([{ product_id: id, quantity: 99 }], [legacyProduct]).total_cents,
+    643500,
   );
   assert.throws(
     () =>
@@ -141,6 +144,10 @@ test("admin input rejects unsafe slugs and active products without image", () =>
     productSchema.safeParse({ ...input, active: false }).success,
     true,
   );
+  assert.equal(
+    productSchema.safeParse({ ...input, active: false, stock: 999 }).success,
+    false,
+  );
 });
 test("Postgres migration: RLS, roles, transactions, metrics and cleanup", async () => {
   const pg = new PGlite();
@@ -168,7 +175,7 @@ test("Postgres migration: RLS, roles, transactions, metrics and cleanup", async 
       description: "Livro colorido para aprender vogais.",
       price_cents: 6500,
       category: "Alfabetização",
-      stock: 3,
+      stock: 0,
       active: true,
       badge: null,
       skills: ["Atenção"],
