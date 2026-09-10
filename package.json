@@ -10,7 +10,8 @@
     "start": "next start --hostname 127.0.0.1 --port 3000",
     "typecheck": "tsc --noEmit",
     "test": "node --import tsx --test tests/*.test.ts",
-    "seed": "node --env-file=.env.local scripts/seed.mjs",
+    "seed": "node --import tsx --env-file=.env.local scripts/seed.mjs",
+    "seed:check": "node --import tsx scripts/seed.mjs --dry-run",
     "build:legacy": "python build/gerar_site.py",
     "teste": "node build/teste.js",
     "shots": "node build/screenshots.js desk && node build/screenshots.js mob"

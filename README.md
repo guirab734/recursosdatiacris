@@ -26,7 +26,7 @@ Ao clonar o repositório, copie `.env.example` para `.env.local` e preencha as v
 insert into public.admins(user_id) values ('UUID-DA-CONTA-CRIADA');
 ```
 
-4. Opcionalmente, execute `npm run seed` para enviar as fotos existentes ao Storage e importar o catálogo. Todos os produtos são importados **inativos**, para que você revise os preços antes de publicá-los. O importador preserva registros já cadastrados. A importação inicial já foi executada neste projeto.
+4. Opcionalmente, execute `npm run seed` para enviar as fotos e vídeos ao Storage e importar o catálogo. Todos os produtos são importados **inativos**, para que você revise os preços antes de publicá-los. O importador preserva registros já cadastrados, mantém todas as mídias dos novos cadastros e detecta o formato real de cada arquivo. `npm run seed:check` confere arquivos locais e origens das referências remotas sem escrever no banco. A importação inicial já foi executada neste projeto.
 5. Acesse `/admin/login`, entre somente com sua senha, revise os recursos e ative os produtos. Defina `DEMO_MODE=false` ao concluir a configuração. Se necessário, reinicie `npm run dev` depois de alterar as variáveis.
 
 Para revogar a gestão, remova o UUID de `public.admins`. A autorização é conferida novamente em cada requisição, mesmo que a sessão Auth ainda seja válida. Não é suficiente saber o endereço do painel.
