@@ -27,6 +27,7 @@ export function publicProduct(p: AdminProduct): Product {
     description: p.description,
     skills: p.skills,
     price_cents: p.price_cents,
+    sale_price_cents: p.sale_price_cents ?? null,
     category: p.category,
     badge: p.badge,
     media: [...p.media].sort((a, b) => a.position - b.position),
@@ -36,11 +37,15 @@ export function publicProduct(p: AdminProduct): Product {
 export async function allProducts(
   includeInactive = false,
 ): Promise<AdminProduct[]> {
-  if (demoMode()) return seed as AdminProduct[];
+  if (demoMode())
+    return (seed as AdminProduct[]).map((p) => ({
+      ...p,
+      sale_price_cents: p.sale_price_cents ?? null,
+    }));
   let query = db()
     .from("products")
     .select(
-      "id,slug,name,description,skills,price_cents,category,badge,active,created_at,updated_at,media:product_media(id,type,url,position)",
+      "id,slug,name,description,skills,price_cents,sale_price_cents,category,badge,active,created_at,updated_at,media:product_media(id,type,url,position)",
     )
     .order("created_at", { ascending: false });
   if (!includeInactive) query = query.eq("active", true);

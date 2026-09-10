@@ -20,11 +20,14 @@ import {
   Hand,
   MessageSquare,
   ChevronDown,
+  Asterisk,
+  BadgePercent,
 } from "lucide-react";
 import { Header, Footer } from "./header";
 import { useShop } from "./shop-provider";
 import { ProductGallery } from "./product-gallery";
-import { categories, money, type Product } from "@/lib/types";
+import { categories, effectivePrice, type Product } from "@/lib/types";
+import { ProductPrice } from "./product-price";
 const categoryNames = [
   "Alfabetização",
   "Números",
@@ -78,7 +81,7 @@ export function ProductCard({
         <div className="product-bottom">
           <div>
             <small>um mundo de descobertas por</small>
-            <strong>{money(product.price_cents)}</strong>
+            <ProductPrice product={product} />
           </div>
           <button
             className="add-button"
@@ -104,10 +107,12 @@ export function Storefront({
   const [category, setCategory] = useState("Todos");
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("featured");
+  const [offersOnly, setOffersOnly] = useState(false);
   const [limit, setLimit] = useState(8);
   const filtered = useMemo(() => {
     let p = products.filter(
       (p) =>
+        (!offersOnly || effectivePrice(p) < p.price_cents) &&
         (category === "Todos" || p.category === category) &&
         p.name
           .normalize("NFD")
@@ -120,11 +125,20 @@ export function Storefront({
               .toLowerCase(),
           ),
     );
-    if (sort === "price-asc") p.sort((a, b) => a.price_cents - b.price_cents);
-    if (sort === "price-desc") p.sort((a, b) => b.price_cents - a.price_cents);
+    if (sort === "price-asc")
+      p.sort((a, b) => effectivePrice(a) - effectivePrice(b));
+    if (sort === "price-desc")
+      p.sort((a, b) => effectivePrice(b) - effectivePrice(a));
+    if (sort === "discount")
+      p.sort(
+        (a, b) =>
+          1 -
+          effectivePrice(b) / b.price_cents -
+          (1 - effectivePrice(a) / a.price_cents),
+      );
     if (sort === "name") p.sort((a, b) => a.name.localeCompare(b.name));
     return p;
-  }, [products, category, search, sort]);
+  }, [products, category, search, sort, offersOnly]);
   return (
     <>
       <Header />
@@ -153,7 +167,9 @@ export function Storefront({
               Encontre a próxima descoberta <ArrowRight size={19} />
             </a>
             <div className="hero-foot">
-              <span className="little-star">✳</span>
+              <span className="little-star">
+                <Asterisk size="1em" strokeWidth={1.4} aria-hidden="true" />
+              </span>
               <span>
                 Para mãos curiosas.
                 <br />
@@ -186,7 +202,7 @@ export function Storefront({
               </span>
             </div>
             <span className="hero-asterisk" aria-hidden="true">
-              ✳
+              <Asterisk size="1em" strokeWidth={1} />
             </span>
             <div className="floating-note">
               <Sparkles size={23} />
@@ -224,7 +240,9 @@ export function Storefront({
               </div>
               <h2>
                 Um recurso. <em>Mil possibilidades.</em>
-                <span className="heading-spark">✳</span>
+                <span className="heading-spark">
+                  <Asterisk size="1em" strokeWidth={1} aria-hidden="true" />
+                </span>
               </h2>
             </div>
             <span className="section-note">
@@ -236,6 +254,7 @@ export function Storefront({
           <div className="category-filters">
             <button
               className={category === "Todos" ? "active" : ""}
+              aria-pressed={category === "Todos"}
               onClick={() => {
                 setCategory("Todos");
                 setLimit(8);
@@ -250,6 +269,7 @@ export function Storefront({
                 <button
                   key={c}
                   className={category === c ? "active" : ""}
+                  aria-pressed={category === c}
                   onClick={() => {
                     setCategory(c);
                     setLimit(8);
@@ -260,6 +280,43 @@ export function Storefront({
                 </button>
               );
             })}
+          </div>
+          <div className="offer-filter-bar" aria-label="Filtros de promoção">
+            <div
+              className="offer-tabs"
+              role="group"
+              aria-label="Mostrar recursos"
+            >
+              <button
+                type="button"
+                className={!offersOnly ? "selected" : ""}
+                aria-pressed={!offersOnly}
+                onClick={() => {
+                  setOffersOnly(false);
+                  setLimit(8);
+                }}
+              >
+                Todos os preços
+              </button>
+              <button
+                type="button"
+                className={offersOnly ? "selected" : ""}
+                aria-pressed={offersOnly}
+                onClick={() => {
+                  setOffersOnly(true);
+                  setLimit(8);
+                }}
+              >
+                <BadgePercent size={17} /> Em oferta
+                <span>
+                  {
+                    products.filter((p) => effectivePrice(p) < p.price_cents)
+                      .length
+                  }
+                </span>
+              </button>
+            </div>
+            <p>Descobertas especiais, por um valor ainda melhor.</p>
           </div>
           <div className="catalog-toolbar">
             <span>
@@ -296,6 +353,7 @@ export function Storefront({
                   <option value="featured">Em destaque</option>
                   <option value="price-asc">Menor preço</option>
                   <option value="price-desc">Maior preço</option>
+                  <option value="discount">Maior desconto</option>
                   <option value="name">Nome A a Z</option>
                 </select>
                 <ChevronDown size={14} />
@@ -333,6 +391,8 @@ export function Storefront({
                 onClick={() => {
                   setSearch("");
                   setCategory("Todos");
+                  setOffersOnly(false);
+                  setLimit(8);
                 }}
               >
                 Ver todos os recursos
@@ -355,7 +415,7 @@ export function Storefront({
           )}
           {demo && (
             <p className="demo-note">
-              Prévia local com os valores do catálogo original. Os pedidos da
+              Prévia local com os valores do catálogo preparado. Os pedidos da
               loja são combinados pelo WhatsApp.
             </p>
           )}
@@ -397,16 +457,15 @@ export function Storefront({
               <span>03</span>
               <div>
                 <h3>Combine tudo pelo WhatsApp</h3>
-                <p>
-                  A Tia Cris confirma disponibilidade, pagamento e envio com
-                  você.
-                </p>
+                <p>A Tia Cris combina pagamento, prazo e envio com você.</p>
               </div>
             </div>
           </div>
         </section>
         <section id="sobre" className="about-section">
-          <span className="about-spark">✳</span>
+          <span className="about-spark">
+            <Asterisk size="1em" strokeWidth={1} aria-hidden="true" />
+          </span>
           <div className="eyebrow">PRAZER, ESSE É O NOSSO MUNDO</div>
           <h2>
             Tem carinho em cada recorte.

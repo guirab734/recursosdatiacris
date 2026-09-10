@@ -20,6 +20,7 @@ assert.ok(catalog.products.length > 0);
 assert.ok(catalog.products.every((p) => !("stock" in p) && !("active" in p)));
 results.push("Catálogo público sem estoque exato nem status interno");
 const p = catalog.products[0];
+const unitPrice = p.sale_price_cents ?? p.price_cents;
 assert.equal((await get("/produto/" + p.slug)).status, 200);
 assert.equal((await get("/produto/recurso-inexistente")).status, 404);
 for (const path of ["/api/admin/products", "/api/admin/metrics"])
@@ -66,12 +67,12 @@ if (catalog.demo) {
   });
   assert.equal(quoteResponse.status, 200);
   const quote = await quoteResponse.json();
-  assert.equal(quote.total_cents, p.price_cents * 2);
+  assert.equal(quote.total_cents, unitPrice * 2);
   const maximumQuantity = await post("/api/cart", {
     items: [{ product_id: p.id, quantity: 99 }],
   });
   assert.equal(maximumQuantity.status, 200);
-  assert.equal((await maximumQuantity.json()).total_cents, p.price_cents * 99);
+  assert.equal((await maximumQuantity.json()).total_cents, unitPrice * 99);
   const checkout = await post("/api/checkout", {
     items: [{ product_id: p.id, quantity: 2 }],
     delivery: {

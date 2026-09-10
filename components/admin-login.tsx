@@ -1,6 +1,13 @@
 "use client";
 import { useState } from "react";
-import { LockKeyhole, ArrowRight, Eye, EyeOff, ArrowLeft } from "lucide-react";
+import {
+  LockKeyhole,
+  ArrowRight,
+  Eye,
+  EyeOff,
+  ArrowLeft,
+  Asterisk,
+} from "lucide-react";
 import Link from "next/link";
 import { Brand } from "./header";
 export function LoginForm({ configured }: { configured: boolean }) {
@@ -33,7 +40,9 @@ export function LoginForm({ configured }: { configured: boolean }) {
       <div className="login-art">
         <Brand />
         <div>
-          <span className="login-star">✳</span>
+          <span className="login-star">
+            <Asterisk size="1em" strokeWidth={1} aria-hidden="true" />
+          </span>
           <div className="eyebrow">BASTIDORES DO NOSSO ATELIÊ</div>
           <h1>
             É aqui que

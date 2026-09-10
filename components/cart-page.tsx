@@ -15,7 +15,7 @@ import {
 import { Header, Footer } from "./header";
 import { Quantity } from "./product-detail";
 import { useShop } from "./shop-provider";
-import { money, type Product, type Quote } from "@/lib/types";
+import { money, effectivePrice, type Product, type Quote } from "@/lib/types";
 import { track } from "@/lib/client-events";
 export function CartPage() {
   const { items, update, count } = useShop();
@@ -205,7 +205,7 @@ export function CartPage() {
                         )}
                         <p>
                           {p
-                            ? `${money(p.price_cents)} por unidade`
+                            ? `${money(line?.unit_price_cents ?? effectivePrice(p))} por unidade`
                             : "Remova este item para continuar."}
                         </p>
                         <Quantity
@@ -251,13 +251,12 @@ export function CartPage() {
                 <strong>{quote ? money(quote.total_cents) : "..."}</strong>
               </div>
               <p className="small-note">
-                O frete não está incluído. Disponibilidade, prazo e pagamento
-                serão confirmados pela Tia Cris.
+                O frete não está incluído. Prazo, entrega e pagamento serão
+                combinados com a Tia Cris.
               </p>
               {quote?.demo && (
                 <p className="demo-note">
-                  Prévia local. Os valores e a disponibilidade serão confirmados
-                  no atendimento.
+                  Prévia local. Os valores serão confirmados no atendimento.
                 </p>
               )}
               <form onSubmit={checkout} className="checkout-form form-stack">

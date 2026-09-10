@@ -1,11 +1,14 @@
 import Link from "next/link";
+import { Asterisk } from "lucide-react";
 import { Header, Footer } from "@/components/header";
 export default function NotFound() {
   return (
     <>
       <Header />
       <main className="empty-state">
-        <span className="about-spark">✳</span>
+        <span className="about-spark">
+          <Asterisk size="1em" strokeWidth={1} aria-hidden="true" />
+        </span>
         <h1 className="page-title">Essa descoberta mudou de lugar.</h1>
         <p>O recurso pode não estar mais disponível.</p>
         <Link className="button primary" href="/#catalogo">

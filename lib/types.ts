@@ -12,6 +12,7 @@ export type Product = {
   description: string;
   skills: string[];
   price_cents: number;
+  sale_price_cents: number | null;
   category: string;
   badge: string | null;
   media: Media[];
@@ -36,6 +37,10 @@ export type Quote = {
   whatsapp_url?: string;
   message?: string;
 };
+export const effectivePrice = (product: {
+  price_cents: number;
+  sale_price_cents?: number | null;
+}) => product.sale_price_cents ?? product.price_cents;
 export const money = (cents: number) =>
   new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(
     cents / 100,

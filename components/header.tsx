@@ -7,6 +7,7 @@ import {
   Menu,
   X,
   Heart,
+  Asterisk,
 } from "lucide-react";
 import { useState } from "react";
 import { useShop } from "./shop-provider";
@@ -19,7 +20,10 @@ export function Brand() {
       <span>
         <small>RECURSOS DA</small>
         <strong>
-          Tia Cris<span>✳</span>
+          Tia Cris
+          <span>
+            <Asterisk size="1em" strokeWidth={1.4} aria-hidden="true" />
+          </span>
         </strong>
       </span>
     </Link>

@@ -530,6 +530,120 @@ em {
   margin: 22px 0 24px;
   gap: 20px;
 }
+.offer-filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+.offer-tabs {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  background: #f3eddf;
+  border: 1px solid #e9e0cd;
+  border-radius: 9px;
+}
+.offer-tabs button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 40px;
+  padding: 8px 13px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--deep);
+}
+.offer-tabs button.selected {
+  color: white;
+  background: var(--deep);
+  box-shadow: 0 2px 4px #20365a15;
+}
+.offer-tabs button > span {
+  padding: 1px 6px;
+  border-radius: 9px;
+  background: var(--yellow);
+  color: var(--deep);
+  font-size: 10px;
+}
+.offer-filter-bar > p {
+  font-size: 12px;
+  color: var(--muted);
+}
+.product-price {
+  min-width: 0;
+}
+.product-price > strong {
+  display: block;
+  font-size: 21px;
+  line-height: 1.2;
+}
+.price-history {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-block: 5px;
+}
+.price-history del {
+  color: #717a88;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration-thickness: 1px;
+}
+.discount-percent {
+  color: #71531b;
+  background: #f8e6b7;
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+.has-discount > strong {
+  color: var(--blue);
+}
+.price-detail {
+  margin-top: 24px;
+}
+.price-detail > strong {
+  font-size: 36px;
+  font-weight: 900;
+}
+.price-detail .price-history {
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.price-detail .price-history del {
+  font-size: 17px;
+}
+.price-detail .discount-percent {
+  font-size: 12px;
+  padding: 4px 8px;
+}
+.price-saving {
+  display: block;
+  margin-top: 9px;
+  font-size: 13px;
+  color: #426c50;
+  font-weight: 700;
+}
+.price-admin > strong {
+  font-size: 14px;
+}
+.price-preview {
+  padding: 14px 16px;
+  border: 1px solid #eadfc5;
+  background: #fffcf4;
+  border-radius: 9px;
+}
+.price-preview .product-price {
+  margin-top: 7px;
+}
 .catalog-toolbar > span {
   font-size: 12px;
   color: #73808e;

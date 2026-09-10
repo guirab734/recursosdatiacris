@@ -19,6 +19,7 @@ const product: AdminProduct = {
   description: "Um livro para aprender brincando.",
   skills: [],
   price_cents: 6500,
+  sale_price_cents: null,
   category: "Alfabetização",
   active: true,
   badge: null,
@@ -27,12 +28,13 @@ const product: AdminProduct = {
   updated_at: "2026-01-01T00:00:00Z",
 };
 test("checkout rejects client prices and malformed quantities", () => {
-  assert.equal(
-    cartSchema.safeParse({
-      items: [{ product_id: id, quantity: 1, price_cents: 1 }],
-    }).success,
-    false,
-  );
+  for (const field of ["price_cents", "sale_price_cents", "unit_price_cents"])
+    assert.equal(
+      cartSchema.safeParse({
+        items: [{ product_id: id, quantity: 1, [field]: 1 }],
+      }).success,
+      false,
+    );
   for (const quantity of [0, -1, 1.5, 100, "1", null])
     assert.equal(
       cartSchema.safeParse({ items: [{ product_id: id, quantity }] }).success,
@@ -53,7 +55,8 @@ test("checkout aggregates duplicates and active products remain available with z
   assert.equal(available.items[0].quantity, 4);
   assert.equal(available.total_cents, 26000);
   assert.equal(
-    calculateQuote([{ product_id: id, quantity: 99 }], [legacyProduct]).total_cents,
+    calculateQuote([{ product_id: id, quantity: 99 }], [legacyProduct])
+      .total_cents,
     643500,
   );
   assert.throws(
@@ -92,6 +95,70 @@ test("checkout only uses current active records and integer cents", () => {
     [{ ...product, price_cents: 1099 }],
   );
   assert.equal(quote.total_cents, 3297);
+});
+test("checkout uses the current database discount and restores original price when removed", () => {
+  const items = [{ product_id: id, quantity: 3 }];
+  const discounted = calculateQuote(items, [
+    { ...product, sale_price_cents: 5999 },
+  ]);
+  assert.equal(discounted.items[0].unit_price_cents, 5999);
+  assert.equal(discounted.total_cents, 17997);
+  const changed = calculateQuote(items, [
+    { ...product, sale_price_cents: 5500 },
+  ]);
+  assert.equal(changed.total_cents, 16500);
+  assert.equal(calculateQuote(items, [product]).total_cents, 19500);
+});
+test("mixed orders and the WhatsApp message charge each current effective price", () => {
+  const otherId = "00000000-0000-4000-8000-000000000012";
+  const quote = calculateQuote(
+    [
+      { product_id: id, quantity: 1 },
+      { product_id: otherId, quantity: 2 },
+      { product_id: id, quantity: 2 },
+    ],
+    [
+      { ...product, sale_price_cents: 5999 },
+      { ...product, id: otherId, name: "Jogo das cores", price_cents: 2500 },
+    ],
+  );
+  assert.deepEqual(
+    quote.items.map((item) => item.subtotal_cents),
+    [17997, 5000],
+  );
+  assert.equal(quote.total_cents, 22997);
+  const message = checkoutMessage(quote, {
+    name: "Ana",
+    method: "address",
+    address: "Rua de teste 123, Aracaju, SE, 49000-000",
+    complement: "",
+  });
+  assert.match(message, /3 × Livro das Vogais: R\$\s179,97/);
+  assert.match(message, /2 × Jogo das cores: R\$\s50,00/);
+  assert.match(message, /Total estimado dos produtos: R\$\s229,97/);
+});
+test("admin discounts require a positive integer below the mandatory original price", () => {
+  const { created_at, updated_at, sale_price_cents, ...input } = product;
+  const draft = { ...input, active: false };
+  assert.equal(productSchema.parse(draft).sale_price_cents, null);
+  assert.equal(
+    productSchema.parse({ ...draft, sale_price_cents: 5999 }).sale_price_cents,
+    5999,
+  );
+  assert.equal(
+    productSchema.parse({ ...draft, sale_price_cents: null }).sale_price_cents,
+    null,
+  );
+  for (const price of [0, -1, 1.5, 6500, 6501, "5999"])
+    assert.equal(
+      productSchema.safeParse({ ...draft, sale_price_cents: price }).success,
+      false,
+    );
+  for (const original of [undefined, null, 0, -1, 6500.5])
+    assert.equal(
+      productSchema.safeParse({ ...draft, price_cents: original }).success,
+      false,
+    );
 });
 test("delivery is mandatory, coordinates accept zero, text is sanitized", () => {
   const items = [{ product_id: id, quantity: 1 }];
@@ -163,6 +230,15 @@ test("Postgres migration: RLS, roles, transactions, metrics and cleanup", async 
       )
     ).replace("create extension if not exists pgcrypto;", "");
     await pg.exec(sql);
+    await pg.exec(
+      await readFile(
+        new URL(
+          "../supabase/migrations/002_product_discounts.sql",
+          import.meta.url,
+        ),
+        "utf8",
+      ),
+    );
     const admin = "00000000-0000-4000-8000-000000000001",
       other = "00000000-0000-4000-8000-000000000002";
     await pg.exec(
@@ -175,7 +251,6 @@ test("Postgres migration: RLS, roles, transactions, metrics and cleanup", async 
       description: "Livro colorido para aprender vogais.",
       price_cents: 6500,
       category: "Alfabetização",
-      stock: 0,
       active: true,
       badge: null,
       skills: ["Atenção"],
@@ -209,6 +284,46 @@ test("Postgres migration: RLS, roles, transactions, metrics and cleanup", async 
       (await pg.query("select * from public.products")).rows.length,
       1,
     );
+    assert.equal(
+      (
+        await pg.query<{ sale_price_cents: number | null }>(
+          "select sale_price_cents from public.products",
+        )
+      ).rows[0].sale_price_cents,
+      null,
+    );
+    await pg.query("select public.save_product($1::jsonb)", [
+      JSON.stringify({ ...payload, sale_price_cents: 5900 }),
+    ]);
+    for (const salePrice of [0, -1, 6500, 7000])
+      await assert.rejects(
+        pg.query("select public.save_product($1::jsonb)", [
+          JSON.stringify({
+            ...payload,
+            name: "Invalid discount",
+            sale_price_cents: salePrice,
+          }),
+        ]),
+        /products_sale_price_valid/,
+      );
+    await assert.rejects(
+      pg.exec("update public.products set price_cents=5800"),
+      /products_sale_price_valid/,
+    );
+    await assert.rejects(
+      pg.query("select public.save_product($1::jsonb)", [
+        JSON.stringify({ ...payload, sale_price_cents: 5999.5 }),
+      ]),
+      /invalid input syntax for type integer/,
+    );
+    assert.equal(
+      (
+        await pg.query<{ sale_price_cents: number }>(
+          "select sale_price_cents from public.products",
+        )
+      ).rows[0].sale_price_cents,
+      5900,
+    );
     await assert.rejects(
       pg.query("select public.save_product($1::jsonb)", [
         JSON.stringify({
@@ -226,9 +341,16 @@ test("Postgres migration: RLS, roles, transactions, metrics and cleanup", async 
     );
     await pg.exec(`set role anon;set request.jwt.claim.sub='';`);
     assert.equal(
-      (await pg.query("select id,name,price_cents from public.products")).rows
-        .length,
-      1,
+      (
+        await pg.query<{ sale_price_cents: number }>(
+          "select id,name,price_cents,sale_price_cents from public.products",
+        )
+      ).rows[0].sale_price_cents,
+      5900,
+    );
+    await assert.rejects(
+      pg.exec("update public.products set sale_price_cents=1"),
+      /permission denied/,
     );
     assert.equal(
       (await pg.query("select id from public.product_media")).rows.length,
@@ -263,8 +385,17 @@ test("Postgres migration: RLS, roles, transactions, metrics and cleanup", async 
       ),
       /row-level security/,
     );
-    await pg.exec(
-      `set request.jwt.claim.sub='${admin}';update public.products set active=false;`,
+    await pg.exec(`set request.jwt.claim.sub='${admin}';`);
+    await pg.query("select public.save_product($1::jsonb)", [
+      JSON.stringify({ ...payload, active: false, sale_price_cents: null }),
+    ]);
+    assert.equal(
+      (
+        await pg.query<{ sale_price_cents: number | null }>(
+          "select sale_price_cents from public.products",
+        )
+      ).rows[0].sale_price_cents,
+      null,
     );
     await pg.exec("set role anon;");
     assert.equal(

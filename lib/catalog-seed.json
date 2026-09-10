@@ -1,5 +1,255 @@
 [
   {
+    "id": "713b82f9-de5b-5cd3-af19-92d21dd5165c",
+    "slug": "alimentando-os-animais",
+    "name": "Alimentando os Animais",
+    "description": "Uma brincadeira de cuidar dos bichinhos escolhendo os alimentos e levando cada peça até eles com a pinça. Também é uma oportunidade para conversar sobre os nomes dos animais e contar as porções.",
+    "skills": [
+      "Movimento de pinça: pegar e transportar os alimentos.",
+      "Associação: relacionar animais e alimentos na brincadeira.",
+      "Contagem e linguagem: contar as peças e nomear os bichinhos."
+    ],
+    "price_cents": 4500,
+    "sale_price_cents": 4000,
+    "category": "Coordenação motora",
+    "badge": null,
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-10T13:19:18.918Z",
+    "media": [
+      {
+        "id": "05d49597-a1eb-51b7-9b76-b7334b39ba2c",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/713b82f9-de5b-5cd3-af19-92d21dd5165c.webp",
+        "position": 0
+      },
+      {
+        "id": "a4a787a3-ccd2-5fc6-9117-83ad9419d8e4",
+        "type": "image",
+        "url": "/assets/products/import-20260910/alimentando-os-animais.jpg",
+        "position": 1
+      }
+    ]
+  },
+  {
+    "id": "818fa932-6aa9-55bc-a4b4-ccf3ce39a463",
+    "slug": "alinhavos-tenis",
+    "name": "Alinhavos Tênis",
+    "description": "Tênis de alinhavo para treinar o cadarço, um dos gestos mais úteis da rotina.",
+    "skills": [
+      "Coordenação bimanual: usar as duas mãos em movimentos diferentes ao mesmo tempo.",
+      "Movimento de pinça: segurar e puxar o cadarço com precisão.",
+      "Sequência motora: repetir os passos do laço na ordem certa.",
+      "Autonomia: treinar uma habilidade prática do dia a dia."
+    ],
+    "price_cents": 1500,
+    "sale_price_cents": null,
+    "category": "Coordenação motora",
+    "badge": null,
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-10T02:23:21.482565+00:00",
+    "media": [
+      {
+        "id": "0d834b1a-a948-4b8b-aa72-c7687d5d49a4",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/55cfb13d-5b7e-4495-8009-4013520f64f3/0d834b1a-a948-4b8b-aa72-c7687d5d49a4.jpg",
+        "position": 0
+      },
+      {
+        "id": "04a6cfe1-b58a-4afe-84e6-9c7c7215bf6c",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/55cfb13d-5b7e-4495-8009-4013520f64f3/04a6cfe1-b58a-4afe-84e6-9c7c7215bf6c.jpg",
+        "position": 1
+      },
+      {
+        "id": "8dba9a54-416d-4680-b345-e7266286b75a",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/55cfb13d-5b7e-4495-8009-4013520f64f3/8dba9a54-416d-4680-b345-e7266286b75a.jpg",
+        "position": 2
+      },
+      {
+        "id": "6f761b4e-b63a-4c1f-871d-c192e7826735",
+        "type": "video",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/55cfb13d-5b7e-4495-8009-4013520f64f3/6f761b4e-b63a-4c1f-871d-c192e7826735.mp4",
+        "position": 3
+      }
+    ]
+  },
+  {
+    "id": "a5967dee-c8ff-5cfd-8497-c42189991161",
+    "slug": "boquinha-das-vogais",
+    "name": "Boquinha das Vogais",
+    "description": "Apoio visual para relacionar a produção dos sons às vogais e tornar a aprendizagem mais concreta.",
+    "skills": [
+      "Consciência articulatória: observar a posição da boca ao produzir cada vogal.",
+      "Associação som e grafema: ligar o som falado à letra escrita.",
+      "Discriminação auditiva: diferenciar vogais parecidas.",
+      "Apoio à fala: recurso útil em atendimento fonoaudiológico."
+    ],
+    "price_cents": 3500,
+    "sale_price_cents": null,
+    "category": "Alfabetização",
+    "badge": null,
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-09T12:25:00.768549+00:00",
+    "media": [
+      {
+        "id": "77aba803-75ae-57f8-bac0-ad4fba15d1e9",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/a5967dee-c8ff-5cfd-8497-c42189991161.webp",
+        "position": 0
+      }
+    ]
+  },
+  {
+    "id": "582c2099-dcde-5424-a387-e0d73f4c4159",
+    "slug": "caderno-coordenacao-motora",
+    "name": "Caderno de Coordenação Motora",
+    "description": "Propostas de pré-escrita para preparar os movimentos das mãos, estimular o traçado e fortalecer a coordenação.",
+    "skills": [
+      "Traçado: percorrer linhas retas, curvas e quebradas com controle.",
+      "Preensão do lápis: firmar a pegada correta antes da escrita.",
+      "Direcionalidade: seguir o sentido da esquerda para a direita.",
+      "Controle de força: manter o traço dentro do limite proposto."
+    ],
+    "price_cents": 6000,
+    "sale_price_cents": 5400,
+    "category": "Coordenação motora",
+    "badge": null,
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-09T12:25:00.768549+00:00",
+    "media": [
+      {
+        "id": "340ae384-ae87-5bcc-8702-883490740db3",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/582c2099-dcde-5424-a387-e0d73f4c4159.webp",
+        "position": 0
+      }
+    ]
+  },
+  {
+    "id": "ad5f22bd-bb23-59a1-9b41-cf4e16406e93",
+    "slug": "casinha-dos-numeros",
+    "name": "Casinha dos Números",
+    "description": "Recurso para reconhecimento dos numerais, organização, associação e noções iniciais de sequência numérica.",
+    "skills": [
+      "Reconhecimento dos numerais: identificar cada algarismo pelo nome.",
+      "Sequência numérica: ordenar os números do menor para o maior.",
+      "Organização espacial: encaixar cada número no lugar correspondente.",
+      "Atenção sustentada: completar a casinha inteira."
+    ],
+    "price_cents": 6500,
+    "sale_price_cents": null,
+    "category": "Números e contagem",
+    "badge": null,
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-09T12:25:00.768549+00:00",
+    "media": [
+      {
+        "id": "e847a418-9656-56c7-9d7f-9fdd29eae0f0",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/ad5f22bd-bb23-59a1-9b41-cf4e16406e93.webp",
+        "position": 0
+      }
+    ]
+  },
+  {
+    "id": "e0e11fdf-26aa-525d-99eb-e42b8973e8ea",
+    "slug": "chaveiros-de-caa",
+    "name": "Chaveiros de CAA",
+    "description": "Cartões de Comunicação Aumentativa e Alternativa organizados em formato de chaveiro. Um apoio visual portátil para apontar imagens, fazer escolhas e participar das conversas do dia a dia.",
+    "skills": [
+      "Comunicação por imagens: apontar símbolos durante a interação.",
+      "Escolhas: indicar preferências entre as opções apresentadas.",
+      "Vocabulário cotidiano: explorar os significados dos cartões."
+    ],
+    "price_cents": 4500,
+    "sale_price_cents": null,
+    "category": "Linguagem e associação",
+    "badge": null,
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-10T13:19:18.918Z",
+    "media": [
+      {
+        "id": "ed0f89d5-50a7-57b5-9a07-3eb811686970",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/e0e11fdf-26aa-525d-99eb-e42b8973e8ea.webp",
+        "position": 0
+      },
+      {
+        "id": "df664bd3-2c36-54de-9ef9-adf4bc37be82",
+        "type": "image",
+        "url": "/assets/products/import-20260910/chaveiros-de-caa.jpg",
+        "position": 1
+      }
+    ]
+  },
+  {
+    "id": "4c5ff527-a354-5870-88d3-72652e6c341c",
+    "slug": "closet-das-princesas",
+    "name": "Closet das Princesas",
+    "description": "Um closet cheio de possibilidades para vestir as princesas e criar novas histórias. As peças ilustradas convidam a comparar roupas, combinar cores e organizar os looks das personagens.",
+    "skills": [
+      "Combinação: selecionar peças para cada personagem.",
+      "Percepção visual: observar cores e detalhes das roupas.",
+      "Criatividade e narrativa: inventar histórias para as princesas."
+    ],
+    "price_cents": 3000,
+    "sale_price_cents": null,
+    "category": "Estimulação cognitiva",
+    "badge": null,
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-10T13:19:18.918Z",
+    "media": [
+      {
+        "id": "6fb850a0-b4bb-5f91-910b-79385b45d474",
+        "type": "image",
+        "url": "/assets/products/import-20260910/closet-das-princesas.jpg",
+        "position": 0
+      },
+      {
+        "id": "471c4677-e244-5c5f-b67b-47b00b1bb19b",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/4c5ff527-a354-5870-88d3-72652e6c341c.webp",
+        "position": 1
+      }
+    ]
+  },
+  {
+    "id": "f699812a-b949-5719-aec7-3fefb1ecd7ed",
+    "slug": "codigo-das-garrafas",
+    "name": "Código das Garrafas",
+    "description": "Organiza as garrafas coloridas na ordem que o código da carta indica.",
+    "skills": [
+      "Decodificação: ler o código e traduzi-lo em ordem de cores.",
+      "Memória de trabalho: guardar a sequência enquanto organiza.",
+      "Discriminação de cores: diferenciar dez cores próximas.",
+      "Organização espacial: posicionar cada garrafa no lugar certo.",
+      "Autocorreção: conferir o resultado contra o modelo."
+    ],
+    "price_cents": 3800,
+    "sale_price_cents": null,
+    "category": "Cores e percepção",
+    "badge": null,
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-09T12:25:00.768549+00:00",
+    "media": [
+      {
+        "id": "b29ae185-92c1-5cda-a0d7-88c2ba8a7ec9",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/f699812a-b949-5719-aec7-3fefb1ecd7ed.webp",
+        "position": 0
+      }
+    ]
+  },
+  {
     "id": "bd3743ba-90f1-5b7e-9608-11caa238d911",
     "slug": "contando-as-batatas",
     "name": "Contando as Batatas de 0 a 10",
@@ -11,16 +261,133 @@
       "Coordenação motora fina: pegar e posicionar os palitos."
     ],
     "price_cents": 8000,
+    "sale_price_cents": null,
     "category": "Números e contagem",
-    "active": true,
     "badge": "Escolha da Tia Cris",
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-09T11:25:06.099601+00:00",
     "media": [
       {
         "id": "5f81ec62-3b17-59a1-bd5d-2286f3a1c332",
         "type": "image",
-        "url": "/assets/img/contando-as-batatas-700.webp",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/bd3743ba-90f1-5b7e-9608-11caa238d911.webp",
+        "position": 0
+      }
+    ]
+  },
+  {
+    "id": "eb1de6f6-d1de-497f-a628-5c272022d9e3",
+    "slug": "cubo-magico-infinito",
+    "name": "Cubo Infinito Anti-stress",
+    "description": "Um cubo articulado para dobrar, desdobrar e transformar repetidamente. Suas partes se movimentam em diferentes direções e convidam a explorar novas posições com as mãos.",
+    "skills": [
+      "Coordenação das mãos: movimentar as articulações.",
+      "Percepção espacial: acompanhar as mudanças de posição.",
+      "Exploração de sequências: repetir e variar os movimentos."
+    ],
+    "price_cents": 2000,
+    "sale_price_cents": null,
+    "category": "Coordenação motora",
+    "badge": "Novidade",
+    "active": true,
+    "created_at": "2026-09-10T02:34:26.692743+00:00",
+    "updated_at": "2026-09-10T13:19:18.918Z",
+    "media": [
+      {
+        "id": "9e7c724c-4373-5057-a66e-f214ad88e55c",
+        "type": "image",
+        "url": "/assets/products/import-20260910/cubo-magico-infinito.jpg",
+        "position": 0
+      },
+      {
+        "id": "ab89e2ea-4ab5-416e-a656-0ff1fac3f2e3",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/55cfb13d-5b7e-4495-8009-4013520f64f3/ab89e2ea-4ab5-416e-a656-0ff1fac3f2e3.jpg",
+        "position": 1
+      },
+      {
+        "id": "a0a7a592-cc04-40b3-90b0-9deb759227ee",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/55cfb13d-5b7e-4495-8009-4013520f64f3/a0a7a592-cc04-40b3-90b0-9deb759227ee.jpg",
+        "position": 2
+      },
+      {
+        "id": "94fb7b92-2a89-44cc-917c-49af19200af3",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/55cfb13d-5b7e-4495-8009-4013520f64f3/94fb7b92-2a89-44cc-917c-49af19200af3.jpg",
+        "position": 3
+      },
+      {
+        "id": "2eeeeb60-29b5-4500-85cc-baf34b0ce78b",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/55cfb13d-5b7e-4495-8009-4013520f64f3/2eeeeb60-29b5-4500-85cc-baf34b0ce78b.jpg",
+        "position": 4
+      },
+      {
+        "id": "44e1e4c6-89d0-48da-afcb-25bcac818bdc",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/55cfb13d-5b7e-4495-8009-4013520f64f3/44e1e4c6-89d0-48da-afcb-25bcac818bdc.jpg",
+        "position": 5
+      },
+      {
+        "id": "4e3cc8b8-3b1c-4a16-b39e-083555957eb0",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/55cfb13d-5b7e-4495-8009-4013520f64f3/4e3cc8b8-3b1c-4a16-b39e-083555957eb0.jpg",
+        "position": 6
+      }
+    ]
+  },
+  {
+    "id": "7eedf53d-a7da-530e-91ab-c45d758420c0",
+    "slug": "decorando-as-unhas",
+    "name": "Decorando as Unhas",
+    "description": "Brincadeira de encaixar as unhas coloridas na mão seguindo o modelo da carta.",
+    "skills": [
+      "Movimento de pinça: pegar e posicionar peças pequenas.",
+      "Discriminação de cores: escolher a cor pedida em cada dedo.",
+      "Reprodução de padrão: copiar a combinação da carta.",
+      "Nomeação das partes do corpo: identificar cada dedo da mão."
+    ],
+    "price_cents": 2500,
+    "sale_price_cents": null,
+    "category": "Coordenação motora",
+    "badge": null,
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-09T12:25:00.768549+00:00",
+    "media": [
+      {
+        "id": "d0021700-8b12-526a-8388-a1774c8188c0",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/7eedf53d-a7da-530e-91ab-c45d758420c0.webp",
+        "position": 0
+      }
+    ]
+  },
+  {
+    "id": "0ce43da5-f0c3-57c1-ab18-23c1ebbfc849",
+    "slug": "desafio-das-borboletas",
+    "name": "Desafio das Borboletas",
+    "description": "Encontra a borboleta que corresponde ao modelo da carta, entre várias parecidas.",
+    "skills": [
+      "Discriminação visual fina: diferenciar borboletas de padrões semelhantes.",
+      "Pareamento: associar cada carta à borboleta correspondente.",
+      "Atenção seletiva: filtrar as opções que não servem.",
+      "Velocidade de processamento: achar o par sem se perder no conjunto."
+    ],
+    "price_cents": 4000,
+    "sale_price_cents": null,
+    "category": "Estimulação cognitiva",
+    "badge": null,
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-09T12:25:00.768549+00:00",
+    "media": [
+      {
+        "id": "be73efaf-c74c-55d0-8988-2d4e50781e5a",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/0ce43da5-f0c3-57c1-ab18-23c1ebbfc849.webp",
         "position": 0
       }
     ]
@@ -38,16 +405,77 @@
       "Atenção sustentada: completar todos os tubetes da carta."
     ],
     "price_cents": 4500,
+    "sale_price_cents": null,
     "category": "Coordenação motora",
-    "active": true,
     "badge": "Escolha da Tia Cris",
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-09T12:25:00.768549+00:00",
     "media": [
       {
         "id": "56d29996-040b-53b5-ba21-7091a316e89c",
         "type": "image",
-        "url": "/assets/img/desafio-dos-pompons-700.webp",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/21dc0cfe-057e-57f3-af6d-d4238b2a642c.webp",
+        "position": 0
+      }
+    ]
+  },
+  {
+    "id": "d6edf719-cc46-5b61-80a9-a2003a260441",
+    "slug": "direcione-os-carros",
+    "name": "Direcione os Carros",
+    "description": "Posiciona cada carrinho na vaga certa seguindo a direção e a cor indicadas.",
+    "skills": [
+      "Orientação espacial: entender direita, esquerda, acima e abaixo.",
+      "Planejamento motor: pensar o caminho antes de mover a peça.",
+      "Discriminação de cores: combinar o carro à vaga certa.",
+      "Atenção concentrada: seguir a instrução até o fim sem se distrair."
+    ],
+    "price_cents": 4000,
+    "sale_price_cents": null,
+    "category": "Estimulação cognitiva",
+    "badge": null,
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-10T02:19:48.680932+00:00",
+    "media": [
+      {
+        "id": "0c1a021a-40b7-4fa2-a814-273d57c862ca",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/55cfb13d-5b7e-4495-8009-4013520f64f3/0c1a021a-40b7-4fa2-a814-273d57c862ca.jpg",
+        "position": 0
+      },
+      {
+        "id": "c75d31a4-2f3e-4daf-a165-91ba1c2cc020",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/55cfb13d-5b7e-4495-8009-4013520f64f3/c75d31a4-2f3e-4daf-a165-91ba1c2cc020.jpg",
+        "position": 1
+      }
+    ]
+  },
+  {
+    "id": "1506abf3-f269-54ac-a32a-0feffb1f806d",
+    "slug": "espetinho-pedagogico",
+    "name": "Espetinho Pedagógico",
+    "description": "Monta o espetinho de frutas prendendo as peças na ordem que a carta mostra.",
+    "skills": [
+      "Movimento de pinça: abrir e fechar o prendedor com controle.",
+      "Sequência: montar as frutas na ordem exata do modelo.",
+      "Discriminação visual: diferenciar frutas parecidas.",
+      "Coordenação bimanual: segurar a base e prender a peça ao mesmo tempo."
+    ],
+    "price_cents": 3500,
+    "sale_price_cents": null,
+    "category": "Coordenação motora",
+    "badge": null,
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-09T12:25:00.768549+00:00",
+    "media": [
+      {
+        "id": "b60423f1-9d74-592e-af20-380ef67b7c04",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/1506abf3-f269-54ac-a32a-0feffb1f806d.webp",
         "position": 0
       }
     ]
@@ -56,76 +484,168 @@
     "id": "7487d5e1-ee5f-555d-b101-972928d3a555",
     "slug": "fabrica-de-picoles",
     "name": "Fábrica de Picolés",
-    "description": "Monta os picolés seguindo a ordem das camadas coloridas mostrada no modelo.",
+    "description": "Picolés coloridos para montar de acordo com as sequências das cartas. A criança observa o modelo, escolhe as peças e organiza cada combinação na prancha numerada.",
     "skills": [
-      "Reprodução de padrão: montar as camadas na ordem exata.",
-      "Discriminação de cores: escolher a faixa certa para cada camada.",
-      "Sequência numérica: seguir a ordem de 1 a 5 dos picolés.",
-      "Coordenação motora fina: encaixar as camadas sem desalinhar."
+      "Reprodução de padrões: seguir a sequência de cores do modelo.",
+      "Discriminação de cores: comparar e escolher as peças.",
+      "Sequência numérica: observar a ordem indicada na prancha."
     ],
     "price_cents": 3000,
+    "sale_price_cents": 2500,
     "category": "Cores e percepção",
-    "active": true,
     "badge": "Escolha da Tia Cris",
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-10T13:19:18.918Z",
     "media": [
+      {
+        "id": "d67c0aa0-a0e2-5e03-8c4f-6f6d32bdb9cc",
+        "type": "image",
+        "url": "/assets/products/import-20260910/fabrica-de-picoles.jpg",
+        "position": 0
+      },
+      {
+        "id": "0ca80872-a1e3-4d4a-a330-2eb5c03c4f4c",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/55cfb13d-5b7e-4495-8009-4013520f64f3/0ca80872-a1e3-4d4a-a330-2eb5c03c4f4c.jpg",
+        "position": 1
+      },
       {
         "id": "4002766b-68d2-5a08-b0d0-940466f5f778",
         "type": "image",
-        "url": "/assets/img/fabrica-de-picoles-700.webp",
-        "position": 0
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/7487d5e1-ee5f-555d-b101-972928d3a555.webp",
+        "position": 2
+      },
+      {
+        "id": "ab5ac11f-52c5-4cb3-9ecb-cd322fa3c59a",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/55cfb13d-5b7e-4495-8009-4013520f64f3/ab5ac11f-52c5-4cb3-9ecb-cd322fa3c59a.jpg",
+        "position": 3
+      },
+      {
+        "id": "b592ff37-aacd-4e87-9eda-e08bb3ff9963",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/55cfb13d-5b7e-4495-8009-4013520f64f3/b592ff37-aacd-4e87-9eda-e08bb3ff9963.jpg",
+        "position": 4
+      },
+      {
+        "id": "6a568f40-ff76-430a-9359-bb32947f997b",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/55cfb13d-5b7e-4495-8009-4013520f64f3/6a568f40-ff76-430a-9359-bb32947f997b.jpg",
+        "position": 5
+      },
+      {
+        "id": "a2870f1c-4f49-4bbd-bb8f-74391d90a84d",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/55cfb13d-5b7e-4495-8009-4013520f64f3/a2870f1c-4f49-4bbd-bb8f-74391d90a84d.jpg",
+        "position": 6
       }
     ]
   },
   {
-    "id": "f2566790-a853-5dab-835d-be6d912ba095",
-    "slug": "sorvete-cognitivo",
-    "name": "Sorvete Cognitivo",
-    "description": "Monta a casquinha empilhando as bolas na ordem e nas cores que a carta mostra.",
+    "id": "3e597edc-9221-5d6d-ba74-091155d76ed7",
+    "slug": "faca-seu-pedido",
+    "name": "Faça seu Pedido",
+    "description": "Brincadeira temática que estimula linguagem, sequência, consciência fonológica e atenção.",
     "skills": [
-      "Memória visual: guardar a sequência de bolas antes de montar.",
-      "Reprodução de padrão: empilhar na ordem exata do modelo.",
-      "Discriminação de cores: diferenciar tons parecidos de sorvete.",
-      "Coordenação motora fina: encaixar cada bola sem derrubar a torre."
+      "Linguagem funcional: pedir, responder e negociar durante a brincadeira.",
+      "Sequência: seguir a ordem do pedido até montá-lo por completo.",
+      "Vocabulário: nomear alimentos e utensílios.",
+      "Jogo simbólico: assumir papéis de cliente e atendente."
     ],
     "price_cents": 3500,
-    "category": "Estimulação cognitiva",
-    "active": true,
+    "sale_price_cents": null,
+    "category": "Linguagem e associação",
     "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-09T12:25:00.768549+00:00",
     "media": [
       {
-        "id": "896efb5f-24db-5335-bb65-ad59acf5aee4",
+        "id": "d0250e67-cb04-5651-b99f-83ae88105395",
         "type": "image",
-        "url": "/assets/img/sorvete-cognitivo-700.webp",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/3e597edc-9221-5d6d-ba74-091155d76ed7.webp",
         "position": 0
       }
     ]
   },
   {
-    "id": "6c175887-d753-5f7e-a6c0-4fa99d793e0b",
-    "slug": "livro-das-vogais",
-    "name": "Livro das Vogais",
-    "description": "Ajuda na identificação das vogais, associação visual e desenvolvimento da consciência fonológica.",
+    "id": "93299c26-c30f-5796-a240-34b36a251611",
+    "slug": "familia-silabica",
+    "name": "Família Silábica",
+    "description": "Prancha para montar as famílias silábicas juntando consoante e vogal, com apoio visual da boca.",
     "skills": [
-      "Identificação das vogais: reconhecer A, E, I, O e U isoladas e dentro de palavras.",
-      "Associação visual: ligar cada vogal à figura que começa com ela.",
-      "Consciência fonológica: perceber o som inicial das palavras.",
-      "Coordenação motora fina: manusear e encaixar as peças."
+      "Formação de sílabas: combinar consoante e vogal para formar cada sílaba.",
+      "Consciência silábica: perceber que a sílaba muda quando a vogal muda.",
+      "Associação letra e som: apoiar a leitura pela imagem da articulação.",
+      "Transição para a escrita: ver a mesma sílaba em letra bastão e cursiva."
     ],
-    "price_cents": 6500,
+    "price_cents": 3500,
+    "sale_price_cents": null,
     "category": "Alfabetização",
-    "active": true,
     "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-09T12:25:00.768549+00:00",
     "media": [
       {
-        "id": "f5e3bf3f-abfa-50b4-8d9f-0c44d7caa861",
+        "id": "018d8b87-9e16-54ce-8a60-a4a53ca712a5",
         "type": "image",
-        "url": "/assets/img/livro-das-vogais-700.webp",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/93299c26-c30f-5796-a240-34b36a251611.webp",
+        "position": 0
+      }
+    ]
+  },
+  {
+    "id": "af43384e-a33a-5c45-8344-dcc0d729d4a1",
+    "slug": "frutas-no-prato",
+    "name": "Frutas no Prato",
+    "description": "A criança lê a lista de frutas e monta o prato com a quantidade pedida de cada uma.",
+    "skills": [
+      "Noções de quantidade e contagem: correspondência um-para-um e compreensão de numerais básicos.",
+      "Atenção seletiva e rastreio visual: localizar itens específicos num conjunto com distratores.",
+      "Planejamento e organização: executar a tarefa seguindo uma lista de comandos.",
+      "Discriminação visual: identificar cores, formas e tamanhos das frutas."
+    ],
+    "price_cents": 3500,
+    "sale_price_cents": null,
+    "category": "Números e contagem",
+    "badge": null,
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-09T12:25:00.768549+00:00",
+    "media": [
+      {
+        "id": "a13b94f0-f026-51ea-9bb0-75f50b0d79a8",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/af43384e-a33a-5c45-8344-dcc0d729d4a1.webp",
+        "position": 0
+      }
+    ]
+  },
+  {
+    "id": "7297e87b-ab91-589c-9295-28d9d1c2b686",
+    "slug": "lesma-das-cores",
+    "name": "Lesma das Cores",
+    "description": "Recurso simples e divertido para reconhecimento, associação e discriminação de cores.",
+    "skills": [
+      "Reconhecimento de cores: nomear cada cor do corpo da lesma.",
+      "Associação: encaixar a peça na cor correspondente.",
+      "Discriminação visual: diferenciar tons próximos.",
+      "Coordenação motora fina: encaixar as peças redondas."
+    ],
+    "price_cents": 2500,
+    "sale_price_cents": null,
+    "category": "Cores e percepção",
+    "badge": null,
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-09T12:25:00.768549+00:00",
+    "media": [
+      {
+        "id": "21b8b42f-ac8e-554a-a5c2-1159b6431954",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/7297e87b-ab91-589c-9295-28d9d1c2b686.webp",
         "position": 0
       }
     ]
@@ -143,16 +663,125 @@
       "Ampliação de vocabulário: nomear tons e objetos coloridos."
     ],
     "price_cents": 13000,
+    "sale_price_cents": null,
     "category": "Cores e percepção",
-    "active": true,
     "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-09T12:25:00.768549+00:00",
     "media": [
       {
         "id": "75424a16-acbc-5f0a-af57-adf491af01b9",
         "type": "image",
-        "url": "/assets/img/livro-das-cores-700.webp",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/92db7bb5-5e1f-58fc-9dbe-7a537b2b4508.webp",
+        "position": 0
+      }
+    ]
+  },
+  {
+    "id": "6c175887-d753-5f7e-a6c0-4fa99d793e0b",
+    "slug": "livro-das-vogais",
+    "name": "Livro das Vogais",
+    "description": "Ajuda na identificação das vogais, associação visual e desenvolvimento da consciência fonológica.",
+    "skills": [
+      "Identificação das vogais: reconhecer A, E, I, O e U isoladas e dentro de palavras.",
+      "Associação visual: ligar cada vogal à figura que começa com ela.",
+      "Consciência fonológica: perceber o som inicial das palavras.",
+      "Coordenação motora fina: manusear e encaixar as peças."
+    ],
+    "price_cents": 6500,
+    "sale_price_cents": null,
+    "category": "Alfabetização",
+    "badge": null,
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-09T12:25:00.768549+00:00",
+    "media": [
+      {
+        "id": "f5e3bf3f-abfa-50b4-8d9f-0c44d7caa861",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/6c175887-d753-5f7e-a6c0-4fa99d793e0b.webp",
+        "position": 0
+      }
+    ]
+  },
+  {
+    "id": "b567f7c2-232c-576e-9770-2737659c1742",
+    "slug": "livro-dos-animais",
+    "name": "Livro dos Animais",
+    "description": "Estimula categorização semântica, vocabulário, associação e reconhecimento de diferentes animais.",
+    "skills": [
+      "Vocabulário: nomear animais e suas características.",
+      "Categorização semântica: agrupar por habitat, alimentação ou tamanho.",
+      "Associação: ligar o animal ao seu filhote, som ou ambiente.",
+      "Expressão oral: contar o que sabe sobre cada bicho."
+    ],
+    "price_cents": 8000,
+    "sale_price_cents": null,
+    "category": "Linguagem e associação",
+    "badge": null,
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-09T12:25:00.768549+00:00",
+    "media": [
+      {
+        "id": "0129d5d8-6b4b-5f9a-9f48-90580f1f0f79",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/b567f7c2-232c-576e-9770-2737659c1742.webp",
+        "position": 0
+      }
+    ]
+  },
+  {
+    "id": "c4003e9a-a1c6-54fb-99b4-7ca61fb66330",
+    "slug": "estimulacao-cognitiva-2",
+    "name": "Livro Estimulação Cognitiva 2",
+    "description": "Atividades variadas para atenção, memória, percepção, raciocínio e flexibilidade cognitiva.",
+    "skills": [
+      "Atenção sustentada: manter o foco ao longo de várias páginas.",
+      "Memória de trabalho: guardar a instrução enquanto executa a tarefa.",
+      "Raciocínio lógico: deduzir a regra de cada atividade.",
+      "Flexibilidade cognitiva: mudar de estratégia entre um exercício e outro."
+    ],
+    "price_cents": 11000,
+    "sale_price_cents": null,
+    "category": "Estimulação cognitiva",
+    "badge": null,
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-09T12:25:00.768549+00:00",
+    "media": [
+      {
+        "id": "c3254836-c93e-5d6b-9570-64dd7c860bb0",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/c4003e9a-a1c6-54fb-99b4-7ca61fb66330.webp",
+        "position": 0
+      }
+    ]
+  },
+  {
+    "id": "8e2f298b-e25c-5d00-99c6-197f98463b97",
+    "slug": "livro-pareamento",
+    "name": "Livro Pareamento",
+    "description": "Trabalha correspondência, generalização do conhecimento, discriminação visual e atenção.",
+    "skills": [
+      "Correspondência: encontrar o par de cada figura.",
+      "Discriminação visual: perceber diferenças sutis entre imagens parecidas.",
+      "Generalização: reconhecer o mesmo conceito em contextos diferentes.",
+      "Atenção concentrada: sustentar o foco até fechar todos os pares."
+    ],
+    "price_cents": 12000,
+    "sale_price_cents": 10800,
+    "category": "Estimulação cognitiva",
+    "badge": null,
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-09T12:25:00.768549+00:00",
+    "media": [
+      {
+        "id": "6b5da2fa-6afa-5617-ba9b-d6c7859d373f",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/8e2f298b-e25c-5d00-99c6-197f98463b97.webp",
         "position": 0
       }
     ]
@@ -169,42 +798,17 @@
       "Atenção concentrada: sustentar o foco até completar cada página."
     ],
     "price_cents": 8000,
+    "sale_price_cents": null,
     "category": "Alfabetização",
-    "active": true,
     "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-09T12:25:00.768549+00:00",
     "media": [
       {
         "id": "127b0513-1896-51ce-8e89-47f01767addc",
         "type": "image",
-        "url": "/assets/img/silabas-das-cores-700.webp",
-        "position": 0
-      }
-    ]
-  },
-  {
-    "id": "a5967dee-c8ff-5cfd-8497-c42189991161",
-    "slug": "boquinha-das-vogais",
-    "name": "Boquinha das Vogais",
-    "description": "Apoio visual para relacionar a produção dos sons às vogais e tornar a aprendizagem mais concreta.",
-    "skills": [
-      "Consciência articulatória: observar a posição da boca ao produzir cada vogal.",
-      "Associação som e grafema: ligar o som falado à letra escrita.",
-      "Discriminação auditiva: diferenciar vogais parecidas.",
-      "Apoio à fala: recurso útil em atendimento fonoaudiológico."
-    ],
-    "price_cents": 3500,
-    "category": "Alfabetização",
-    "active": true,
-    "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
-    "media": [
-      {
-        "id": "77aba803-75ae-57f8-bac0-ad4fba15d1e9",
-        "type": "image",
-        "url": "/assets/img/boquinha-das-vogais-700.webp",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/2b0daeb9-ded3-5522-9756-9632a32a9ab7.webp",
         "position": 0
       }
     ]
@@ -222,94 +826,130 @@
       "Tempo de reação: responder rápido sem perder a precisão."
     ],
     "price_cents": 5000,
+    "sale_price_cents": 4500,
     "category": "Alfabetização",
-    "active": true,
     "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-09T12:25:00.768549+00:00",
     "media": [
       {
         "id": "8899df39-99f5-5274-8e85-bcd3cde3156a",
         "type": "image",
-        "url": "/assets/img/martelinho-das-vogais-700.webp",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/5e5d0ee8-d431-5546-9085-db2c6866688c.webp",
         "position": 0
       }
     ]
   },
   {
-    "id": "93299c26-c30f-5796-a240-34b36a251611",
-    "slug": "familia-silabica",
-    "name": "Família Silábica",
-    "description": "Prancha para montar as famílias silábicas juntando consoante e vogal, com apoio visual da boca.",
+    "id": "e2afeb5a-c994-5868-ae67-16f878b3ee82",
+    "slug": "monte-seu-prato",
+    "name": "Monte seu Prato",
+    "description": "Uma brincadeira de montar refeições a partir de um cardápio ilustrado. Escolha os alimentos, organize o prato e aproveite para conversar sobre nomes, preferências e diferentes combinações.",
     "skills": [
-      "Formação de sílabas: combinar consoante e vogal para formar cada sílaba.",
-      "Consciência silábica: perceber que a sílaba muda quando a vogal muda.",
-      "Associação letra e som: apoiar a leitura pela imagem da articulação.",
-      "Transição para a escrita: ver a mesma sílaba em letra bastão e cursiva."
+      "Vocabulário alimentar: nomear os alimentos e preparações.",
+      "Leitura de imagens: observar e seguir o cardápio.",
+      "Jogo simbólico: brincar de preparar e servir refeições."
     ],
     "price_cents": 3500,
-    "category": "Alfabetização",
-    "active": true,
+    "sale_price_cents": null,
+    "category": "Linguagem e associação",
     "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-10T13:19:18.918Z",
     "media": [
       {
-        "id": "018d8b87-9e16-54ce-8a60-a4a53ca712a5",
+        "id": "645dd382-8c3a-5966-9731-e83fbf70d8a1",
         "type": "image",
-        "url": "/assets/img/familia-silabica-700.webp",
+        "url": "/assets/products/import-20260910/monte-seu-prato.jpg",
+        "position": 0
+      },
+      {
+        "id": "4ccad7a7-8cea-5443-9df7-8b18d82d7bf1",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/e2afeb5a-c994-5868-ae67-16f878b3ee82.webp",
+        "position": 1
+      }
+    ]
+  },
+  {
+    "id": "15c7907d-af97-5f17-b603-a98b831d793f",
+    "slug": "organize-a-sequencia",
+    "name": "Organize a Sequência",
+    "description": "Prancha para continuar padrões de formas e cores a partir do modelo da carta.",
+    "skills": [
+      "Raciocínio lógico: descobrir a regra que rege a sequência.",
+      "Reprodução e continuação de padrão: seguir o modelo e prever o próximo item.",
+      "Discriminação de formas e cores: separar as peças pelo atributo pedido.",
+      "Atenção aos detalhes: perceber quando o padrão muda."
+    ],
+    "price_cents": 3000,
+    "sale_price_cents": null,
+    "category": "Estimulação cognitiva",
+    "badge": null,
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-09T12:25:00.768549+00:00",
+    "media": [
+      {
+        "id": "b6111cf0-cfb1-5fef-8cb8-f4f7397c7622",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/15c7907d-af97-5f17-b603-a98b831d793f.webp",
         "position": 0
       }
     ]
   },
   {
-    "id": "ad5f22bd-bb23-59a1-9b41-cf4e16406e93",
-    "slug": "casinha-dos-numeros",
-    "name": "Casinha dos Números",
-    "description": "Recurso para reconhecimento dos numerais, organização, associação e noções iniciais de sequência numérica.",
+    "id": "561ec04d-377b-52ee-8fbb-55b8b01141c4",
+    "slug": "pote-das-cores",
+    "name": "Pote das Cores",
+    "description": "Cartas de “Qual a cor?” para separar os objetos de cada pote pela cor pedida.",
     "skills": [
-      "Reconhecimento dos numerais: identificar cada algarismo pelo nome.",
-      "Sequência numérica: ordenar os números do menor para o maior.",
-      "Organização espacial: encaixar cada número no lugar correspondente.",
-      "Atenção sustentada: completar a casinha inteira."
+      "Reconhecimento de cores: identificar a cor pedida na carta.",
+      "Classificação: agrupar os objetos pela cor correspondente.",
+      "Atenção seletiva: ignorar as peças que não servem.",
+      "Vocabulário: nomear os objetos de cada pote."
     ],
-    "price_cents": 6500,
-    "category": "Números e contagem",
-    "active": true,
+    "price_cents": 1500,
+    "sale_price_cents": null,
+    "category": "Cores e percepção",
     "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-09T12:25:00.768549+00:00",
     "media": [
       {
-        "id": "e847a418-9656-56c7-9d7f-9fdd29eae0f0",
+        "id": "71196b38-8dc1-5469-9833-0e592ae1d594",
         "type": "image",
-        "url": "/assets/img/casinha-dos-numeros-700.webp",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/561ec04d-377b-52ee-8fbb-55b8b01141c4.webp",
         "position": 0
       }
     ]
   },
   {
-    "id": "af43384e-a33a-5c45-8344-dcc0d729d4a1",
-    "slug": "frutas-no-prato",
-    "name": "Frutas no Prato",
-    "description": "A criança lê a lista de frutas e monta o prato com a quantidade pedida de cada uma.",
+    "id": "f6f02800-5625-59bc-9c9b-93a02be00c28",
+    "slug": "pranchas-avulsas-sem-uno",
+    "name": "Pranchas Avulsas (sem o UNO)",
+    "description": "Só as pranchas dos jogos, para quem já tem o baralho de UNO em casa.",
     "skills": [
-      "Noções de quantidade e contagem: correspondência um-para-um e compreensão de numerais básicos.",
-      "Atenção seletiva e rastreio visual: localizar itens específicos num conjunto com distratores.",
-      "Planejamento e organização: executar a tarefa seguindo uma lista de comandos.",
-      "Discriminação visual: identificar cores, formas e tamanhos das frutas."
+      "Compatível com as atividades de UNO da Tia Cris.",
+      "Reconhecimento numérico e correspondência quantidade e número.",
+      "Contagem um a um sobre as marcações da prancha.",
+      "Opção econômica para quem já tem as cartas."
     ],
-    "price_cents": 3500,
-    "category": "Números e contagem",
-    "active": true,
+    "price_cents": 2500,
+    "sale_price_cents": null,
+    "category": "Jogos",
     "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-09T12:25:00.768549+00:00",
     "media": [
       {
-        "id": "a13b94f0-f026-51ea-9bb0-75f50b0d79a8",
+        "id": "62094b4f-cf94-58e1-9327-f855a5427388",
         "type": "image",
-        "url": "/assets/img/frutas-no-prato-700.webp",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/f6f02800-5625-59bc-9c9b-93a02be00c28.webp",
         "position": 0
       }
     ]
@@ -326,16 +966,17 @@
       "Coordenação motora fina: girar o ponteiro e manusear as peças."
     ],
     "price_cents": 2500,
+    "sale_price_cents": null,
     "category": "Números e contagem",
-    "active": true,
     "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-09T12:25:00.768549+00:00",
     "media": [
       {
         "id": "a0c53b94-4d56-5d5e-b9be-5c8259cf1a4d",
         "type": "image",
-        "url": "/assets/img/roleta-dos-numeros-700.webp",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/2cf63c80-c320-5beb-b3be-62b55c7a41a9.webp",
         "position": 0
       }
     ]
@@ -353,566 +994,17 @@
       "Planejamento: organizar a ordem antes de começar."
     ],
     "price_cents": 6000,
+    "sale_price_cents": null,
     "category": "Números e contagem",
-    "active": true,
     "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-09T12:25:00.768549+00:00",
     "media": [
       {
         "id": "9da42dce-dfd9-5dc7-a7ac-532cdc8a0509",
         "type": "image",
-        "url": "/assets/img/sequencia-dos-palitos-700.webp",
-        "position": 0
-      }
-    ]
-  },
-  {
-    "id": "c4003e9a-a1c6-54fb-99b4-7ca61fb66330",
-    "slug": "estimulacao-cognitiva-2",
-    "name": "Livro Estimulação Cognitiva 2",
-    "description": "Atividades variadas para atenção, memória, percepção, raciocínio e flexibilidade cognitiva.",
-    "skills": [
-      "Atenção sustentada: manter o foco ao longo de várias páginas.",
-      "Memória de trabalho: guardar a instrução enquanto executa a tarefa.",
-      "Raciocínio lógico: deduzir a regra de cada atividade.",
-      "Flexibilidade cognitiva: mudar de estratégia entre um exercício e outro."
-    ],
-    "price_cents": 11000,
-    "category": "Estimulação cognitiva",
-    "active": true,
-    "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
-    "media": [
-      {
-        "id": "c3254836-c93e-5d6b-9570-64dd7c860bb0",
-        "type": "image",
-        "url": "/assets/img/estimulacao-cognitiva-2-700.webp",
-        "position": 0
-      }
-    ]
-  },
-  {
-    "id": "8e2f298b-e25c-5d00-99c6-197f98463b97",
-    "slug": "livro-pareamento",
-    "name": "Livro Pareamento",
-    "description": "Trabalha correspondência, generalização do conhecimento, discriminação visual e atenção.",
-    "skills": [
-      "Correspondência: encontrar o par de cada figura.",
-      "Discriminação visual: perceber diferenças sutis entre imagens parecidas.",
-      "Generalização: reconhecer o mesmo conceito em contextos diferentes.",
-      "Atenção concentrada: sustentar o foco até fechar todos os pares."
-    ],
-    "price_cents": 12000,
-    "category": "Estimulação cognitiva",
-    "active": true,
-    "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
-    "media": [
-      {
-        "id": "6b5da2fa-6afa-5617-ba9b-d6c7859d373f",
-        "type": "image",
-        "url": "/assets/img/livro-pareamento-700.webp",
-        "position": 0
-      }
-    ]
-  },
-  {
-    "id": "4c5ff527-a354-5870-88d3-72652e6c341c",
-    "slug": "closet-das-princesas",
-    "name": "Closet das Princesas",
-    "description": "Atividade de combinação e organização que estimula criatividade, percepção visual e coordenação motora.",
-    "skills": [
-      "Combinação: montar looks juntando peças que combinam.",
-      "Percepção visual: comparar cores, formas e tamanhos das roupas.",
-      "Organização: guardar cada peça no lugar certo do closet.",
-      "Criatividade e narrativa: inventar histórias para as personagens."
-    ],
-    "price_cents": 3000,
-    "category": "Estimulação cognitiva",
-    "active": true,
-    "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
-    "media": [
-      {
-        "id": "471c4677-e244-5c5f-b67b-47b00b1bb19b",
-        "type": "image",
-        "url": "/assets/img/closet-das-princesas-700.webp",
-        "position": 0
-      }
-    ]
-  },
-  {
-    "id": "15c7907d-af97-5f17-b603-a98b831d793f",
-    "slug": "organize-a-sequencia",
-    "name": "Organize a Sequência",
-    "description": "Prancha para continuar padrões de formas e cores a partir do modelo da carta.",
-    "skills": [
-      "Raciocínio lógico: descobrir a regra que rege a sequência.",
-      "Reprodução e continuação de padrão: seguir o modelo e prever o próximo item.",
-      "Discriminação de formas e cores: separar as peças pelo atributo pedido.",
-      "Atenção aos detalhes: perceber quando o padrão muda."
-    ],
-    "price_cents": 3000,
-    "category": "Estimulação cognitiva",
-    "active": true,
-    "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
-    "media": [
-      {
-        "id": "b6111cf0-cfb1-5fef-8cb8-f4f7397c7622",
-        "type": "image",
-        "url": "/assets/img/organize-a-sequencia-700.webp",
-        "position": 0
-      }
-    ]
-  },
-  {
-    "id": "0ce43da5-f0c3-57c1-ab18-23c1ebbfc849",
-    "slug": "desafio-das-borboletas",
-    "name": "Desafio das Borboletas",
-    "description": "Encontra a borboleta que corresponde ao modelo da carta, entre várias parecidas.",
-    "skills": [
-      "Discriminação visual fina: diferenciar borboletas de padrões semelhantes.",
-      "Pareamento: associar cada carta à borboleta correspondente.",
-      "Atenção seletiva: filtrar as opções que não servem.",
-      "Velocidade de processamento: achar o par sem se perder no conjunto."
-    ],
-    "price_cents": 4000,
-    "category": "Estimulação cognitiva",
-    "active": true,
-    "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
-    "media": [
-      {
-        "id": "be73efaf-c74c-55d0-8988-2d4e50781e5a",
-        "type": "image",
-        "url": "/assets/img/desafio-das-borboletas-700.webp",
-        "position": 0
-      }
-    ]
-  },
-  {
-    "id": "d6edf719-cc46-5b61-80a9-a2003a260441",
-    "slug": "direcione-os-carros",
-    "name": "Direcione os Carros",
-    "description": "Posiciona cada carrinho na vaga certa seguindo a direção e a cor indicadas.",
-    "skills": [
-      "Orientação espacial: entender direita, esquerda, acima e abaixo.",
-      "Planejamento motor: pensar o caminho antes de mover a peça.",
-      "Discriminação de cores: combinar o carro à vaga certa.",
-      "Atenção concentrada: seguir a instrução até o fim sem se distrair."
-    ],
-    "price_cents": 4000,
-    "category": "Estimulação cognitiva",
-    "active": true,
-    "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
-    "media": [
-      {
-        "id": "d3da7cdc-2d35-5408-a303-7062728d558f",
-        "type": "image",
-        "url": "/assets/img/direcione-os-carros-700.webp",
-        "position": 0
-      }
-    ]
-  },
-  {
-    "id": "582c2099-dcde-5424-a387-e0d73f4c4159",
-    "slug": "caderno-coordenacao-motora",
-    "name": "Caderno de Coordenação Motora",
-    "description": "Propostas de pré-escrita para preparar os movimentos das mãos, estimular o traçado e fortalecer a coordenação.",
-    "skills": [
-      "Traçado: percorrer linhas retas, curvas e quebradas com controle.",
-      "Preensão do lápis: firmar a pegada correta antes da escrita.",
-      "Direcionalidade: seguir o sentido da esquerda para a direita.",
-      "Controle de força: manter o traço dentro do limite proposto."
-    ],
-    "price_cents": 6000,
-    "category": "Coordenação motora",
-    "active": true,
-    "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
-    "media": [
-      {
-        "id": "340ae384-ae87-5bcc-8702-883490740db3",
-        "type": "image",
-        "url": "/assets/img/caderno-coordenacao-motora-700.webp",
-        "position": 0
-      }
-    ]
-  },
-  {
-    "id": "818fa932-6aa9-55bc-a4b4-ccf3ce39a463",
-    "slug": "alinhavos-tenis",
-    "name": "Alinhavos Tênis",
-    "description": "Tênis de alinhavo para treinar o cadarço, um dos gestos mais úteis da rotina.",
-    "skills": [
-      "Coordenação bimanual: usar as duas mãos em movimentos diferentes ao mesmo tempo.",
-      "Movimento de pinça: segurar e puxar o cadarço com precisão.",
-      "Sequência motora: repetir os passos do laço na ordem certa.",
-      "Autonomia: treinar uma habilidade prática do dia a dia."
-    ],
-    "price_cents": 1500,
-    "category": "Coordenação motora",
-    "active": true,
-    "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
-    "media": [
-      {
-        "id": "98ea2208-c102-5d12-be80-c152f9347432",
-        "type": "image",
-        "url": "/assets/img/alinhavos-tenis-700.webp",
-        "position": 0
-      }
-    ]
-  },
-  {
-    "id": "7eedf53d-a7da-530e-91ab-c45d758420c0",
-    "slug": "decorando-as-unhas",
-    "name": "Decorando as Unhas",
-    "description": "Brincadeira de encaixar as unhas coloridas na mão seguindo o modelo da carta.",
-    "skills": [
-      "Movimento de pinça: pegar e posicionar peças pequenas.",
-      "Discriminação de cores: escolher a cor pedida em cada dedo.",
-      "Reprodução de padrão: copiar a combinação da carta.",
-      "Nomeação das partes do corpo: identificar cada dedo da mão."
-    ],
-    "price_cents": 2500,
-    "category": "Coordenação motora",
-    "active": true,
-    "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
-    "media": [
-      {
-        "id": "d0021700-8b12-526a-8388-a1774c8188c0",
-        "type": "image",
-        "url": "/assets/img/decorando-as-unhas-700.webp",
-        "position": 0
-      }
-    ]
-  },
-  {
-    "id": "1506abf3-f269-54ac-a32a-0feffb1f806d",
-    "slug": "espetinho-pedagogico",
-    "name": "Espetinho Pedagógico",
-    "description": "Monta o espetinho de frutas prendendo as peças na ordem que a carta mostra.",
-    "skills": [
-      "Movimento de pinça: abrir e fechar o prendedor com controle.",
-      "Sequência: montar as frutas na ordem exata do modelo.",
-      "Discriminação visual: diferenciar frutas parecidas.",
-      "Coordenação bimanual: segurar a base e prender a peça ao mesmo tempo."
-    ],
-    "price_cents": 3500,
-    "category": "Coordenação motora",
-    "active": true,
-    "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
-    "media": [
-      {
-        "id": "b60423f1-9d74-592e-af20-380ef67b7c04",
-        "type": "image",
-        "url": "/assets/img/espetinho-pedagogico-700.webp",
-        "position": 0
-      }
-    ]
-  },
-  {
-    "id": "713b82f9-de5b-5cd3-af19-92d21dd5165c",
-    "slug": "alimentando-os-animais",
-    "name": "Alimentando os Animais",
-    "description": "Alimenta cada bichinho com a comida certa, usando a pinça para transportar as peças.",
-    "skills": [
-      "Movimento de pinça com ferramenta: transportar peças pequenas com precisão.",
-      "Categorização: escolher o alimento que combina com cada animal.",
-      "Contagem: dar a quantidade pedida de comida.",
-      "Nomeação: identificar animais e alimentos ampliando o vocabulário.",
-      "Controle de força: soltar a peça no lugar certo."
-    ],
-    "price_cents": 4500,
-    "category": "Coordenação motora",
-    "active": true,
-    "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
-    "media": [
-      {
-        "id": "05d49597-a1eb-51b7-9b76-b7334b39ba2c",
-        "type": "image",
-        "url": "/assets/img/alimentando-os-animais-700.webp",
-        "position": 0
-      }
-    ]
-  },
-  {
-    "id": "b567f7c2-232c-576e-9770-2737659c1742",
-    "slug": "livro-dos-animais",
-    "name": "Livro dos Animais",
-    "description": "Estimula categorização semântica, vocabulário, associação e reconhecimento de diferentes animais.",
-    "skills": [
-      "Vocabulário: nomear animais e suas características.",
-      "Categorização semântica: agrupar por habitat, alimentação ou tamanho.",
-      "Associação: ligar o animal ao seu filhote, som ou ambiente.",
-      "Expressão oral: contar o que sabe sobre cada bicho."
-    ],
-    "price_cents": 8000,
-    "category": "Linguagem e associação",
-    "active": true,
-    "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
-    "media": [
-      {
-        "id": "0129d5d8-6b4b-5f9a-9f48-90580f1f0f79",
-        "type": "image",
-        "url": "/assets/img/livro-dos-animais-700.webp",
-        "position": 0
-      }
-    ]
-  },
-  {
-    "id": "3e597edc-9221-5d6d-ba74-091155d76ed7",
-    "slug": "faca-seu-pedido",
-    "name": "Faça seu Pedido",
-    "description": "Brincadeira temática que estimula linguagem, sequência, consciência fonológica e atenção.",
-    "skills": [
-      "Linguagem funcional: pedir, responder e negociar durante a brincadeira.",
-      "Sequência: seguir a ordem do pedido até montá-lo por completo.",
-      "Vocabulário: nomear alimentos e utensílios.",
-      "Jogo simbólico: assumir papéis de cliente e atendente."
-    ],
-    "price_cents": 3500,
-    "category": "Linguagem e associação",
-    "active": true,
-    "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
-    "media": [
-      {
-        "id": "d0250e67-cb04-5651-b99f-83ae88105395",
-        "type": "image",
-        "url": "/assets/img/faca-seu-pedido-700.webp",
-        "position": 0
-      }
-    ]
-  },
-  {
-    "id": "e2afeb5a-c994-5868-ae67-16f878b3ee82",
-    "slug": "monte-seu-prato",
-    "name": "Monte seu Prato",
-    "description": "Monta o prato a partir do cardápio, conversando sobre os alimentos e os grupos a que pertencem.",
-    "skills": [
-      "Vocabulário alimentar: nomear alimentos e preparações.",
-      "Categorização: separar por grupo alimentar.",
-      "Leitura de cardápio: seguir uma lista escrita ou ilustrada.",
-      "Jogo simbólico: brincar de servir e ser servido.",
-      "Educação alimentar: conversar sobre variedade e equilíbrio."
-    ],
-    "price_cents": 3500,
-    "category": "Linguagem e associação",
-    "active": true,
-    "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
-    "media": [
-      {
-        "id": "4ccad7a7-8cea-5443-9df7-8b18d82d7bf1",
-        "type": "image",
-        "url": "/assets/img/monte-seu-prato-700.webp",
-        "position": 0
-      }
-    ]
-  },
-  {
-    "id": "e0e11fdf-26aa-525d-99eb-e42b8973e8ea",
-    "slug": "chaveiros-de-caa",
-    "name": "Chaveiros de CAA",
-    "description": "Cartões de Comunicação Aumentativa e Alternativa em chaveiro, para levar e usar em qualquer lugar.",
-    "skills": [
-      "Comunicação alternativa: expressar vontades e necessidades por imagem.",
-      "Vocabulário funcional: pedir, recusar, escolher e comentar.",
-      "Autonomia comunicativa: reduzir a dependência do adulto para se fazer entender.",
-      "Portabilidade: usar o mesmo apoio em casa, na escola e no atendimento.",
-      "Indicado para autismo, atraso de linguagem e apoio fonoaudiológico."
-    ],
-    "price_cents": 3500,
-    "category": "Linguagem e associação",
-    "active": true,
-    "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
-    "media": [
-      {
-        "id": "ed0f89d5-50a7-57b5-9a07-3eb811686970",
-        "type": "image",
-        "url": "/assets/img/chaveiros-de-caa-700.webp",
-        "position": 0
-      }
-    ]
-  },
-  {
-    "id": "7297e87b-ab91-589c-9295-28d9d1c2b686",
-    "slug": "lesma-das-cores",
-    "name": "Lesma das Cores",
-    "description": "Recurso simples e divertido para reconhecimento, associação e discriminação de cores.",
-    "skills": [
-      "Reconhecimento de cores: nomear cada cor do corpo da lesma.",
-      "Associação: encaixar a peça na cor correspondente.",
-      "Discriminação visual: diferenciar tons próximos.",
-      "Coordenação motora fina: encaixar as peças redondas."
-    ],
-    "price_cents": 2500,
-    "category": "Cores e percepção",
-    "active": true,
-    "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
-    "media": [
-      {
-        "id": "21b8b42f-ac8e-554a-a5c2-1159b6431954",
-        "type": "image",
-        "url": "/assets/img/lesma-das-cores-700.webp",
-        "position": 0
-      }
-    ]
-  },
-  {
-    "id": "561ec04d-377b-52ee-8fbb-55b8b01141c4",
-    "slug": "pote-das-cores",
-    "name": "Pote das Cores",
-    "description": "Cartas de “Qual a cor?” para separar os objetos de cada pote pela cor pedida.",
-    "skills": [
-      "Reconhecimento de cores: identificar a cor pedida na carta.",
-      "Classificação: agrupar os objetos pela cor correspondente.",
-      "Atenção seletiva: ignorar as peças que não servem.",
-      "Vocabulário: nomear os objetos de cada pote."
-    ],
-    "price_cents": 1500,
-    "category": "Cores e percepção",
-    "active": true,
-    "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
-    "media": [
-      {
-        "id": "71196b38-8dc1-5469-9833-0e592ae1d594",
-        "type": "image",
-        "url": "/assets/img/pote-das-cores-700.webp",
-        "position": 0
-      }
-    ]
-  },
-  {
-    "id": "f699812a-b949-5719-aec7-3fefb1ecd7ed",
-    "slug": "codigo-das-garrafas",
-    "name": "Código das Garrafas",
-    "description": "Organiza as garrafas coloridas na ordem que o código da carta indica.",
-    "skills": [
-      "Decodificação: ler o código e traduzi-lo em ordem de cores.",
-      "Memória de trabalho: guardar a sequência enquanto organiza.",
-      "Discriminação de cores: diferenciar dez cores próximas.",
-      "Organização espacial: posicionar cada garrafa no lugar certo.",
-      "Autocorreção: conferir o resultado contra o modelo."
-    ],
-    "price_cents": 3800,
-    "category": "Cores e percepção",
-    "active": true,
-    "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
-    "media": [
-      {
-        "id": "b29ae185-92c1-5cda-a0d7-88c2ba8a7ec9",
-        "type": "image",
-        "url": "/assets/img/codigo-das-garrafas-700.webp",
-        "position": 0
-      }
-    ]
-  },
-  {
-    "id": "274d3d30-bbd3-5ad6-af8c-fc6df901e9c3",
-    "slug": "uno-marque-o-x",
-    "name": "UNO: Marque o X",
-    "description": "Prancha para marcar com X o número sorteado na carta de UNO, até completar a cartela.",
-    "skills": [
-      "Reconhecimento numérico: identificar o número da carta sorteada.",
-      "Rastreio visual: localizar o número na cartela.",
-      "Atenção sustentada: acompanhar toda a partida.",
-      "Espera e revezamento: respeitar a vez do outro."
-    ],
-    "price_cents": 3000,
-    "category": "Jogos",
-    "active": true,
-    "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
-    "media": [
-      {
-        "id": "02779fe2-a507-5314-a866-0a7d206ec81b",
-        "type": "image",
-        "url": "/assets/img/uno-marque-o-x-700.webp",
-        "position": 0
-      }
-    ]
-  },
-  {
-    "id": "6cb7ce14-8952-54a2-b199-32be81132fc2",
-    "slug": "uno-virando-as-cartas",
-    "name": "UNO: Virando as Cartas",
-    "description": "Vira a carta, lê o número e encontra o par correspondente na prancha.",
-    "skills": [
-      "Memória visual: lembrar onde estão as cartas já viradas.",
-      "Reconhecimento numérico: nomear o número sorteado.",
-      "Correspondência: parear a carta ao número da prancha.",
-      "Controle inibitório: esperar a vez antes de virar."
-    ],
-    "price_cents": 2500,
-    "category": "Jogos",
-    "active": true,
-    "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
-    "media": [
-      {
-        "id": "6770ba33-c982-5a2e-96d2-79cf699501c4",
-        "type": "image",
-        "url": "/assets/img/uno-virando-as-cartas-700.webp",
-        "position": 0
-      }
-    ]
-  },
-  {
-    "id": "f6f02800-5625-59bc-9c9b-93a02be00c28",
-    "slug": "pranchas-avulsas-sem-uno",
-    "name": "Pranchas Avulsas (sem o UNO)",
-    "description": "Só as pranchas dos jogos, para quem já tem o baralho de UNO em casa.",
-    "skills": [
-      "Compatível com as atividades de UNO da Tia Cris.",
-      "Reconhecimento numérico e correspondência quantidade e número.",
-      "Contagem um a um sobre as marcações da prancha.",
-      "Opção econômica para quem já tem as cartas."
-    ],
-    "price_cents": 2500,
-    "category": "Jogos",
-    "active": true,
-    "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
-    "media": [
-      {
-        "id": "62094b4f-cf94-58e1-9327-f855a5427388",
-        "type": "image",
-        "url": "/assets/img/pranchas-avulsas-sem-uno-700.webp",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/febb2360-cbba-5409-b3c0-59275b699996.webp",
         "position": 0
       }
     ]
@@ -930,16 +1022,469 @@
       "Tolerância à frustração: lidar com o erro e seguir jogando."
     ],
     "price_cents": 4000,
+    "sale_price_cents": null,
     "category": "Jogos",
-    "active": true,
     "badge": null,
-    "created_at": "2026-09-09T12:00:00Z",
-    "updated_at": "2026-09-09T12:00:00Z",
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-09T12:25:00.768549+00:00",
     "media": [
       {
         "id": "2a93e530-7ae8-5340-a957-45a38603e84b",
         "type": "image",
-        "url": "/assets/img/sino-da-atencao-700.webp",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/3317eb58-8d36-5d7f-866c-eb8b0c5d748a.webp",
+        "position": 0
+      }
+    ]
+  },
+  {
+    "id": "f2566790-a853-5dab-835d-be6d912ba095",
+    "slug": "sorvete-cognitivo",
+    "name": "Sorvete Cognitivo",
+    "description": "Monta a casquinha empilhando as bolas na ordem e nas cores que a carta mostra.",
+    "skills": [
+      "Memória visual: guardar a sequência de bolas antes de montar.",
+      "Reprodução de padrão: empilhar na ordem exata do modelo.",
+      "Discriminação de cores: diferenciar tons parecidos de sorvete.",
+      "Coordenação motora fina: encaixar cada bola sem derrubar a torre."
+    ],
+    "price_cents": 3500,
+    "sale_price_cents": null,
+    "category": "Estimulação cognitiva",
+    "badge": null,
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-09T12:25:00.768549+00:00",
+    "media": [
+      {
+        "id": "896efb5f-24db-5335-bb65-ad59acf5aee4",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/f2566790-a853-5dab-835d-be6d912ba095.webp",
+        "position": 0
+      }
+    ]
+  },
+  {
+    "id": "98fe1afc-5fd6-4ecb-9b13-8cb22dbe523b",
+    "slug": "tesoura-bola",
+    "name": "Tesoura Bola",
+    "description": "Esse recurso simples esconde um potencial gigantesco para o desenvolvimento infantil. Ao usar essa atividade nas sessões de psicopedagogia, estamos trabalhando:​ Motricidade Fina: O uso da pinça fortalece os músculos das mãos, preparando a criança para a escrita formal. Raciocínio Matemático: Contagem, associação de número/quantidade e classificação por cores. Funções Executivas: Foco, atenção e planejamento de metas.​Aprender brincando é o caminho mais eficaz para consolidar o conhecimento! O que você achou desse recurso?",
+    "skills": [
+      "Coordenação motora fina",
+      "Cores",
+      "Quantidades",
+      "Atenção sustentada"
+    ],
+    "price_cents": 4000,
+    "sale_price_cents": null,
+    "category": "Coordenação motora",
+    "badge": "Mais vendido",
+    "active": true,
+    "created_at": "2026-09-10T02:11:17.183268+00:00",
+    "updated_at": "2026-09-10T02:11:17.183268+00:00",
+    "media": [
+      {
+        "id": "a31bbf30-4e14-417f-99f4-eadd72c80061",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/55cfb13d-5b7e-4495-8009-4013520f64f3/a31bbf30-4e14-417f-99f4-eadd72c80061.jpg",
+        "position": 0
+      },
+      {
+        "id": "e91b8564-dd05-4b6f-a3dc-046f30044637",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/55cfb13d-5b7e-4495-8009-4013520f64f3/e91b8564-dd05-4b6f-a3dc-046f30044637.jpg",
+        "position": 1
+      }
+    ]
+  },
+  {
+    "id": "274d3d30-bbd3-5ad6-af8c-fc6df901e9c3",
+    "slug": "uno-marque-o-x",
+    "name": "UNO: Marque o X",
+    "description": "Prancha para marcar com X o número sorteado na carta de UNO, até completar a cartela.",
+    "skills": [
+      "Reconhecimento numérico: identificar o número da carta sorteada.",
+      "Rastreio visual: localizar o número na cartela.",
+      "Atenção sustentada: acompanhar toda a partida.",
+      "Espera e revezamento: respeitar a vez do outro."
+    ],
+    "price_cents": 3000,
+    "sale_price_cents": null,
+    "category": "Jogos",
+    "badge": null,
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-09T12:25:00.768549+00:00",
+    "media": [
+      {
+        "id": "02779fe2-a507-5314-a866-0a7d206ec81b",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/274d3d30-bbd3-5ad6-af8c-fc6df901e9c3.webp",
+        "position": 0
+      }
+    ]
+  },
+  {
+    "id": "6cb7ce14-8952-54a2-b199-32be81132fc2",
+    "slug": "uno-virando-as-cartas",
+    "name": "UNO: Virando as Cartas",
+    "description": "Vira a carta, lê o número e encontra o par correspondente na prancha.",
+    "skills": [
+      "Memória visual: lembrar onde estão as cartas já viradas.",
+      "Reconhecimento numérico: nomear o número sorteado.",
+      "Correspondência: parear a carta ao número da prancha.",
+      "Controle inibitório: esperar a vez antes de virar."
+    ],
+    "price_cents": 2500,
+    "sale_price_cents": null,
+    "category": "Jogos",
+    "badge": null,
+    "active": true,
+    "created_at": "2026-09-09T12:00:00+00:00",
+    "updated_at": "2026-09-09T12:25:00.768549+00:00",
+    "media": [
+      {
+        "id": "6770ba33-c982-5a2e-96d2-79cf699501c4",
+        "type": "image",
+        "url": "https://jauxifzeexblizbxpwyg.supabase.co/storage/v1/object/public/products-media/catalog/6cb7ce14-8952-54a2-b199-32be81132fc2.webp",
+        "position": 0
+      }
+    ]
+  },
+  {
+    "id": "aeb56a96-59c5-5781-88c4-0dcb0022bb24",
+    "slug": "ovos-das-vogais",
+    "name": "Ovos das Vogais",
+    "description": "Uma brincadeira de cozinha para explorar as vogais. A criança combina os ovos com letras às figuras dos pratos e pode criar pequenas histórias enquanto organiza cada peça.",
+    "skills": [
+      "Reconhecimento das vogais: observar e identificar as letras.",
+      "Associação entre letras e imagens: comparar as opções da atividade.",
+      "Coordenação motora fina: pegar e posicionar as peças."
+    ],
+    "price_cents": 3500,
+    "sale_price_cents": null,
+    "category": "Alfabetização",
+    "badge": "Novidade",
+    "active": true,
+    "created_at": "2026-09-10T13:19:18.918Z",
+    "updated_at": "2026-09-10T13:19:18.918Z",
+    "media": [
+      {
+        "id": "58d73a38-02d0-5bcb-b72a-96dcb1611045",
+        "type": "image",
+        "url": "/assets/products/import-20260910/ovos-das-vogais.jpg",
+        "position": 0
+      }
+    ]
+  },
+  {
+    "id": "24e575b6-e933-5b3a-aede-aac304b4d7c2",
+    "slug": "bigodes-do-coelho",
+    "name": "Bigodes do Coelho",
+    "description": "Um coelhinho para ganhar bigodes coloridos com prendedores. A proposta convida a observar o modelo, escolher as cores e abrir e fechar os prendedores para completar o rostinho.",
+    "skills": [
+      "Movimento de pinça: abrir e fechar os prendedores.",
+      "Correspondência de cores: combinar os bigodes com o modelo.",
+      "Percepção visual: observar posições e diferenças."
+    ],
+    "price_cents": 2000,
+    "sale_price_cents": null,
+    "category": "Coordenação motora",
+    "badge": "Novidade",
+    "active": true,
+    "created_at": "2026-09-10T13:19:18.918Z",
+    "updated_at": "2026-09-10T13:19:18.918Z",
+    "media": [
+      {
+        "id": "4dd9171f-182b-52be-9912-261e5f675344",
+        "type": "image",
+        "url": "/assets/products/import-20260910/bigodes-do-coelho.jpg",
+        "position": 0
+      }
+    ]
+  },
+  {
+    "id": "c9a5f0c5-96d6-5f9a-b686-1ac02ddba7aa",
+    "slug": "closet-princesa-2-com-acessorios",
+    "name": "Closet Princesa 2 com Acessórios",
+    "description": "Um closet ilustrado para criar combinações de roupas e acessórios para a princesa. A criança escolhe as peças, organiza seus looks e inventa histórias para cada ocasião.",
+    "skills": [
+      "Combinação: experimentar roupas e acessórios.",
+      "Percepção visual: comparar cores, formas e detalhes.",
+      "Criatividade e narrativa: imaginar situações para a personagem."
+    ],
+    "price_cents": 3500,
+    "sale_price_cents": null,
+    "category": "Estimulação cognitiva",
+    "badge": "Novidade",
+    "active": true,
+    "created_at": "2026-09-10T13:19:18.918Z",
+    "updated_at": "2026-09-10T13:19:18.918Z",
+    "media": [
+      {
+        "id": "82bb5450-09e5-5bc2-b53c-1bf246094fb5",
+        "type": "image",
+        "url": "/assets/products/import-20260910/closet-princesa-2-com-acessorios.jpg",
+        "position": 0
+      }
+    ]
+  },
+  {
+    "id": "6f213d26-788a-571c-8717-fce342dda7fa",
+    "slug": "tentaculos-de-polvo",
+    "name": "Tentáculos de Polvo",
+    "description": "Um desafio de empilhar e organizar copos coloridos com tentáculos usados como pinças. Observe o modelo e experimente montar a sequência, equilibrando as peças durante a brincadeira.",
+    "skills": [
+      "Coordenação motora: manipular os copos com os tentáculos.",
+      "Reprodução de modelos: observar a organização das cores.",
+      "Planejamento: escolher a ordem dos movimentos."
+    ],
+    "price_cents": 6000,
+    "sale_price_cents": null,
+    "category": "Coordenação motora",
+    "badge": "Novidade",
+    "active": true,
+    "created_at": "2026-09-10T13:19:18.918Z",
+    "updated_at": "2026-09-10T13:19:18.918Z",
+    "media": [
+      {
+        "id": "bd646eeb-d917-59a6-9590-1c35a8f65948",
+        "type": "image",
+        "url": "/assets/products/import-20260910/tentaculos-de-polvo.jpg",
+        "position": 0
+      }
+    ]
+  },
+  {
+    "id": "03e9dcbf-43fb-5e37-a0f7-a5c242d77c23",
+    "slug": "quebra-cabeca-dinossauro-ou-animais",
+    "name": "Quebra-cabeça Dinossauro ou Animais",
+    "description": "Um quebra-cabeça de encaixe com personagens coloridos para explorar formas e posições. A proposta é observar o contorno de cada peça e descobrir como organizar o conjunto na base.",
+    "skills": [
+      "Percepção espacial: comparar as peças com os espaços da base.",
+      "Resolução de problemas: experimentar posições e combinações.",
+      "Coordenação motora fina: posicionar cada peça."
+    ],
+    "price_cents": 3500,
+    "sale_price_cents": null,
+    "category": "Jogos",
+    "badge": "Novidade",
+    "active": true,
+    "created_at": "2026-09-10T13:19:18.918Z",
+    "updated_at": "2026-09-10T13:19:18.918Z",
+    "media": [
+      {
+        "id": "91cc718f-ccc5-5f58-abb6-f54d9f7440f4",
+        "type": "image",
+        "url": "/assets/products/import-20260910/quebra-cabeca-dinossauro-ou-animais.jpg",
+        "position": 0
+      }
+    ]
+  },
+  {
+    "id": "77fee9db-7864-57ca-814d-55bb998ab30a",
+    "slug": "estrela-sensorial-3d",
+    "name": "Estrela Sensorial 3D",
+    "description": "Uma estrela articulada em 3D para explorar movimento, cor e textura com as mãos. Suas camadas criam diferentes formas durante a manipulação e convidam à observação dos detalhes.",
+    "skills": [
+      "Exploração tátil: perceber os contornos e a textura.",
+      "Coordenação das mãos: movimentar as partes da estrela.",
+      "Observação visual: acompanhar as mudanças de forma."
+    ],
+    "price_cents": 2500,
+    "sale_price_cents": null,
+    "category": "Cores e percepção",
+    "badge": "Novidade",
+    "active": true,
+    "created_at": "2026-09-10T13:19:18.918Z",
+    "updated_at": "2026-09-10T13:19:18.918Z",
+    "media": [
+      {
+        "id": "9a1af997-340c-5cfa-b4f4-e0a7ed96b50d",
+        "type": "image",
+        "url": "/assets/products/import-20260910/estrela-sensorial-3d.jpg",
+        "position": 0
+      }
+    ]
+  },
+  {
+    "id": "6ca75d5e-7b8e-5607-8e23-6955f5873296",
+    "slug": "jogo-dos-pompons",
+    "name": "Jogo dos Pompons",
+    "description": "Pranchas ilustradas de animais para completar com pompons coloridos. A atividade permite selecionar as cores, transportar os pompons com a pinça e preencher os espaços das figuras.",
+    "skills": [
+      "Movimento de pinça: transportar os pompons.",
+      "Correspondência de cores: combinar pompons e espaços.",
+      "Coordenação motora fina: posicionar as peças com cuidado."
+    ],
+    "price_cents": 2500,
+    "sale_price_cents": null,
+    "category": "Coordenação motora",
+    "badge": "Novidade",
+    "active": true,
+    "created_at": "2026-09-10T13:19:18.918Z",
+    "updated_at": "2026-09-10T13:19:18.918Z",
+    "media": [
+      {
+        "id": "8f2e893e-fec1-5c96-832e-238ac08f2669",
+        "type": "image",
+        "url": "/assets/products/import-20260910/jogo-dos-pompons.jpg",
+        "position": 0
+      }
+    ]
+  },
+  {
+    "id": "8a9bd380-313f-5b46-bf46-f22716bb2f54",
+    "slug": "prancha-use-sua-imaginacao",
+    "name": "Prancha Use sua Imaginação",
+    "description": "Pranchas ilustradas que convidam a completar desenhos com massinha e criar novos detalhes. Uma proposta aberta para experimentar cores, modelar pequenas formas e inventar composições.",
+    "skills": [
+      "Coordenação motora fina: apertar e modelar a massinha.",
+      "Criatividade: completar a ilustração com novas ideias.",
+      "Exploração de cores e formas: experimentar diferentes combinações."
+    ],
+    "price_cents": 1000,
+    "sale_price_cents": 700,
+    "category": "Coordenação motora",
+    "badge": "Novidade",
+    "active": true,
+    "created_at": "2026-09-10T13:19:18.918Z",
+    "updated_at": "2026-09-10T13:19:18.918Z",
+    "media": [
+      {
+        "id": "bb7211a8-1617-5bd8-aa54-379be1efecea",
+        "type": "image",
+        "url": "/assets/products/import-20260910/prancha-use-sua-imaginacao.jpg",
+        "position": 0
+      }
+    ]
+  },
+  {
+    "id": "7d43806e-59b7-504b-8041-02589f927917",
+    "slug": "ursinho-dodoi",
+    "name": "Ursinho Dodói",
+    "description": "Um ursinho ilustrado para cuidar em uma brincadeira de faz de conta. A criança escolhe os curativos coloridos, posiciona as peças e pode contar histórias sobre cuidado e acolhimento.",
+    "skills": [
+      "Jogo simbólico: brincar de cuidar do ursinho.",
+      "Linguagem: descrever o que aconteceu e como ajudar.",
+      "Coordenação motora fina: pegar e posicionar os curativos."
+    ],
+    "price_cents": 2000,
+    "sale_price_cents": null,
+    "category": "Linguagem e associação",
+    "badge": "Novidade",
+    "active": true,
+    "created_at": "2026-09-10T13:19:18.918Z",
+    "updated_at": "2026-09-10T13:19:18.918Z",
+    "media": [
+      {
+        "id": "d71b3410-57e3-5f22-a25a-3bb2c1d97745",
+        "type": "image",
+        "url": "/assets/products/import-20260910/ursinho-dodoi.jpg",
+        "position": 0
+      }
+    ]
+  },
+  {
+    "id": "bf6b8610-eccd-5350-8380-3ba25206310f",
+    "slug": "kit-sensorial-com-3-pecas",
+    "name": "Kit Sensorial com 3 Peças",
+    "description": "Três peças para explorar movimentos, formas e texturas: estrela articulada, cubo infinito e esfera. Um conjunto para experimentar diferentes maneiras de girar, dobrar e manipular cada formato.",
+    "skills": [
+      "Exploração tátil: comparar as texturas das peças.",
+      "Coordenação das mãos: experimentar movimentos diferentes.",
+      "Percepção visual: observar formas e mudanças de posição."
+    ],
+    "price_cents": 6000,
+    "sale_price_cents": null,
+    "category": "Cores e percepção",
+    "badge": "Novidade",
+    "active": true,
+    "created_at": "2026-09-10T13:19:18.918Z",
+    "updated_at": "2026-09-10T13:19:18.918Z",
+    "media": [
+      {
+        "id": "f53535ee-9f67-5c95-ae39-5e1728184bc3",
+        "type": "image",
+        "url": "/assets/products/import-20260910/kit-sensorial-com-3-pecas.jpg",
+        "position": 0
+      }
+    ]
+  },
+  {
+    "id": "30f210a7-ae49-5a0f-874d-966c6589d287",
+    "slug": "peixe-do-pareamento",
+    "name": "Peixe do Pareamento",
+    "description": "Uma prancha de peixe para organizar palitos coloridos seguindo as cartas de referência. Observe a sequência, escolha as cores e monte o corpo do peixe com a combinação indicada.",
+    "skills": [
+      "Pareamento de cores: relacionar os palitos ao modelo.",
+      "Reprodução de padrões: seguir a ordem apresentada na carta.",
+      "Coordenação motora fina: alinhar os palitos sobre a prancha."
+    ],
+    "price_cents": 3000,
+    "sale_price_cents": null,
+    "category": "Cores e percepção",
+    "badge": "Novidade",
+    "active": true,
+    "created_at": "2026-09-10T13:19:18.918Z",
+    "updated_at": "2026-09-10T13:19:18.918Z",
+    "media": [
+      {
+        "id": "8286b150-35f7-5e47-9674-ccce96a3fc7f",
+        "type": "image",
+        "url": "/assets/products/import-20260910/peixe-do-pareamento.jpg",
+        "position": 0
+      }
+    ]
+  },
+  {
+    "id": "9a9af908-7736-535e-a618-a7a44f74028c",
+    "slug": "ovo-de-dragao",
+    "name": "Ovo de Dragão",
+    "description": "Um ovo articulado com textura de escamas para explorar com as mãos. A peça pode ser girada e torcida, formando diferentes movimentos e revelando os detalhes de seu desenho.",
+    "skills": [
+      "Exploração tátil: observar o relevo das escamas.",
+      "Coordenação das mãos: girar e torcer a peça.",
+      "Percepção visual: acompanhar as mudanças de forma."
+    ],
+    "price_cents": 2500,
+    "sale_price_cents": null,
+    "category": "Cores e percepção",
+    "badge": "Novidade",
+    "active": true,
+    "created_at": "2026-09-10T13:19:18.918Z",
+    "updated_at": "2026-09-10T13:19:18.918Z",
+    "media": [
+      {
+        "id": "6fe70454-f6d1-52bf-ac9f-ba988e661667",
+        "type": "image",
+        "url": "/assets/products/import-20260910/ovo-de-dragao.jpg",
+        "position": 0
+      }
+    ]
+  },
+  {
+    "id": "2851d971-bceb-53f1-8650-270d46c46886",
+    "slug": "mini-maria-e-mini-jesus",
+    "name": "Mini Maria e Mini Jesus",
+    "description": "Miniaturas de Maria e Jesus com detalhes delicados para compor um cantinho especial. As figuras também podem acompanhar momentos de conversa e histórias em família.",
+    "skills": [
+      "Narrativa: criar e compartilhar histórias com as figuras.",
+      "Observação de detalhes: reconhecer cores e elementos das miniaturas.",
+      "Expressão oral: conversar sobre personagens e significados."
+    ],
+    "price_cents": 2500,
+    "sale_price_cents": null,
+    "category": "Linguagem e associação",
+    "badge": "Novidade",
+    "active": true,
+    "created_at": "2026-09-10T13:19:18.918Z",
+    "updated_at": "2026-09-10T13:19:18.918Z",
+    "media": [
+      {
+        "id": "165ac207-c4e5-5554-a2d8-e2a91433fb62",
+        "type": "image",
+        "url": "/assets/products/import-20260910/mini-maria-e-mini-jesus.jpg",
         "position": 0
       }
     ]

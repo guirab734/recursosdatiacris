@@ -29,8 +29,19 @@ assert.ok(
 );
 const cover = await fetch(media[0].url, { method: "HEAD" });
 assert.equal(cover.status, 200);
-const publicRead = await anon.from("products").select("id,name,price_cents");
+const publicRead = await anon
+  .from("products")
+  .select("id,name,price_cents,sale_price_cents");
 assert.ifError(publicRead.error);
+assert.ok(
+  publicRead.data.every(
+    (p) =>
+      p.sale_price_cents === null ||
+      (Number.isInteger(p.sale_price_cents) &&
+        p.sale_price_cents > 0 &&
+        p.sale_price_cents < p.price_cents),
+  ),
+);
 assert.deepEqual(
   publicRead.data.map((p) => p.id).sort(),
   products

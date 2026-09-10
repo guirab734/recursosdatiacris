@@ -14,7 +14,8 @@ import { Header, Footer } from "./header";
 import { ProductCard } from "./storefront";
 import { useShop } from "./shop-provider";
 import { ProductGallery } from "./product-gallery";
-import { money, type Product } from "@/lib/types";
+import { type Product } from "@/lib/types";
+import { ProductPrice } from "./product-price";
 import { track } from "@/lib/client-events";
 export function Quantity({
   value,
@@ -83,7 +84,7 @@ export function ProductDetail({
             <span className="eyebrow">{product.category}</span>
             <h1>{product.name}</h1>
             <p className="detail-description">{product.description}</p>
-            <div className="detail-price">{money(product.price_cents)}</div>
+            <ProductPrice product={product} variant="detail" />
             <p className="detail-price-note">
               Pagamento e entrega combinados com a Tia Cris.
             </p>

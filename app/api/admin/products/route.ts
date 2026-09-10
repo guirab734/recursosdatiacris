@@ -18,9 +18,14 @@ export async function GET() {
     const { data, error } = await client
       .from("products")
       .select(
-        "id,slug,name,description,skills,price_cents,category,badge,active,created_at,updated_at,media:product_media(id,type,url,position)",
+        "id,slug,name,description,skills,price_cents,sale_price_cents,category,badge,active,created_at,updated_at,media:product_media(id,type,url,position)",
       )
       .order("created_at", { ascending: false });
+    if (error?.code === "42703")
+      throw new HttpError(
+        503,
+        "A atualização dos preços no banco ainda está pendente. Seus produtos continuam salvos.",
+      );
     if (error) throw error;
     return json({
       products: (data as AdminProduct[]).map((p) => ({
@@ -50,8 +55,7 @@ export async function POST(request: Request) {
       );
     await assertProductMedia(product.media, user.id);
     const { data, error } = await client.rpc("save_product", {
-      // The original RPC still requires this unused legacy field.
-      payload: { ...product, stock: 0 },
+      payload: product,
     });
     if (error) {
       if (error.code === "23505")

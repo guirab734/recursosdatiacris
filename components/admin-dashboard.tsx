@@ -25,7 +25,13 @@ import {
 } from "lucide-react";
 import { Brand } from "./header";
 import { useShop } from "./shop-provider";
-import { categories, money, type AdminProduct, type Media } from "@/lib/types";
+import {
+  categories,
+  effectivePrice,
+  type AdminProduct,
+  type Media,
+} from "@/lib/types";
+import { ProductPrice } from "./product-price";
 type Metrics = {
   total_products: number;
   active_products: number;
@@ -41,6 +47,7 @@ type Draft = {
   name: string;
   description: string;
   price: string;
+  salePrice: string;
   category: string;
   active: boolean;
   badge: string;
@@ -52,6 +59,7 @@ const blank = (): Draft => ({
   slug: "",
   description: "",
   price: "",
+  salePrice: "",
   category: categories[0],
   active: false,
   badge: "",
@@ -186,6 +194,10 @@ export function AdminDashboard({
             slug: product.slug,
             description: product.description,
             price: (product.price_cents / 100).toFixed(2).replace(".", ","),
+            salePrice:
+              product.sale_price_cents == null
+                ? ""
+                : (product.sale_price_cents / 100).toFixed(2).replace(".", ","),
             category: product.category,
             active: product.active,
             badge: product.badge || "",
@@ -200,19 +212,41 @@ export function AdminDashboard({
     e.preventDefault();
     setSaveError("");
     const price = Number(draft.price.replace(",", "."));
+    const salePrice = draft.salePrice.trim()
+      ? Number(draft.salePrice.replace(",", "."))
+      : null;
     if (!Number.isFinite(price) || price <= 0) {
       setSaveError("Informe um preço válido.");
       return;
     }
+    if (
+      salePrice !== null &&
+      (!Number.isFinite(salePrice) ||
+        salePrice <= 0 ||
+        Math.round(salePrice * 100) >= Math.round(price * 100))
+    ) {
+      setSaveError(
+        "O preço com desconto deve ser maior que zero e menor que o preço original.",
+      );
+      return;
+    }
     setSaving(true);
     try {
-      const { price: unused, skills, badge, ...rest } = draft;
+      const {
+        price: unused,
+        salePrice: unusedSale,
+        skills,
+        badge,
+        ...rest
+      } = draft;
       await api("/api/admin/products", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...rest,
           price_cents: Math.round(price * 100),
+          sale_price_cents:
+            salePrice === null ? null : Math.round(salePrice * 100),
           skills: skills
             .split("\n")
             .map((s) => s.trim())
@@ -336,7 +370,12 @@ export function AdminDashboard({
   }
   const visibleProducts = products.filter(
     (p) =>
-      (filter === "all" || (filter === "active" ? p.active : !p.active)) &&
+      (filter === "all" ||
+        (filter === "offers"
+          ? effectivePrice(p) < p.price_cents
+          : filter === "active"
+            ? p.active
+            : !p.active)) &&
       p.name.toLowerCase().includes(search.toLowerCase()),
   );
   return (
@@ -610,6 +649,7 @@ export function AdminDashboard({
                     <option value="all">Todos os status</option>
                     <option value="active">Ativos</option>
                     <option value="inactive">Inativos</option>
+                    <option value="offers">Em oferta</option>
                   </select>
                   <button
                     className="icon-button"
@@ -656,7 +696,9 @@ export function AdminDashboard({
                           </div>
                         </td>
                         <td>{p.category}</td>
-                        <td className="nowrap">{money(p.price_cents)}</td>
+                        <td className="nowrap">
+                          <ProductPrice product={p} variant="admin" />
+                        </td>
                         <td>
                           <button
                             className={
@@ -784,7 +826,7 @@ export function AdminDashboard({
                   />
                 </label>
                 <label className="field">
-                  Preço (R$)
+                  Valor original (R$)
                   <input
                     inputMode="decimal"
                     value={draft.price}
@@ -796,6 +838,41 @@ export function AdminDashboard({
                     placeholder="0,00"
                   />
                 </label>
+                <label className="field">
+                  Valor com desconto (R$)
+                  <input
+                    inputMode="decimal"
+                    value={draft.salePrice}
+                    onChange={(e) =>
+                      setDraft((d) => ({ ...d, salePrice: e.target.value }))
+                    }
+                    pattern="[0-9]+([,.][0-9]{1,2})?"
+                    placeholder="Opcional"
+                  />
+                  <span className="small-note">
+                    Deixe vazio para usar o valor original. Quando preenchido,
+                    este será o valor cobrado.
+                  </span>
+                </label>
+                {Number(draft.price.replace(",", ".")) > 0 &&
+                  draft.salePrice.trim() &&
+                  Number(draft.salePrice.replace(",", ".")) > 0 &&
+                  Number(draft.salePrice.replace(",", ".")) <
+                    Number(draft.price.replace(",", ".")) && (
+                    <div className="price-preview">
+                      <span className="small-note">Assim aparece na loja</span>
+                      <ProductPrice
+                        product={{
+                          price_cents: Math.round(
+                            Number(draft.price.replace(",", ".")) * 100,
+                          ),
+                          sale_price_cents: Math.round(
+                            Number(draft.salePrice.replace(",", ".")) * 100,
+                          ),
+                        }}
+                      />
+                    </div>
+                  )}
                 <label className="field">
                   Categoria
                   <select

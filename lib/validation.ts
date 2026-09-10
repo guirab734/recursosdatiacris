@@ -1,6 +1,6 @@
 import { z } from "zod";
 import type { AdminProduct, CartItem, Quote } from "./types";
-import { money, categories } from "./types";
+import { money, categories, effectivePrice } from "./types";
 const clean = (s: string) => s.replace(/[\u0000-\u001f\u007f<>]/g, "").trim();
 const text = (min: number, max: number) =>
   z.string().transform(clean).pipe(z.string().min(min).max(max));
@@ -54,6 +54,13 @@ export const productSchema = z
     name: text(2, 150),
     description: text(10, 5000),
     price_cents: z.number().int().min(1).max(10000000),
+    sale_price_cents: z
+      .number()
+      .int()
+      .min(1)
+      .max(10000000)
+      .nullable()
+      .default(null),
     category: z.enum(categories as [string, ...string[]]),
     active: z.boolean(),
     badge: z
@@ -77,7 +84,14 @@ export const productSchema = z
   .strict()
   .refine((p) => !p.active || p.media.some((m) => m.type === "image"), {
     message: "Adicione uma foto antes de ativar o produto.",
-  });
+  })
+  .refine(
+    (p) => p.sale_price_cents === null || p.sale_price_cents < p.price_cents,
+    {
+      message: "O valor com desconto deve ser menor que o valor original.",
+      path: ["sale_price_cents"],
+    },
+  );
 export function aggregateCart(items: CartItem[]): CartItem[] {
   const map = new Map<string, number>();
   for (const item of items) {
@@ -102,8 +116,8 @@ export function calculateQuote(
       product_id: product.id,
       name: product.name,
       quantity: item.quantity,
-      unit_price_cents: product.price_cents,
-      subtotal_cents: product.price_cents * item.quantity,
+      unit_price_cents: effectivePrice(product),
+      subtotal_cents: effectivePrice(product) * item.quantity,
     };
   });
   return {
@@ -117,5 +131,5 @@ export function checkoutMessage(
   delivery: z.infer<typeof deliverySchema>,
 ) {
   const name = delivery.name.replace(/[*_~`]/g, "");
-  return `${quote.demo ? "PRÉVIA LOCAL, SUJEITA A CONFIRMAÇÃO\n\n" : ""}Olá, Tia Cris! Quero fazer um pedido. 🌻\n\n${quote.items.map((x) => `• ${x.quantity} × ${x.name}: ${money(x.subtotal_cents)}`).join("\n")}\n\nTotal estimado dos produtos: ${money(quote.total_cents)}\nFrete a combinar.\n\nNome: ${name}\n${delivery.method === "address" ? `Endereço: ${delivery.address}` : `Localização: https://maps.google.com/?q=${delivery.latitude},${delivery.longitude}`}${delivery.complement ? `\nComplemento/referência: ${delivery.complement}` : ""}\n\nPode confirmar prazo, entrega e pagamento?`;
+  return `${quote.demo ? "PRÉVIA LOCAL, SUJEITA A CONFIRMAÇÃO\n\n" : ""}Olá, Tia Cris! Quero fazer um pedido.\n\n${quote.items.map((x) => `• ${x.quantity} × ${x.name}: ${money(x.subtotal_cents)}`).join("\n")}\n\nTotal estimado dos produtos: ${money(quote.total_cents)}\nFrete a combinar.\n\nNome: ${name}\n${delivery.method === "address" ? `Endereço: ${delivery.address}` : `Localização: https://maps.google.com/?q=${delivery.latitude},${delivery.longitude}`}${delivery.complement ? `\nComplemento/referência: ${delivery.complement}` : ""}\n\nPode confirmar prazo, entrega e pagamento?`;
 }
