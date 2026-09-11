@@ -241,18 +241,22 @@ test("unpaid labels cannot be generated or printed", async () => {
 
 test("printing requires provider-confirmed freight payment and uses private links", async () => {
   const paths: string[] = [];
+  let trackingReads = 0;
   const client = createMelhorEnvioClient(
     config(async (url, init) => {
       const path = new URL(String(url)).pathname;
       paths.push(path);
-      if (path.endsWith("/tracking"))
+      if (path.endsWith("/tracking")) {
+        trackingReads++;
         return Response.json({
           [shipmentId]: {
             id: shipmentId,
-            status: "released",
+            status: trackingReads === 1 ? "released" : "generated",
             paid_at: "2026-09-11T12:00:00Z",
+            generated_at: trackingReads === 1 ? null : "2026-09-11T12:00:03Z",
           },
         });
+      }
       if (path.endsWith("/generate"))
         return Response.json({ [shipmentId]: { status: true } });
       assert.equal(path, "/api/v2/me/shipment/print");
@@ -264,8 +268,70 @@ test("printing requires provider-confirmed freight payment and uses private link
   );
   const result = await client.generateAndPrintLabel(shipmentId);
   assert.ok(result.url.includes("/imprimir/"));
-  assert.equal(paths.length, 3);
+  assert.deepEqual(paths, [
+    "/api/v2/me/shipment/tracking",
+    "/api/v2/me/shipment/generate",
+    "/api/v2/me/shipment/print",
+    "/api/v2/me/shipment/tracking",
+  ]);
+  assert.equal(result.shipment.status, "generated");
+  assert.equal(result.shipment.generatedAt, "2026-09-11T12:00:03Z");
   assert.ok(paths.every((path) => !path.includes("checkout")));
+});
+
+test("label status keeps the provider response when its generation update is still pending", async () => {
+  const client = createMelhorEnvioClient(
+    config(async (url) => {
+      const path = new URL(String(url)).pathname;
+      if (path.endsWith("/tracking"))
+        return Response.json({
+          [shipmentId]: {
+            id: shipmentId,
+            status: "released",
+            paid_at: "2026-09-11T12:00:00Z",
+            generated_at: null,
+          },
+        });
+      if (path.endsWith("/generate"))
+        return Response.json({ [shipmentId]: { status: true } });
+      assert.equal(path, "/api/v2/me/shipment/print");
+      return Response.json({
+        url: "https://sandbox.melhorenvio.com.br/imprimir/fixture",
+      });
+    }),
+  );
+  const result = await client.generateAndPrintLabel(shipmentId);
+  assert.equal(result.shipment.status, "released");
+  assert.equal(result.shipment.generatedAt, null);
+});
+
+test("label status refreshes an existing label without generating it again", async () => {
+  let trackingReads = 0;
+  const client = createMelhorEnvioClient(
+    config(async (url) => {
+      const path = new URL(String(url)).pathname;
+      if (path.endsWith("/tracking")) {
+        trackingReads++;
+        return Response.json({
+          [shipmentId]: {
+            id: shipmentId,
+            status: trackingReads === 1 ? "generated" : "posted",
+            paid_at: "2026-09-11T12:00:00Z",
+            generated_at: "2026-09-11T12:00:03Z",
+            posted_at: trackingReads === 1 ? null : "2026-09-11T13:00:00Z",
+          },
+        });
+      }
+      assert.equal(path, "/api/v2/me/shipment/print");
+      return Response.json({
+        url: "https://sandbox.melhorenvio.com.br/imprimir/fixture",
+      });
+    }),
+  );
+  const result = await client.generateAndPrintLabel(shipmentId);
+  assert.equal(trackingReads, 2);
+  assert.equal(result.shipment.status, "posted");
+  assert.equal(result.shipment.postedAt, "2026-09-11T13:00:00Z");
 });
 
 test("Melhor Envio webhook authentication checks the exact raw bytes using the application secret", () => {

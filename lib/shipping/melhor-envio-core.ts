@@ -635,7 +635,11 @@ export function createMelhorEnvioClient(config: MelhorEnvioConfig) {
         "O Melhor Envio retornou um link de etiqueta inválido.",
         "invalid_shipping_response",
       );
-    return { url: parsed.toString(), shipment };
+    // Generation changes the provider state. Return a fresh, authenticated
+    // snapshot instead of retaining the earlier "released" state or inventing
+    // a generated timestamp before the provider reports it.
+    const updatedShipment = await syncShipment(id);
+    return { url: parsed.toString(), shipment: updatedShipment };
   }
 
   return {

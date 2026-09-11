@@ -12,6 +12,8 @@ O webhook `/api/webhooks/velora` valida assinatura e corpo original. Copie o seg
 
 Com o Pix confirmado e documento de envio válido, a fila prepara o frete no carrinho do Melhor Envio. O lojista entra no Melhor Envio e paga. A integração consulta o status e gera a impressão apenas depois da confirmação desse pagamento. Nunca chama a compra de etiquetas. Uma resposta ambígua na criação interrompe novas tentativas para evitar duplicações e fica sinalizada no painel.
 
+Depois de pagar o frete, volte a `/admin/pedidos`, abra o pedido e clique em **Atualizar status**. Quando o Melhor Envio confirmar o pagamento e liberar a etiqueta, use **Imprimir etiqueta**. O link é privado: mantenha o login da conta do Melhor Envio no navegador. Imprima, fixe a etiqueta na embalagem e leve o pacote ao ponto de postagem do serviço escolhido. Também é possível aguardar a atualização automática; o agendador consulta a fila a cada cinco minutos. A impressão e o status sempre dependem da confirmação do provedor. Se o pagamento já foi feito e a atualização ainda não apareceu, confira no Melhor Envio e atualize novamente depois, sem pagar outro frete.
+
 Na gestão, confira pedidos a postar, postados, entregues, pendentes e que precisam de atenção. O cartão é confirmado manualmente depois de conferir o recebimento. A confirmação grava o pagamento e o trabalho de envio na mesma transação. Rastreios são consultados a cada 30 minutos enquanto estão em trânsito e podem ser atualizados no pedido. A transportadora pode disponibilizar o código somente depois da postagem. Não há rastreio por GPS. Cancelamento na loja não realiza estorno ou cancelamento de etiqueta.
 
 ## Agendamento

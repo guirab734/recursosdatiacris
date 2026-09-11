@@ -10,6 +10,10 @@ O pagamento Pix do cliente e o pagamento da etiqueta são operações distintas.
 
 `generateAndPrintLabel` consulta o provedor e exige confirmação de pagamento da etiqueta antes da geração. O link de impressão é privado e exige login do lojista no Melhor Envio. Não exponha esse link nem os dados do remetente no endpoint de acompanhamento do cliente.
 
+Na operação da loja, após pagar o frete no Melhor Envio, abra `/admin/pedidos`, escolha o pedido e clique em **Atualizar status**. Assim que o provedor confirmar a liberação, o botão **Imprimir etiqueta** permite abrir a impressão privada. Mantenha a conta do Melhor Envio conectada nesse navegador. Imprima a etiqueta, fixe na embalagem e poste no ponto aceito pela transportadora escolhida. O agendador também verifica a fila a cada cinco minutos, dispensando manter o painel aberto.
+
+Depois de gerar e solicitar a impressão, o adaptador consulta novamente o status do envio. O painel usa essa resposta atualizada, sem reutilizar o estado anterior à geração nem inventar datas. Se o Melhor Envio ainda estiver processando uma atualização, aguarde a próxima consulta ou use **Atualizar status** novamente. Não repita o pagamento de um frete que já consta como pago no provedor.
+
 A criação no carrinho não tem garantia de idempotência documentada. O chamador deve bloquear concorrência por pedido, persistir o identificador retornado e marcar `shipment_creation_uncertain` quando uma resposta se perder. Essa situação exige conferir o carrinho do provedor antes de repetir; a integração nunca tenta criar novamente automaticamente. A tag `tia-cris:<id-do-pedido>` ajuda a localizar o envio.
 
 ## Documento do envio
