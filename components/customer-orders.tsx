@@ -57,8 +57,6 @@ const date = (value: string, includeTime = false) => {
           : {}),
       });
 };
-const orderNumber = (order: CustomerOrder) =>
-  String(order.number).padStart(5, "0");
 function safeExternal(value: string | null | undefined, whatsapp = false) {
   if (!value) return undefined;
   try {
@@ -231,7 +229,7 @@ export function CustomerOrders() {
                 </div>
                 <div className="commerce-order-preview-main">
                   <div className="commerce-order-preview-heading">
-                    <h2>Pedido #{orderNumber(order)}</h2>
+                    <h2>Pedido {order.reference}</h2>
                     <span className={`commerce-status ${statusTone(order)}`}>
                       {customerStatus[order.fulfillment_status]}
                     </span>
@@ -444,7 +442,10 @@ export function CustomerOrderDetail({ id }: { id: string }) {
             <div className="commerce-title-row">
               <div>
                 <h1 className="page-title">
-                  Pedido <em>#{orderNumber(order)}</em>
+                  Pedido{" "}
+                  <em style={{ overflowWrap: "anywhere" }}>
+                    {order.reference}
+                  </em>
                 </h1>
                 <p className="page-subtitle">
                   Escolhido em {date(order.created_at)}. Preparado com carinho.
@@ -843,16 +844,24 @@ export function CustomerOrderDetail({ id }: { id: string }) {
                 <div className="summary-line">
                   <span>Entrega</span>
                   <strong>
-                    {order.local && order.subtotal_cents < 15000
+                    {order.local && order.coupon?.kind === "final_total"
+                      ? "Incluída no cupom"
+                      : order.local && order.subtotal_cents - (order.discount_cents || 0) < 15000
                       ? "A combinar"
                       : order.shipping_cents === 0
                         ? "Grátis"
                         : money(order.shipping_cents)}
                   </strong>
                 </div>
+                {order.coupon && order.discount_cents > 0 && (
+                  <div className="summary-line">
+                    <span>Cupom {order.coupon.code}</span>
+                    <strong>-{money(order.discount_cents)}</strong>
+                  </div>
+                )}
                 <div className="summary-line total">
                   <span>
-                    {order.local && order.subtotal_cents < 15000
+                    {order.local && order.coupon?.kind !== "final_total" && order.subtotal_cents - (order.discount_cents || 0) < 15000
                       ? "Total dos produtos"
                       : "Total"}
                   </span>
@@ -875,7 +884,7 @@ export function CustomerOrderDetail({ id }: { id: string }) {
                   </span>
                   <strong>{paymentLabels[order.payment_status]}</strong>
                 </p>
-                {order.local && order.subtotal_cents < 15000 && (
+                {order.local && order.coupon?.kind !== "final_total" && order.subtotal_cents - (order.discount_cents || 0) < 15000 && (
                   <p className="small-note">
                     O frete será combinado pelo WhatsApp e somado ao valor dos
                     produtos.

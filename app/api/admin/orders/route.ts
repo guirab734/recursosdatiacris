@@ -1,6 +1,7 @@
 import { requireAdmin } from "@/lib/auth";
 import { db } from "@/lib/catalog";
 import { adminOrder, type OrderRecord } from "@/lib/orders";
+import { orderReferenceRange } from "@/lib/order-reference";
 import { failure, json, HttpError } from "@/lib/http";
 export async function GET(request: Request) {
   try {
@@ -33,8 +34,9 @@ export async function GET(request: Request) {
       query = query.or("needs_review.eq.true,fulfillment_status.eq.attention");
     const search = url.searchParams.get("search")?.trim().slice(0, 100);
     if (search) {
-      if (/^#?\d{1,12}$/.test(search))
-        query = query.eq("number", Number(search.replace("#", "")));
+      const reference = orderReferenceRange(search);
+      if (reference)
+        query = query.gte("id", reference.lower).lte("id", reference.upper);
       else
         query = query.ilike(
           "address->>name",

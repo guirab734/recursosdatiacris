@@ -3,6 +3,7 @@ import { createHmac } from "node:crypto";
 import {
   createPix,
   getPayment,
+  getPaymentLimits,
   parseWebhook,
   verifyWebhook,
   VeloraError,
@@ -28,15 +29,54 @@ async function run() {
   const replies: unknown[] = [];
   let requestBody: Record<string, unknown> = {};
   let requestInit: RequestInit = {};
+  let requestUrl = "";
   globalThis.fetch = async (url, init) => {
     calls++;
     assert.equal(new URL(String(url)).origin, "https://api.velorapay.com.br");
     assert.equal(init?.redirect, "error");
     assert.equal(init?.cache, "no-store");
     requestInit = init || {};
+    requestUrl = String(url);
     requestBody = init?.body ? JSON.parse(String(init.body)) : {};
     return Response.json(replies.shift());
   };
+
+  replies.push({ data: { CASH_IN: { minAmount: 2, maxAmount: 1000 } } });
+  assert.deepEqual(await getPaymentLimits(), {
+    minCents: 200,
+    maxCents: 100000,
+  });
+  assert.equal(requestUrl, "https://api.velorapay.com.br/payments/limits");
+  assert.equal(requestInit.method, "GET");
+  assert.equal(requestInit.body, undefined);
+  replies.push({
+    data: { CASH_IN: { minAmount: "0.25", maxAmount: "1000.00" } },
+  });
+  assert.deepEqual(await getPaymentLimits(), {
+    minCents: 25,
+    maxCents: 100000,
+  });
+  for (const data of [
+    {},
+    { CASH_IN: null },
+    { CASH_IN: [] },
+    { CASH_IN: { minAmount: 2 } },
+    { CASH_IN: { maxAmount: 1000 } },
+    { CASH_IN: { minAmount: 0, maxAmount: 1000 } },
+    { CASH_IN: { minAmount: -2, maxAmount: 1000 } },
+    { CASH_IN: { minAmount: "2,00", maxAmount: 1000 } },
+    { CASH_IN: { minAmount: true, maxAmount: 1000 } },
+    { CASH_IN: { minAmount: 2, maxAmount: 1 } },
+    { CASH_IN: { minAmount: 2, maxAmount: null } },
+    { CASH_IN: { minAmount: 2, maxAmount: "1000.001" } },
+  ]) {
+    replies.push({ data });
+    await assert.rejects(
+      getPaymentLimits(),
+      (error: unknown) =>
+        error instanceof VeloraError && error.code === "invalid_response",
+    );
+  }
 
   const created = {
     transactionId: providerId,

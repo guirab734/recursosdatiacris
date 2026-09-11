@@ -17,6 +17,9 @@ import {
   QrCode,
   Gift,
   PackageCheck,
+  TicketPercent,
+  Check,
+  X,
 } from "lucide-react";
 import { Header, Footer } from "./header";
 import { Quantity } from "./product-detail";
@@ -29,6 +32,8 @@ import type {
   ShippingQuote,
 } from "@/lib/commerce-types";
 import { customerAddressSchema } from "@/lib/commerce-validation";
+import type { AppliedCoupon } from "@/lib/coupon-types";
+import { couponCodeSchema } from "@/lib/coupon-validation";
 import "./commerce.css";
 
 const emptyAddress: CustomerAddress = {
@@ -74,6 +79,12 @@ const states = [
   "TO",
 ];
 const digits = (value: string) => value.replace(/\D/g, "");
+type CouponApplication = {
+  coupon: AppliedCoupon;
+  subtotal_cents: number;
+  discount_cents: number;
+  discounted_subtotal_cents: number;
+};
 
 export function CartPage() {
   const router = useRouter();
@@ -93,23 +104,135 @@ export function CartPage() {
   const [findingCep, setFindingCep] = useState(false);
   const [cepNote, setCepNote] = useState("");
   const [expired, setExpired] = useState(false);
+  const [couponInput, setCouponInput] = useState("");
+  const [couponCode, setCouponCode] = useState<string | null>(null);
+  const [couponAttempt, setCouponAttempt] = useState(0);
+  const [couponResult, setCouponResult] = useState<
+    (CouponApplication & { revision: string }) | null
+  >(null);
+  const [couponError, setCouponError] = useState("");
+  const [couponNotice, setCouponNotice] = useState("");
+  const [applyingCoupon, setApplyingCoupon] = useState(false);
   const paymentSection = useRef<HTMLElement>(null);
   const submitLock = useRef(false);
   const idempotency = useRef<{ fingerprint: string; key: string } | null>(null);
-  const revision = JSON.stringify({ items, address });
+  const revision = JSON.stringify({
+    items,
+    address,
+    couponCode,
+    couponAttempt,
+  });
   const latestRevision = useRef(revision);
   latestRevision.current = revision;
   const cartRevision = JSON.stringify(items);
+  const couponRevision = JSON.stringify({ items, couponCode, couponAttempt });
+  const latestCouponRevision = useRef(couponRevision);
+  latestCouponRevision.current = couponRevision;
+  const appliedCoupon =
+    couponResult?.revision === couponRevision ? couponResult : null;
+  const couponPending = applyingCoupon;
+  const effectiveCoupon = shipping?.coupon ?? appliedCoupon?.coupon;
+  const finalTotalCoupon = effectiveCoupon?.kind === "final_total";
   const isLocal =
     address.city.trim().toLocaleLowerCase("pt-BR") === "aracaju" &&
     address.state === "SE";
-  const subtotal = quote?.total_cents ?? 0;
+  const subtotal =
+    shipping?.subtotal_cents ??
+    appliedCoupon?.subtotal_cents ??
+    quote?.total_cents ??
+    0;
+  const discountedSubtotal =
+    shipping?.discounted_subtotal_cents ??
+    appliedCoupon?.discounted_subtotal_cents ??
+    subtotal;
   const threshold = isLocal ? 15000 : 30000;
-  const remaining = Math.max(0, threshold - subtotal);
+  const remaining = Math.max(0, threshold - discountedSubtotal);
   const selectedShipping = shipping?.options.find(
     (option) => option.id === serviceId,
   );
-  const payable = subtotal + (selectedShipping?.charged_cents ?? 0);
+  const payable =
+    selectedShipping?.total_cents ??
+    (shipping?.local ? shipping.total_cents : undefined) ??
+    discountedSubtotal + (selectedShipping?.charged_cents ?? 0);
+  const couponDiscount =
+    finalTotalCoupon && shipping
+      ? Math.max(0, subtotal + (selectedShipping?.charged_cents ?? 0) - payable)
+      : (selectedShipping?.discount_cents ??
+        shipping?.discount_cents ??
+        appliedCoupon?.discount_cents ??
+        0);
+
+  useEffect(() => {
+    try {
+      const saved = couponCodeSchema.safeParse(
+        sessionStorage.getItem("cris-cart-coupon"),
+      );
+      if (saved.success) {
+        setCouponInput(saved.data);
+        setCouponCode(saved.data);
+      }
+    } catch {}
+  }, []);
+
+  useEffect(() => {
+    setCouponResult(null);
+    setCouponError("");
+    if (!couponCode || !items.length) {
+      setApplyingCoupon(false);
+      return;
+    }
+    const controller = new AbortController();
+    const requestRevision = couponRevision;
+    setApplyingCoupon(true);
+    setCouponNotice("");
+    const timer = setTimeout(() => {
+      void fetch("/api/coupons/apply", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ items, coupon_code: couponCode }),
+        signal: controller.signal,
+      })
+        .then(async (response) => {
+          const data = await response.json();
+          if (
+            controller.signal.aborted ||
+            latestCouponRevision.current !== requestRevision
+          )
+            return;
+          if (!response.ok)
+            throw new Error(
+              data.error ||
+                "Não foi possível aplicar este cupom. Confira o código e tente novamente.",
+            );
+          setCouponResult({ ...data, revision: requestRevision });
+          try {
+            sessionStorage.setItem("cris-cart-coupon", data.coupon.code);
+          } catch {}
+        })
+        .catch((e) => {
+          if (
+            !controller.signal.aborted &&
+            latestCouponRevision.current === requestRevision
+          )
+            setCouponError(
+              e.message || "Não foi possível conferir o cupom agora.",
+            );
+        })
+        .finally(() => {
+          if (
+            !controller.signal.aborted &&
+            latestCouponRevision.current === requestRevision
+          )
+            setApplyingCoupon(false);
+        });
+    }, 200);
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+    };
+    // Personal details do not affect the coupon validation request.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [couponRevision]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -240,8 +363,49 @@ export function CartPage() {
     setError("");
   }
 
+  function applyCoupon(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (submitting || quoting || applyingCoupon) return;
+    const parsed = couponCodeSchema.safeParse(couponInput);
+    if (!parsed.success) {
+      setCouponError(
+        "Confira o cupom: use de 3 a 32 letras, números, hífen ou sublinhado.",
+      );
+      return;
+    }
+    const code = parsed.data;
+    setCouponError("");
+    setCouponNotice("");
+    setError("");
+    setApplyingCoupon(true);
+    setCouponCode(code);
+    setCouponAttempt((value) => value + 1);
+    idempotency.current = null;
+    try {
+      sessionStorage.removeItem("cris-checkout-retry");
+      sessionStorage.removeItem("cris-cart-coupon");
+    } catch {}
+  }
+
+  function removeCoupon() {
+    if (submitting) return;
+    setCouponCode(null);
+    setCouponResult(null);
+    setCouponInput("");
+    setCouponError("");
+    setCouponNotice("Cupom removido. Os valores do pedido foram atualizados.");
+    setError("");
+    setApplyingCoupon(false);
+    idempotency.current = null;
+    try {
+      sessionStorage.removeItem("cris-checkout-retry");
+      sessionStorage.removeItem("cris-cart-coupon");
+    } catch {}
+  }
+
   async function quoteShipping(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (couponPending || (couponCode && !appliedCoupon)) return;
     const parsed = customerAddressSchema.safeParse(address);
     if (!parsed.success) {
       const errors: Record<string, string> = {};
@@ -273,7 +437,11 @@ export function CartPage() {
       const response = await fetch("/api/shipping/quote", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items, address: parsed.data }),
+        body: JSON.stringify({
+          items,
+          address: parsed.data,
+          ...(appliedCoupon ? { coupon_code: appliedCoupon.coupon.code } : {}),
+        }),
       });
       const data = await response.json();
       if (latestRevision.current !== requestRevision) return;
@@ -304,6 +472,8 @@ export function CartPage() {
   async function placeOrder() {
     if (
       submitLock.current ||
+      couponPending ||
+      (couponCode && !appliedCoupon) ||
       !shipping ||
       expired ||
       (!shipping.local && !selectedShipping)
@@ -320,7 +490,9 @@ export function CartPage() {
       quote_id: shipping.quote_id,
       service_id: shipping.local ? null : serviceId,
       payment_method: shipping.local ? "whatsapp" : payment,
+      ...(appliedCoupon ? { coupon_code: appliedCoupon.coupon.code } : {}),
     };
+    let uncertainOrder = false;
     try {
       // Persist only a digest and a random retry key, never personal data or prices.
       const digest = await crypto.subtle.digest(
@@ -346,6 +518,7 @@ export function CartPage() {
           );
         } catch {}
       }
+      uncertainOrder = true;
       const response = await fetch("/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -355,20 +528,25 @@ export function CartPage() {
         }),
       });
       const data = await response.json();
-      if (!response.ok)
+      if (!response.ok) {
+        uncertainOrder = response.status >= 500 || response.status === 409;
         throw new Error(
           data.error ||
             "Não foi possível concluir. Tente novamente para recuperar seu pedido.",
         );
+      }
       const order = data.order as CustomerOrder;
       if (!order?.id)
         throw new Error(
           "A confirmação está demorando. Tente novamente para recuperar seu pedido.",
         );
+      try {
+        sessionStorage.removeItem("cris-cart-coupon");
+      } catch {}
       if (latestRevision.current === requestRevision) clear();
       router.push(`/pedidos/${encodeURIComponent(order.id)}`);
     } catch (e) {
-      setCheckoutFailed(true);
+      setCheckoutFailed(uncertainOrder);
       setError((e as Error).message);
     } finally {
       setSubmitting(false);
@@ -651,7 +829,13 @@ export function CartPage() {
                     <button
                       className="button primary full-width"
                       disabled={
-                        !quote || loading || findingCep || quoting || submitting
+                        !quote ||
+                        loading ||
+                        findingCep ||
+                        quoting ||
+                        submitting ||
+                        couponPending ||
+                        (!!couponCode && !appliedCoupon)
                       }
                       type="submit"
                     >
@@ -700,14 +884,18 @@ export function CartPage() {
                       <MapPin size={29} />
                       <div>
                         <h3>
-                          {subtotal >= 15000
-                            ? "A entrega em Aracaju é por nossa conta."
-                            : "Vamos combinar a melhor entrega em Aracaju."}
+                          {finalTotalCoupon
+                            ? "Sua entrega faz parte do benefício do cupom."
+                            : discountedSubtotal >= 15000
+                              ? "A entrega em Aracaju é por nossa conta."
+                              : "Vamos combinar a melhor entrega em Aracaju."}
                         </h3>
                         <p>
-                          {subtotal >= 15000
-                            ? "Seu pedido alcançou R$ 150 em produtos e ganhou frete grátis. Combinamos o horário pelo WhatsApp."
-                            : "Conversamos pelo WhatsApp para combinar a entrega, o valor do frete e o pagamento com você."}
+                          {finalTotalCoupon
+                            ? "O valor final do pedido já considera a entrega. Combinamos os detalhes pelo WhatsApp."
+                            : discountedSubtotal >= 15000
+                              ? "Seu pedido alcançou R$ 150 em produtos e ganhou frete grátis. Combinamos o horário pelo WhatsApp."
+                              : "Conversamos pelo WhatsApp para combinar a entrega, o valor do frete e o pagamento com você."}
                         </p>
                       </div>
                     </div>
@@ -769,10 +957,9 @@ export function CartPage() {
                         )}
                       </fieldset>
                       <p className="small-note commerce-preparation">
-                        <PackageCheck size={15} /> Os prazos já incluem{" "}
-                        {shipping.preparation_min_days} a{" "}
-                        {shipping.preparation_max_days} dias úteis de preparação
-                        e postagem, além do transporte.
+                        <PackageCheck size={15} /> Postagem em até 24 horas
+                        úteis. Os prazos de entrega exibidos já incluem essa
+                        preparação e o transporte.
                       </p>
                       <div className="commerce-payment-heading">
                         <h3>Como prefere pagar?</h3>
@@ -836,6 +1023,8 @@ export function CartPage() {
                     disabled={
                       submitting ||
                       loading ||
+                      couponPending ||
+                      (!!couponCode && !appliedCoupon) ||
                       expired ||
                       !quote ||
                       (!shipping.local && !selectedShipping)
@@ -892,50 +1081,165 @@ export function CartPage() {
                   <ShoppingBag size={28} strokeWidth={1.4} />
                 </span>
               </div>
-              <div className="commerce-free-shipping">
-                <div>
-                  <Gift size={20} />
-                  <strong>
-                    {!quote
-                      ? "Uma surpresa no caminho"
-                      : remaining === 0
-                        ? "Você conquistou frete grátis!"
-                        : `Faltam ${money(remaining)} para o frete grátis`}
-                  </strong>
+              {!finalTotalCoupon && (
+                <div className="commerce-free-shipping">
+                  <div>
+                    <Gift size={20} />
+                    <strong>
+                      {!quote
+                        ? "Uma surpresa no caminho"
+                        : remaining === 0
+                          ? "Você conquistou frete grátis!"
+                          : `Faltam ${money(remaining)} para o frete grátis`}
+                    </strong>
+                  </div>
+                  <div
+                    className="commerce-progress"
+                    role="progressbar"
+                    aria-label="Progresso para frete grátis"
+                    aria-valuemin={0}
+                    aria-valuemax={threshold / 100}
+                    aria-valuenow={
+                      Math.min(threshold, discountedSubtotal) / 100
+                    }
+                  >
+                    <span
+                      style={{
+                        width: `${Math.min(100, (discountedSubtotal / threshold) * 100)}%`,
+                      }}
+                    />
+                  </div>
+                  <p>
+                    {isLocal
+                      ? "Em Aracaju, pedidos a partir de R$ 150 ganham entrega grátis."
+                      : "Fora de Aracaju, a modalidade econômica é grátis a partir de R$ 300."}
+                    {!address.city &&
+                      " Em Aracaju, o benefício começa em R$ 150."}
+                    {appliedCoupon &&
+                      " A meta considera os produtos após o desconto do cupom."}
+                  </p>
                 </div>
-                <div
-                  className="commerce-progress"
-                  role="progressbar"
-                  aria-label="Progresso para frete grátis"
-                  aria-valuemin={0}
-                  aria-valuemax={threshold / 100}
-                  aria-valuenow={Math.min(threshold, subtotal) / 100}
-                >
-                  <span
-                    style={{
-                      width: `${Math.min(100, (subtotal / threshold) * 100)}%`,
+              )}
+              <form
+                className="commerce-coupon"
+                onSubmit={applyCoupon}
+                noValidate
+                aria-label="Aplicar cupom de desconto"
+              >
+                <label htmlFor="checkout-coupon">
+                  <TicketPercent size={17} /> Tem um cupom?
+                </label>
+                <div className="commerce-coupon-entry">
+                  <input
+                    id="checkout-coupon"
+                    name="coupon_code"
+                    value={couponInput}
+                    onChange={(event) => {
+                      setCouponInput(event.target.value.toUpperCase());
+                      setCouponError("");
+                      setCouponNotice(
+                        couponCode
+                          ? "Clique em Aplicar para conferir o código informado."
+                          : "",
+                      );
                     }}
+                    placeholder="Digite seu cupom"
+                    autoComplete="off"
+                    autoCapitalize="characters"
+                    spellCheck={false}
+                    maxLength={32}
+                    disabled={submitting || quoting || applyingCoupon}
+                    aria-invalid={!!couponError}
+                    aria-describedby="checkout-coupon-feedback"
                   />
+                  <button
+                    type="submit"
+                    disabled={
+                      submitting ||
+                      quoting ||
+                      couponPending ||
+                      loading ||
+                      !quote ||
+                      !couponInput.trim()
+                    }
+                  >
+                    {couponPending ? (
+                      <LoaderCircle
+                        size={16}
+                        className="commerce-spin"
+                        aria-label="Conferindo cupom"
+                      />
+                    ) : (
+                      "Aplicar"
+                    )}
+                  </button>
                 </div>
-                <p>
-                  {isLocal
-                    ? "Em Aracaju, pedidos a partir de R$ 150 ganham entrega grátis."
-                    : "Fora de Aracaju, a modalidade econômica é grátis a partir de R$ 300."}
-                  {!address.city &&
-                    " Em Aracaju, o benefício começa em R$ 150."}
-                </p>
-              </div>
+                <div id="checkout-coupon-feedback">
+                  {couponPending && (
+                    <p className="commerce-coupon-note" role="status">
+                      Conferindo o cupom para os recursos escolhidos...
+                    </p>
+                  )}
+                  {couponError && (
+                    <p className="commerce-coupon-error" role="alert">
+                      {couponError}
+                    </p>
+                  )}
+                  {appliedCoupon && !couponPending && (
+                    <div className="commerce-coupon-applied" role="status">
+                      <span>
+                        <Check size={15} />
+                        <strong>{effectiveCoupon?.code}</strong> aplicado
+                      </span>
+                      <p>
+                        {finalTotalCoupon
+                          ? shipping
+                            ? `Total final de ${money(payable)}, incluindo a entrega escolhida.`
+                            : `Após escolher a entrega, o pedido terá total final de até ${money(effectiveCoupon!.amount)}, incluindo o frete.`
+                          : `${money(couponDiscount)} de desconto nos seus produtos.`}
+                      </p>
+                    </div>
+                  )}
+                  {couponNotice && (
+                    <p className="commerce-coupon-note" role="status">
+                      {couponNotice}
+                    </p>
+                  )}
+                </div>
+                {couponCode && (
+                  <button
+                    className="commerce-coupon-remove"
+                    type="button"
+                    onClick={removeCoupon}
+                    disabled={submitting || quoting}
+                  >
+                    <X size={13} /> Remover cupom
+                  </button>
+                )}
+              </form>
               <div className="summary-line">
                 <span>Produtos ({count})</span>
                 <strong>{quote ? money(subtotal) : "Conferindo..."}</strong>
               </div>
+              {appliedCoupon && (
+                <div className="summary-line commerce-summary-discount">
+                  <span>Desconto do cupom</span>
+                  <strong>
+                    {couponPending
+                      ? "Conferindo..."
+                      : `− ${money(couponDiscount)}`}
+                  </strong>
+                </div>
+              )}
               <div className="summary-line">
                 <span>Entrega</span>
                 <strong>
                   {shipping?.local
-                    ? subtotal >= 15000
-                      ? "Grátis"
-                      : "A combinar"
+                    ? finalTotalCoupon
+                      ? "Incluída no cupom"
+                      : discountedSubtotal >= 15000
+                        ? "Grátis"
+                        : "A combinar"
                     : selectedShipping
                       ? selectedShipping.charged_cents === 0
                         ? "Grátis"
@@ -945,23 +1249,36 @@ export function CartPage() {
               </div>
               <div className="summary-line total">
                 <span>
-                  {!shipping || (shipping.local && subtotal < 15000)
+                  {!shipping ||
+                  (shipping.local &&
+                    discountedSubtotal < 15000 &&
+                    !finalTotalCoupon)
                     ? "Total dos produtos"
                     : "Total do pedido"}
                 </span>
-                <strong>{quote ? money(payable) : "..."}</strong>
+                <strong>
+                  {couponPending
+                    ? "Conferindo..."
+                    : quote
+                      ? money(payable)
+                      : "..."}
+                </strong>
               </div>
               {!shipping && (
                 <p className="small-note">
-                  O valor da entrega aparece depois que você informa o endereço.
+                  {finalTotalCoupon
+                    ? "A entrega será calculada e incluída no benefício do cupom na próxima etapa."
+                    : "O valor da entrega aparece depois que você informa o endereço."}
                 </p>
               )}
-              {shipping?.local && subtotal < 15000 && (
-                <p className="small-note">
-                  O frete será combinado pelo WhatsApp e somado ao valor dos
-                  produtos.
-                </p>
-              )}
+              {shipping?.local &&
+                discountedSubtotal < 15000 &&
+                !finalTotalCoupon && (
+                  <p className="small-note">
+                    O frete será combinado pelo WhatsApp e somado ao valor dos
+                    produtos.
+                  </p>
+                )}
               {payment === "card" && !shipping?.local && shipping && (
                 <p className="small-note">
                   Eventual taxa de cartão será informada no atendimento antes do

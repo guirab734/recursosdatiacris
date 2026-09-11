@@ -1,4 +1,5 @@
 import type { Quote } from "./types";
+import type { AppliedCoupon } from "./coupon-types";
 
 export type CustomerAddress = {
   name: string;
@@ -20,6 +21,8 @@ export type ShippingOption = {
   price_cents: number;
   charged_cents: number;
   subsidy_cents: number;
+  discount_cents?: number;
+  total_cents?: number;
   min_days: number;
   max_days: number;
 };
@@ -28,10 +31,15 @@ export type ShippingQuote = {
   expires_at: string;
   local: boolean;
   subtotal_cents: number;
+  coupon: AppliedCoupon | null;
+  discount_cents: number;
+  discounted_subtotal_cents: number;
+  total_cents: number;
   free_shipping_threshold: number;
   options: ShippingOption[];
   preparation_min_days: number;
   preparation_max_days: number;
+  preparation_label?: string;
 };
 export type PaymentMethod = "pix" | "card" | "whatsapp";
 export type PaymentStatus =
@@ -59,13 +67,15 @@ export type TrackingEvent = {
 };
 export type CustomerOrder = {
   id: string;
-  number: number;
+  reference: string;
   created_at: string;
   updated_at: string;
   address: Omit<CustomerAddress, "document"> & { document?: string };
   items: Quote["items"];
   subtotal_cents: number;
   shipping_cents: number;
+  coupon: AppliedCoupon | null;
+  discount_cents: number;
   total_cents: number;
   local: boolean;
   shipping: ShippingOption | null;

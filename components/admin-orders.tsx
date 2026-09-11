@@ -24,6 +24,7 @@ import {
   Search,
   ShoppingBag,
   Truck,
+  TicketPercent,
   X,
 } from "lucide-react";
 import { Brand } from "./header";
@@ -34,6 +35,7 @@ import {
   type AdminOrder,
 } from "@/lib/commerce-types";
 import "./admin-orders.css";
+import "./admin-coupons.css";
 
 type Filter =
   "all" | "pending" | "to_post" | "posted" | "delivered" | "attention";
@@ -107,8 +109,6 @@ const date = (value: string | null | undefined) => {
         timeStyle: "short",
       });
 };
-const number = (order: AdminOrder) =>
-  `#${String(order.number).padStart(4, "0")}`;
 const method = (order: AdminOrder) =>
   order.payment_method === "pix"
     ? "Pix"
@@ -470,6 +470,10 @@ export function AdminOrders({ email }: { email: string }) {
             <ShoppingBag size={19} />
             Pedidos
           </Link>
+          <Link href="/admin/cupons" className="admin-orders-menu-link">
+            <TicketPercent size={19} />
+            Cupons
+          </Link>
         </nav>
         <div className="sidebar-bottom">
           <Link href="/" target="_blank">
@@ -674,7 +678,7 @@ export function AdminOrders({ email }: { email: string }) {
                   type="search"
                   value={search}
                   onChange={(event) => setSearch(event.target.value)}
-                  placeholder="Buscar pedido ou cliente"
+                  placeholder="Código CR-... ou nome do cliente"
                   aria-label="Buscar pedido ou cliente"
                   maxLength={100}
                 />
@@ -759,7 +763,7 @@ export function AdminOrders({ email }: { email: string }) {
                             className="ao-order-number"
                             onClick={() => void openDetail(item)}
                           >
-                            {number(item)}
+                            {item.reference}
                           </button>
                           <small>{date(item.created_at)}</small>
                         </td>
@@ -803,7 +807,7 @@ export function AdminOrders({ email }: { email: string }) {
                           <button
                             className="ao-open-order"
                             onClick={() => void openDetail(item)}
-                            aria-label={`Ver detalhes do pedido ${number(item)}`}
+                            aria-label={`Ver detalhes do pedido ${item.reference}`}
                           >
                             Ver pedido
                             <ArrowUpRight size={17} />
@@ -875,7 +879,7 @@ export function AdminOrders({ email }: { email: string }) {
           <div>
             <span className="eyebrow">CUIDE DE CADA DETALHE</span>
             <h2 id="ao-detail-title">
-              {order ? `Pedido ${number(order)}` : "Detalhes do pedido"}
+              {order ? `Pedido ${order.reference}` : "Detalhes do pedido"}
             </h2>
             {order && <p>Recebido em {date(order.created_at)}</p>}
           </div>
@@ -959,21 +963,25 @@ export function AdminOrders({ email }: { email: string }) {
                 <div>
                   <dt>
                     {order.local &&
+                    order.coupon?.kind !== "final_total" &&
                     order.shipping_cents === 0 &&
-                    order.subtotal_cents < 15000
+                    order.subtotal_cents - (order.discount_cents || 0) < 15000
                       ? "Entrega local a combinar"
                       : "Frete cobrado"}
                   </dt>
                   <dd>
-                    {order.local &&
+                    {order.local && order.coupon?.kind === "final_total" ? "Incluído no cupom" : order.local &&
                     order.shipping_cents === 0 &&
-                    order.subtotal_cents < 15000
+                    order.subtotal_cents - (order.discount_cents || 0) < 15000
                       ? "Pelo WhatsApp"
                       : order.shipping_cents === 0
                         ? "Grátis"
                         : money(order.shipping_cents)}
                   </dd>
                 </div>
+                {order.coupon && order.discount_cents > 0 && (
+                  <div><dt>Cupom {order.coupon.code}</dt><dd>-{money(order.discount_cents)}</dd></div>
+                )}
                 <div className="ao-grand-total">
                   <dt>Total do pedido</dt>
                   <dd>{money(order.total_cents)}</dd>

@@ -1,6 +1,6 @@
 # Integração com Melhor Envio
 
-O backend consulta o preço do frete e preserva os volumes retornados na cotação. Os valores `custom_price` e `custom_delivery_range` respeitam ajustes da conta no Melhor Envio. A aplicação soma o prazo de preparação da loja separadamente. Valores monetários ficam em centavos na loja e são convertidos para reais apenas na chamada ao provedor; dimensões usam centímetros e peso usa quilogramas.
+O backend consulta o preço do frete e preserva os volumes retornados na cotação. Os valores `custom_price` e `custom_delivery_range` respeitam ajustes da conta no Melhor Envio. A loja faz a postagem em até 24 horas úteis. A estimativa apresentada pela aplicação mantém o mínimo da transportadora e acrescenta até 1 dia útil ao máximo, preservando também a cotação original do provedor. Valores monetários ficam em centavos na loja e são convertidos para reais apenas na chamada ao provedor; dimensões usam centímetros e peso usa quilogramas.
 
 O lojista confirmou uma caixa por pedido, de 300 g, 12 cm de altura, 32 cm de largura e 27 cm de comprimento. `SHIPPING_PACKING_MODE=per_order` representa essa configuração. `SHIPPING_PACKAGE_MAX_ITEMS` permite estabelecer uma capacidade posteriormente, se necessário. Pedidos que precisarem de outra embalagem devem ter a cotação revisada antes do envio. O modo alternativo `per_item` usa o empacotamento do Melhor Envio com dimensões por item.
 

@@ -5,9 +5,14 @@ import { db } from "./catalog";
 import { customerSession } from "./customer-session";
 import { HttpError } from "./http";
 import { money } from "./types";
+import { orderReference } from "./order-reference";
 import type { AdminOrder, CustomerOrder } from "./commerce-types";
 
-export type OrderRecord = Omit<AdminOrder, "whatsapp_url" | "order_url"> & {
+export type OrderRecord = Omit<
+  AdminOrder,
+  "whatsapp_url" | "order_url" | "reference"
+> & {
+  number: number;
   guest_hash: string;
   owner_id: string | null;
   customer_email: string;
@@ -21,6 +26,7 @@ export type OrderRecord = Omit<AdminOrder, "whatsapp_url" | "order_url"> & {
   shipping_started_at: string | null;
   shipping_request: unknown;
   fiscal_document: { type: "invoice" | "declaration"; key?: string } | null;
+  coupon_id: string | null;
 };
 export const fingerprint = (value: unknown) =>
   createHash("sha256").update(JSON.stringify(value)).digest("hex");
@@ -56,7 +62,9 @@ export function orderWhatsApp(order: OrderRecord) {
   const a = order.address;
   const address = `${a.street}, ${a.number}${a.complement ? `, ${a.complement}` : ""}, ${a.neighborhood}, ${a.city}/${a.state}, CEP ${a.postal_code}`;
   const freight = order.local
-    ? order.subtotal_cents >= 15000
+    ? order.coupon?.kind === "final_total"
+      ? "Entrega em Aracaju incluída no total do cupom. Vamos combinar a entrega."
+      : order.subtotal_cents - (order.discount_cents || 0) >= 15000
       ? "Entrega grátis em Aracaju."
       : "Gostaria de combinar a melhor opção de entrega em Aracaju e o valor do frete."
     : `${order.shipping?.company} ${order.shipping?.name}: ${money(order.shipping_cents)}. Prazo estimado: ${order.shipping?.min_days} a ${order.shipping?.max_days} dias úteis, incluindo preparação.`;
@@ -68,7 +76,9 @@ export function orderWhatsApp(order: OrderRecord) {
         : order.local
           ? "Vamos combinar o pagamento e a entrega?"
           : "Gostaria de falar sobre meu pedido.";
-  const message = `Olá, Tia Cris! Meu pedido é #${order.number}.\n\n${order.items.map((item) => `${item.quantity} × ${clean(item.name)}: ${money(item.subtotal_cents)}`).join("\n")}\n\nProdutos: ${money(order.subtotal_cents)}\n${freight}\n${order.local && order.subtotal_cents < 15000 ? "Total dos produtos, frete a combinar" : "Total do pedido"}: ${money(order.total_cents)}\n\nNome: ${clean(a.name)}\nContato: ${a.phone}\nEndereço: ${clean(address)}\n\n${payment}`;
+  const discount = order.coupon && order.discount_cents > 0
+    ? `\nCupom ${clean(order.coupon.code)}: -${money(order.discount_cents)}` : "";
+  const message = `Olá, Tia Cris! Meu pedido é ${orderReference(order.id)}.\n\n${order.items.map((item) => `${item.quantity} × ${clean(item.name)}: ${money(item.subtotal_cents)}`).join("\n")}\n\nProdutos: ${money(order.subtotal_cents)}${discount}\n${freight}\n${order.local && order.coupon?.kind !== "final_total" && order.subtotal_cents - (order.discount_cents || 0) < 15000 ? "Total dos produtos, frete a combinar" : "Total do pedido"}: ${money(order.total_cents)}\n\nNome: ${clean(a.name)}\nContato: ${a.phone}\nEndereço: ${clean(address)}\n\n${payment}`;
   const phone = process.env.WHATSAPP_NUMBER?.replace(/\D/g, "");
   if (!phone || !/^\d{10,15}$/.test(phone))
     throw new HttpError(503, "Atendimento temporariamente indisponível.");
@@ -78,13 +88,15 @@ export function customerOrder(order: OrderRecord): CustomerOrder {
   const { document: _document, ...address } = order.address;
   return {
     id: order.id,
-    number: order.number,
+    reference: orderReference(order.id),
     created_at: order.created_at,
     updated_at: order.updated_at,
     address,
     items: order.items,
     subtotal_cents: order.subtotal_cents,
     shipping_cents: order.shipping_cents,
+    coupon: order.coupon ?? null,
+    discount_cents: order.discount_cents ?? 0,
     total_cents: order.total_cents,
     local: order.local,
     shipping: order.shipping,

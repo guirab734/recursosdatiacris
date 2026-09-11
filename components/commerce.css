@@ -256,6 +256,119 @@
   font-size: 24px;
   white-space: nowrap;
 }
+.commerce-coupon {
+  padding: 0 0 22px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #d4dde9;
+}
+.commerce-coupon > label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+.commerce-coupon > label svg {
+  color: var(--blue);
+}
+.commerce-coupon-entry {
+  display: flex;
+  gap: 8px;
+}
+.commerce-coupon-entry input {
+  min-width: 0;
+  width: 100%;
+  min-height: 43px;
+  background: #fffefa;
+  color: var(--ink);
+  border: 1px solid #cbd5e4;
+  border-radius: 8px;
+  padding: 10px 11px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+}
+.commerce-coupon-entry input::placeholder {
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.commerce-coupon-entry input:focus-visible {
+  border-color: var(--blue);
+  outline: 2px solid #2749a040;
+  outline-offset: 2px;
+}
+.commerce-coupon-entry input[aria-invalid="true"] {
+  border-color: #b65469;
+}
+.commerce-coupon-entry button {
+  background: var(--deep);
+  color: white;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  min-width: 72px;
+  display: grid;
+  place-items: center;
+}
+.commerce-coupon-note,
+.commerce-coupon-error {
+  font-size: 11px;
+  line-height: 1.65;
+  margin-top: 9px;
+  color: var(--muted);
+}
+.commerce-coupon-error {
+  color: #9e3c4e;
+}
+.commerce-coupon-applied {
+  padding: 11px 12px;
+  background: #e1ecdf;
+  color: #3c6240;
+  border-radius: 9px;
+  margin-top: 11px;
+}
+.commerce-coupon-applied > span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  flex-wrap: wrap;
+}
+.commerce-coupon-applied strong {
+  overflow-wrap: anywhere;
+}
+.commerce-coupon-applied p {
+  font-size: 10px;
+  line-height: 1.6;
+  margin-top: 5px;
+}
+.commerce-coupon-remove {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: var(--muted);
+  padding: 6px 0;
+  margin-top: 5px;
+}
+.commerce-coupon-remove:hover {
+  color: var(--ink);
+  text-decoration: underline;
+}
+.commerce-summary-discount {
+  color: #3c6240;
+}
+@media (max-width: 600px) {
+  .commerce-coupon-entry input {
+    font-size: 16px;
+    letter-spacing: 0.3px;
+  }
+  .commerce-coupon-entry button {
+    min-height: 46px;
+  }
+}
 .commerce-recap-footer {
   display: flex;
   gap: 10px;

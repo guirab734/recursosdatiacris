@@ -2,9 +2,11 @@
 
 A loja recalcula os produtos, identifica o município pelo CEP e guarda uma cotação de 10 minutos no servidor, vinculada à sessão e ao conteúdo do carrinho. O navegador envia somente IDs, quantidades, endereço, modalidade escolhida e uma chave de repetição. Alterações de preço, endereço ou produtos exigem nova cotação.
 
-Em Aracaju, o pedido é salvo e o cliente abre uma mensagem pronta no WhatsApp. O frete é combinado no atendimento e fica gratuito a partir de R$150 em produtos. Para outros municípios, a compra usa Pix na loja ou cartão pelo atendimento. A partir de R$300, o frete da opção econômica é subsidiado; outras modalidades cobram somente a diferença. As metas usam os preços promocionais vigentes. O prazo mostrado soma 2 a 3 dias úteis de preparação à estimativa da transportadora.
+Em Aracaju, o pedido é salvo e o cliente abre uma mensagem pronta no WhatsApp. O frete é combinado no atendimento e fica gratuito a partir de R$150 em produtos. Para outros municípios, a compra usa Pix na loja ou cartão pelo atendimento. A partir de R$300, o frete da opção econômica é subsidiado; outras modalidades cobram somente a diferença. As metas usam os preços promocionais vigentes. A loja faz a postagem em até 24 horas úteis. A estimativa mantém o prazo mínimo da transportadora e acrescenta até 1 dia útil ao prazo máximo para considerar a postagem.
 
 ## Pix e envio
+
+Os pedidos exibem uma referência estável no formato `CR-12HEX`, derivada do UUID aleatório. O sequencial interno não aparece no site, na API de acompanhamento ou na mensagem do WhatsApp. A busca da gestão aceita esse código ou o nome do cliente.
 
 O pedido é persistido antes da cobrança e da chamada ao Melhor Envio. A VeloraPay recebe uma chave de idempotência estável por pedido. O backend confirma identificador, valor, descrição do pedido, tipo de transação e ambiente por consulta autenticada. Apenas essa confirmação muda o Pix para pago. Testes não liberam envios de produção.
 
@@ -15,6 +17,12 @@ Com o Pix confirmado e documento de envio válido, a fila prepara o frete no car
 Depois de pagar o frete, volte a `/admin/pedidos`, abra o pedido e clique em **Atualizar status**. Quando o Melhor Envio confirmar o pagamento e liberar a etiqueta, use **Imprimir etiqueta**. O link é privado: mantenha o login da conta do Melhor Envio no navegador. Imprima, fixe a etiqueta na embalagem e leve o pacote ao ponto de postagem do serviço escolhido. Também é possível aguardar a atualização automática; o agendador consulta a fila a cada cinco minutos. A impressão e o status sempre dependem da confirmação do provedor. Se o pagamento já foi feito e a atualização ainda não apareceu, confira no Melhor Envio e atualize novamente depois, sem pagar outro frete.
 
 Na gestão, confira pedidos a postar, postados, entregues, pendentes e que precisam de atenção. O cartão é confirmado manualmente depois de conferir o recebimento. A confirmação grava o pagamento e o trabalho de envio na mesma transação. Rastreios são consultados a cada 30 minutos enquanto estão em trânsito e podem ser atualizados no pedido. A transportadora pode disponibilizar o código somente depois da postagem. Não há rastreio por GPS. Cancelamento na loja não realiza estorno ou cancelamento de etiqueta.
+
+## Cupons
+
+A migração `005_coupons.sql` adiciona a gestão em `/admin/cupons`. Cupons podem oferecer porcentagem, desconto em reais nos produtos ou um total final que inclui a entrega selecionada. Somente o backend consulta e aplica os valores; uma cotação precisa ser refeita quando o cupom ou suas condições financeiras mudarem. A meta de frete grátis considera o subtotal após cupons comuns. Cupons de total final incluem também a entrega local combinada pelo WhatsApp.
+
+O cupom `25TESTE` é criado com total final de R$ 0,25 e uma utilização, editável na gestão. Aplicar ou simular o cupom não consome usos. Registrar um pedido reserva uma utilização atomicamente, inclusive para pedidos pendentes; cancelamentos não devolvem usos automaticamente. Repetir a mesma requisição não consome outra utilização. Antes de registrar um pedido Pix, o servidor consulta os limites atuais da conta VeloraPay. Se a provedora não aceitar R$ 0,25, o checkout informa o intervalo permitido sem registrar pedido nem consumir o cupom; não aumenta o preço automaticamente. Ajuste o limite na provedora ou o cupom na gestão para um teste de pagamento real.
 
 ## Agendamento
 

@@ -167,6 +167,24 @@ function amountToCents(value: unknown) {
   return cents;
 }
 
+/** Merchant-specific limits, read through the authenticated server connection. */
+export async function getPaymentLimits(): Promise<{
+  minCents: number;
+  maxCents: number;
+}> {
+  const data = await request("/payments/limits");
+  const parsed = z
+    .object({
+      CASH_IN: z.object({ minAmount: z.unknown(), maxAmount: z.unknown() }),
+    })
+    .safeParse(data);
+  if (!parsed.success) throw new VeloraError("invalid_response");
+  const minCents = amountToCents(parsed.data.CASH_IN.minAmount);
+  const maxCents = amountToCents(parsed.data.CASH_IN.maxAmount);
+  if (maxCents < minCents) throw new VeloraError("invalid_response");
+  return { minCents, maxCents };
+}
+
 function paymentIdentifier(value: unknown) {
   const result = identifier.safeParse(value);
   if (!result.success) throw new VeloraError("invalid_response");

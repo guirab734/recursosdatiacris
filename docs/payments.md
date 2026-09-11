@@ -15,6 +15,8 @@ O adaptador `lib/payments/velora.ts` segue a referência interativa oficial cons
 
 ## Webhooks
 
+O backend também consulta `GET /payments/limits` antes de registrar novos pedidos Pix. Os limites CASH_IN da conta, retornados em reais, são convertidos para centavos e validados. Um cupom nunca autoriza aumentar silenciosamente a cobrança para alcançar o mínimo da gateway; um valor fora da faixa produz erro antes de reservar o uso do cupom.
+
 A configuração pública atual da marca informa `webhookHeaderPrefix=VeloraPay`. O cabeçalho atual é `x-velorapay-signature: sha256=<hex>`. O adaptador aceita também o alias `x-velora-signature` usado nos exemplos da documentação e o legado `v-signature`, sempre exigindo HMAC-SHA256 válido dos bytes originais e comparação em tempo constante. Se múltiplos desses cabeçalhos existirem, todos precisam ser válidos.
 
 O timestamp validado vem do corpo assinado, com tolerância de cinco minutos. O cabeçalho de timestamp sozinho não comprova a data. A documentação informa que reenvios renovam o timestamp. Eventos devem ser deduplicados no banco por delivery ID ou transação e evento, com conciliação idempotente do estado do pedido.

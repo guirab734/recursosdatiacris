@@ -22,6 +22,7 @@ import {
   Check,
   RefreshCw,
   ShoppingBag,
+  Ticket,
 } from "lucide-react";
 import { Brand } from "./header";
 import { useShop } from "./shop-provider";
@@ -33,6 +34,7 @@ import {
 } from "@/lib/types";
 import { ProductPrice } from "./product-price";
 import "./admin-orders.css";
+import "./admin-coupons.css";
 type Metrics = {
   total_products: number;
   active_products: number;
@@ -406,6 +408,10 @@ export function AdminDashboard({
           <Link href="/admin/pedidos" className="admin-orders-menu-link">
             <ShoppingBag size={19} />
             Pedidos
+          </Link>
+          <Link href="/admin/cupons" className="admin-orders-menu-link">
+            <Ticket size={19} />
+            Cupons
           </Link>
         </nav>
         <div className="sidebar-bottom">

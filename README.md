@@ -35,7 +35,7 @@ Para revogar a gestão, remova o UUID de `public.admins`. A autorização é con
 
 Configure as variáveis de Melhor Envio e remetente em `.env.local` e na hospedagem. O arquivo `.env.example` contém os nomes necessários e mantém endereço, documentos e credenciais em branco. `MELHOR_ENVIO_TOKEN` e o alias existente `token_melhorenvio` são aceitos. Use `MELHOR_ENVIO_ENVIRONMENT=production` somente com as credenciais da conta de produção. Os dados particulares do remetente ficam exclusivamente no backend.
 
-O checkout consulta os serviços disponíveis para o destino e registra a cotação escolhida junto ao pedido. A embalagem configurada é uma caixa por pedido. O cálculo usa o valor dos produtos para o seguro e respeita o peso em quilogramas e dimensões em centímetros. O prazo de preparação da loja é somado ao prazo da transportadora na aplicação.
+O checkout consulta os serviços disponíveis para o destino e registra a cotação escolhida junto ao pedido. A embalagem configurada é uma caixa por pedido. O cálculo usa o valor dos produtos para o seguro e respeita o peso em quilogramas e dimensões em centímetros. A loja faz a postagem em até 24 horas úteis. A estimativa mantém o prazo mínimo da transportadora e acrescenta até 1 dia útil ao prazo máximo.
 
 Com o pagamento do cliente confirmado e o documento de envio válido, o pedido pode ser preparado no carrinho do Melhor Envio. **O lojista paga a etiqueta no próprio Melhor Envio.** A integração não compra o frete automaticamente. Depois do pagamento do frete, o painel pode liberar a impressão privada e acompanhar os status fornecidos pela transportadora.
 

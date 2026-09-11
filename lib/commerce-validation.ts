@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { cartSchema } from "./validation";
 import type { ShippingOption } from "./commerce-types";
+import { couponCodeSchema } from "./coupon-validation";
 const text = (min: number, max: number) =>
   z
     .string()
@@ -79,6 +80,7 @@ export const customerAddressSchema = z
   .strict();
 export const shippingRequestSchema = cartSchema.extend({
   address: customerAddressSchema,
+  coupon_code: couponCodeSchema.optional(),
 });
 export const orderRequestSchema = shippingRequestSchema
   .extend({
