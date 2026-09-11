@@ -32,6 +32,7 @@ import {
   type Media,
 } from "@/lib/types";
 import { ProductPrice } from "./product-price";
+import "./admin-orders.css";
 type Metrics = {
   total_products: number;
   active_products: number;
@@ -157,6 +158,10 @@ export function AdminDashboard({
   const uploadRef = useRef<HTMLInputElement>(null);
   const videoUploadRef = useRef<HTMLInputElement>(null);
   const { notify } = useShop();
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("tab") === "products")
+      setTab("products");
+  }, []);
   const refresh = useCallback(async () => {
     setLoading(true);
     setError("");
@@ -398,6 +403,10 @@ export function AdminDashboard({
             <Package size={19} />
             Meus recursos<span>{products.length}</span>
           </button>
+          <Link href="/admin/pedidos" className="admin-orders-menu-link">
+            <ShoppingBag size={19} />
+            Pedidos
+          </Link>
         </nav>
         <div className="sidebar-bottom">
           <Link href="/" target="_blank">

@@ -415,8 +415,8 @@ export function Storefront({
           )}
           {demo && (
             <p className="demo-note">
-              Prévia local com os valores do catálogo preparado. Os pedidos da
-              loja são combinados pelo WhatsApp.
+              Prévia local com os valores do catálogo preparado. Pagamentos
+              ficam disponíveis na loja conectada.
             </p>
           )}
         </section>
@@ -429,8 +429,8 @@ export function Storefront({
               <em>Gostoso de receber.</em>
             </h2>
             <p>
-              O pedido começa aqui e continua em uma boa conversa com a Tia
-              Cris.
+              Escolha, acompanhe e receba. Cada pedido é preparado com o carinho
+              da Tia Cris.
             </p>
           </div>
           <div className="how-steps">
@@ -448,16 +448,19 @@ export function Storefront({
               <div>
                 <h3>Conte onde a diversão vai chegar</h3>
                 <p>
-                  Informe o endereço para combinarmos as possibilidades de
-                  entrega.
+                  Informe seu CEP e escolha a entrega. Em Aracaju, combinamos a
+                  melhor opção pelo WhatsApp.
                 </p>
               </div>
             </div>
             <div>
               <span>03</span>
               <div>
-                <h3>Combine tudo pelo WhatsApp</h3>
-                <p>A Tia Cris combina pagamento, prazo e envio com você.</p>
+                <h3>Pague e acompanhe sua descoberta</h3>
+                <p>
+                  Pix na loja e cartão pelo atendimento. Veja cada etapa em Meus
+                  pedidos.
+                </p>
               </div>
             </div>
           </div>

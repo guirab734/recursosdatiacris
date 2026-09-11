@@ -1,0 +1,308 @@
+.customer-account {
+  min-height: 100svh;
+  padding: 30px max(24px, calc((100vw - 1240px) / 2)) 65px;
+  background:
+    radial-gradient(ellipse at 10% 55%, #eaf0f9 0, transparent 48%),
+    var(--paper);
+}
+.customer-account-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 22px;
+}
+.customer-store-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.customer-account-layout {
+  display: grid;
+  grid-template-columns: 1fr minmax(340px, 460px);
+  align-items: center;
+  gap: 90px;
+  margin-top: 65px;
+}
+.customer-account-intro .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 11px;
+}
+.customer-account-intro h1 {
+  font:
+    500 clamp(44px, 5.1vw, 72px)/1.09 Fraunces,
+    Georgia,
+    serif;
+  letter-spacing: -0.055em;
+  margin: 25px 0 20px;
+}
+.customer-account-intro h1 em {
+  color: var(--blue);
+  font-weight: 450;
+}
+.customer-account-intro > p {
+  max-width: 340px;
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.customer-guest-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  max-width: 415px;
+  margin-top: 40px;
+  padding-top: 28px;
+  border-top: 1px solid #ced8e5;
+}
+.customer-guest-note > svg {
+  flex: 0 0 auto;
+  color: var(--blue);
+  margin-top: 3px;
+}
+.customer-guest-note strong {
+  font-size: 14px;
+}
+.customer-guest-note p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 6px 0 11px;
+}
+.customer-guest-note a {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--blue);
+}
+.customer-account-card {
+  background: #fffefa;
+  padding: 35px 37px 24px;
+  border: 1px solid #e0e5eb;
+  border-radius: 24px;
+  box-shadow: 0 20px 65px #20395409;
+}
+.customer-account-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: #eaf0f9;
+  color: var(--blue);
+  border-radius: 15px;
+}
+.customer-account-card h2 {
+  font:
+    500 31px/1.18 Fraunces,
+    Georgia,
+    serif;
+  letter-spacing: -0.04em;
+  margin: 21px 0 11px;
+}
+.customer-account-subtitle {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+  margin-bottom: 27px;
+}
+.customer-account-card .field {
+  font-size: 13px;
+}
+.customer-account-card .field > input,
+.customer-account-card .password-field {
+  background: white;
+}
+.customer-account-card .button {
+  font-size: 13px;
+  min-height: 48px;
+}
+.customer-social-buttons {
+  display: grid;
+  gap: 10px;
+}
+.customer-social-buttons button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 45px;
+  background: #fff;
+  color: #273343;
+  border: 1px solid #d4dce6;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 750;
+}
+.customer-social-buttons button.customer-apple-button {
+  color: white;
+  background: #181c21;
+  border-color: #181c21;
+}
+.customer-auth-divider {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  color: var(--muted);
+  font-size: 11px;
+  margin: 24px 0;
+}
+.customer-auth-divider::before,
+.customer-auth-divider::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: var(--line);
+}
+.customer-text-button {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 750;
+}
+.customer-forgot {
+  align-self: flex-end;
+  margin-top: -7px;
+}
+.customer-auth-alternative {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+}
+.customer-auth-alternative button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: none;
+  border: 0;
+  padding: 0 0 0 3px;
+  color: var(--blue);
+  font-size: inherit;
+  font-weight: 800;
+}
+.customer-account-privacy {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 11px;
+  margin: 26px 0 0;
+}
+.customer-auth-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  color: #285342;
+  background: #edf6f0;
+  border-radius: 9px;
+  padding: 14px;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.customer-auth-notice svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.customer-signed-in {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.customer-signed-in > span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #356547;
+  font-size: 12px;
+}
+.customer-signed-in > strong {
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.customer-signed-in .button {
+  margin-top: 9px;
+}
+.customer-signed-in .customer-text-button {
+  margin: 5px 0;
+}
+@media (max-width: 900px) {
+  .customer-account-layout {
+    gap: 40px;
+    grid-template-columns: 1fr minmax(310px, 400px);
+  }
+  .customer-account-card {
+    padding: 30px 26px 24px;
+  }
+}
+@media (max-width: 700px) {
+  .customer-account {
+    padding: 20px 20px 45px;
+  }
+  .customer-account-nav .brand {
+    transform: scale(0.86);
+    transform-origin: left center;
+  }
+  .customer-store-back {
+    font-size: 0;
+    gap: 0;
+    padding: 10px;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+  }
+  .customer-store-back svg {
+    width: 19px;
+    height: 19px;
+  }
+  .customer-account-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-top: 30px;
+  }
+  .customer-account-intro {
+    width: 100%;
+  }
+  .customer-account-intro .eyebrow {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+  }
+  .customer-account-intro h1 {
+    font-size: 39px;
+    margin: 17px 0 12px;
+  }
+  .customer-account-intro h1 br {
+    display: none;
+  }
+  .customer-account-intro h1 br::after {
+    content: " ";
+  }
+  .customer-account-intro > p {
+    font-size: 14px;
+    max-width: 100%;
+    margin-bottom: 0;
+  }
+  .customer-guest-note {
+    margin-top: 22px;
+    padding-top: 18px;
+    max-width: none;
+    gap: 12px;
+  }
+  .customer-account-card {
+    width: 100%;
+    max-width: 450px;
+    padding: 27px 24px 23px;
+    border-radius: 18px;
+  }
+  .customer-account-card h2 {
+    font-size: 28px;
+  }
+}

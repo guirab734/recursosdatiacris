@@ -1,8 +1,8 @@
 # Recursos da Tia Cris
 
-Loja em Next.js 16, React, Supabase Auth, Postgres e Storage. Catálogo, detalhe com galeria, busca, filtros, carrinho e checkout por WhatsApp. Gestão em `/admin/login`, sem links no site público.
+Loja em Next.js 16, React, Supabase Auth, Postgres e Storage. Catálogo, galeria, ofertas, carrinho, Pix VeloraPay, frete Melhor Envio e acompanhamento de pedidos. Entregas em Aracaju e pagamento por cartão seguem pelo WhatsApp. Gestão em `/admin/login`, sem links no site público.
 
-O login administrativo solicita **somente a senha**. A conta dedicada já está criada no Supabase e autorizada em `admins`. Seu identificador interno fica em `ADMIN_AUTH_EMAIL`, exclusivo do servidor. A senha é validada pelo Supabase, sem cópia no código, no `.env.local` ou no navegador. O cadastro público continua desativado.
+O login administrativo solicita **somente a senha**. A conta dedicada está autorizada em `admins`. Seu identificador interno fica em `ADMIN_AUTH_EMAIL`, exclusivo do servidor. A senha é validada pelo Supabase, sem cópia no código ou no `.env.local`. Não existe cadastro público de administradores. O acesso dos clientes é separado e opcional; veja [a configuração de autenticação](docs/customer-auth.md).
 
 ## Executar localmente
 
@@ -19,8 +19,8 @@ Ao clonar o repositório, copie `.env.example` para `.env.local` e preencha as v
 ## Conectar o Supabase
 
 1. Preencha `SUPABASE_URL`, `SUPABASE_ANON_KEY` e `SUPABASE_SERVICE_ROLE_KEY` em `.env.local`. Não use prefixo `NEXT_PUBLIC_`. Confirme `WHATSAPP_NUMBER`, herdado do site original como `557999226515`.
-2. Execute no SQL Editor, nesta ordem, `supabase/migrations/001_store.sql` e `supabase/migrations/002_product_discounts.sql`. A primeira migração cria tabelas, índices, funções, políticas RLS e bucket. A segunda adiciona o preço promocional e atualiza a função de salvamento. Execute cada arquivo uma única vez. Se o projeto já tem a primeira migração, aplique somente a segunda, **antes de publicar esta versão da aplicação**. Ela preserva os preços atuais e inicia os produtos existentes sem desconto. Projetos com tabelas homônimas precisam de migração adaptada antes da execução.
-3. Para uma nova instalação, desative o cadastro público de usuários em Authentication, crie a conta administrativa manualmente e defina seu e-mail interno em `ADMIN_AUTH_EMAIL` no servidor. Depois autorize o UUID dessa conta no SQL Editor. Nesta instalação, a conta e a restrição já estão configuradas:
+2. Execute as migrações ainda não aplicadas, na ordem: `001_store.sql`, `002_product_discounts.sql`, `003_commerce.sql` e `004_commerce_scheduler.sql`, em `supabase/migrations`. Elas criam catálogo/RLS, descontos, pedidos privados e agendador. Aplique antes do deploy. Projetos com tabelas homônimas precisam de migração adaptada.
+3. Crie a conta administrativa manualmente e defina seu email interno em `ADMIN_AUTH_EMAIL`. Autorize seu UUID no SQL Editor. O cadastro de clientes, se habilitado, nunca cria registros em `admins`:
 
 ```sql
 insert into public.admins(user_id) values ('UUID-DA-CONTA-CRIADA');
@@ -30,6 +30,18 @@ insert into public.admins(user_id) values ('UUID-DA-CONTA-CRIADA');
 5. Acesse `/admin/login`, entre somente com sua senha, revise os recursos e ative os produtos. Defina `DEMO_MODE=false` ao concluir a configuração. Se necessário, reinicie `npm run dev` depois de alterar as variáveis.
 
 Para revogar a gestão, remova o UUID de `public.admins`. A autorização é conferida novamente em cada requisição, mesmo que a sessão Auth ainda seja válida. Não é suficiente saber o endereço do painel.
+
+## Frete, etiquetas e acompanhamento
+
+Configure as variáveis de Melhor Envio e remetente em `.env.local` e na hospedagem. O arquivo `.env.example` contém os nomes necessários e mantém endereço, documentos e credenciais em branco. `MELHOR_ENVIO_TOKEN` e o alias existente `token_melhorenvio` são aceitos. Use `MELHOR_ENVIO_ENVIRONMENT=production` somente com as credenciais da conta de produção. Os dados particulares do remetente ficam exclusivamente no backend.
+
+O checkout consulta os serviços disponíveis para o destino e registra a cotação escolhida junto ao pedido. A embalagem configurada é uma caixa por pedido. O cálculo usa o valor dos produtos para o seguro e respeita o peso em quilogramas e dimensões em centímetros. O prazo de preparação da loja é somado ao prazo da transportadora na aplicação.
+
+Com o pagamento do cliente confirmado e o documento de envio válido, o pedido pode ser preparado no carrinho do Melhor Envio. **O lojista paga a etiqueta no próprio Melhor Envio.** A integração não compra o frete automaticamente. Depois do pagamento do frete, o painel pode liberar a impressão privada e acompanhar os status fornecidos pela transportadora.
+
+Em `/admin/pedidos`, a gestão reúne busca, filtros, paginação, valores, endereço e contato do cliente, documento fiscal, anotações e histórico. Confirmações de pagamentos manuais, entrega local e novas tentativas de preparação exigem a conferência do administrador. Cancelar um pedido não faz estorno. Se houver resposta ambígua ao criar o envio, confira o carrinho do Melhor Envio antes de repetir ou vincule o identificador da etiqueta existente.
+
+Leia [a documentação da integração](docs/melhor-envio.md) para configurar o remetente, declaração de conteúdo ou nota fiscal, webhook e serviços atendidos. O acompanhamento mostra as informações disponíveis da transportadora e a última atualização; não representa localização por GPS.
 
 ## Preços e descontos
 
@@ -51,9 +63,9 @@ As fotos e vídeos de produtos são públicos no bucket `products-media`. Não e
 
 O backend exige admin e emite uma URL temporária para um único arquivo, sem permissão de sobrescrita. O navegador transfere o arquivo diretamente ao Storage para respeitar o limite de requisição da hospedagem. A conclusão retorna ao backend, que confere usuário, caminho, tamanho real, MIME e assinatura do arquivo antes de emitir uma prova de validação. O salvamento de novas mídias exige essa prova. Nenhuma chave do Supabase é enviada ao frontend. O cadastro e a ordem das mídias são gravados na mesma transação. A exclusão de referências enfileira a limpeza; uploads abandonados ficam elegíveis após 24 horas e falhas permanecem para nova tentativa.
 
-O checkout valida os preços e o status ativo no momento da preparação. Não há controle, reserva ou baixa de estoque: todos os recursos ativos aceitam pedidos. A coluna `stock` permanece no banco por compatibilidade com a migração original, mas não é exibida nem limita compras. A função de salvamento usa zero como padrão para novos produtos e preserva o campo nas edições. Endereço e coordenadas não são persistidos em banco ou localStorage: são usados na mensagem, onde passam a ser compartilhados com WhatsApp/Meta quando o cliente abre o link. Não há envio automático de mensagem.
+O checkout valida preços e status ativo. Não há controle, reserva ou baixa de estoque: todos os recursos ativos aceitam pedidos. A coluna `stock` permanece por compatibilidade, sem limitar compras. Pedidos guardam nome, contato, CPF, endereço, itens e valores no banco privado. O CPF é restrito à gestão. Nenhum desses dados fica no localStorage. WhatsApp recebe as informações da mensagem quando o cliente abre o link, sem envio automático. Veja [o fluxo completo de checkout, pagamentos, agendamento e acesso](docs/checkout-orders.md).
 
-As métricas contam visualizações, adições ao carrinho e cliques de saída para o WhatsApp. O gráfico mostra 14 dias; os indicadores de interação mostram 30 dias. Um clique não comprova mensagem enviada ou venda concluída. Há rate limit, deduplicação por evento e redução de visualizações repetidas na mesma aba, mas métricas de navegador são estimativas e não auditoria financeira.
+As métricas de interação contam visualizações, adições ao carrinho e saídas para WhatsApp. Esses cliques são estimativas. O painel de pedidos acrescenta pedidos persistidos, valores com pagamento confirmado e situações de envio. Pix confirmado pela provedora e recebimentos manuais conferidos pelo administrador são identificados separadamente.
 
 ## Verificação
 

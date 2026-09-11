@@ -34,4 +34,11 @@ export async function proxy(request: NextRequest) {
   response.headers.set("Cache-Control", "no-store");
   return response;
 }
-export const config = { matcher: ["/admin/:path*"] };
+export const config = {
+  matcher: [
+    "/admin/:path*",
+    "/conta/:path*",
+    "/pedidos/:path*",
+    "/auth/:path*",
+  ],
+};

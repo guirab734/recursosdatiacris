@@ -62,6 +62,9 @@ export function Header() {
             <Link href="/#sobre" onClick={() => setMenu(false)}>
               O mundo da Tia Cris
             </Link>
+            <Link href="/pedidos" onClick={() => setMenu(false)}>
+              Meus pedidos
+            </Link>
           </nav>
           <div className="header-actions">
             <a

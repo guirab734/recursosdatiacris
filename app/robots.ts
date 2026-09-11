@@ -4,7 +4,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/admin/", "/api/", "/carrinho"],
+      disallow: ["/admin/", "/api/", "/carrinho", "/pedidos", "/conta", "/auth/"],
     },
   };
 }
