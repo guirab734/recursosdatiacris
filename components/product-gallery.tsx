@@ -1,15 +1,148 @@
 "use client";
-import { useRef, useState, type PointerEvent } from "react";
+import { useEffect, useRef, useState, type PointerEvent } from "react";
 import Link from "next/link";
 import {
   ArrowUpRight,
   ChevronLeft,
   ChevronRight,
   Image as ImageIcon,
+  LoaderCircle,
   Play,
+  RotateCcw,
+  SlidersHorizontal,
   Sparkles,
 } from "lucide-react";
 import type { Media } from "@/lib/types";
+
+function GalleryVideo({
+  media,
+  name,
+  poster,
+}: {
+  media: Media;
+  name: string;
+  poster?: string;
+}) {
+  const video = useRef<HTMLVideoElement>(null);
+  const interactive = useRef(false);
+  const [controls, setControls] = useState(false);
+  const [state, setState] = useState<
+    "loading" | "playing" | "paused" | "error"
+  >("loading");
+
+  useEffect(() => {
+    const player = video.current;
+    if (!player) return;
+    let active = true;
+    let visible = false;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const start = () => {
+      if (
+        !visible ||
+        document.hidden ||
+        interactive.current ||
+        reducedMotion.matches
+      )
+        return;
+      void player.play().catch(() => {
+        if (active && !player.error) setState("paused");
+      });
+    };
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting;
+        if (visible) start();
+        else player.pause();
+      },
+      { threshold: 0.15 },
+    );
+    observer.observe(player);
+    const visibilityChanged = () => {
+      if (document.hidden) player.pause();
+      else start();
+    };
+    document.addEventListener("visibilitychange", visibilityChanged);
+    if (reducedMotion.matches) {
+      player.pause();
+      setState("paused");
+    }
+    return () => {
+      active = false;
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", visibilityChanged);
+      player.pause();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (state !== "loading") return;
+    const timeout = window.setTimeout(() => setState("paused"), 12000);
+    return () => window.clearTimeout(timeout);
+  }, [state]);
+
+  function activate() {
+    const player = video.current;
+    if (!player) return;
+    interactive.current = true;
+    setControls(true);
+    if (player.error) {
+      setState("loading");
+      player.load();
+    }
+    void player.play().catch(() => {
+      setState(player.error ? "error" : "paused");
+    });
+  }
+
+  return (
+    <div className="gallery-video" data-playback={state}>
+      <video
+        ref={video}
+        src={media.url}
+        poster={poster}
+        controls={controls}
+        muted
+        loop
+        playsInline
+        preload="auto"
+        aria-label={`Vídeo de ${name}`}
+        onPlaying={() => setState("playing")}
+        onPause={() =>
+          setState((current) => (current === "error" ? current : "paused"))
+        }
+        onWaiting={() => setState("loading")}
+        onError={() => setState("error")}
+      />
+      {!controls && state === "playing" && (
+        <button
+          type="button"
+          className="gallery-video-activate"
+          onClick={activate}
+          aria-label={`Mostrar controles do vídeo de ${name}`}
+        >
+          <span>
+            <SlidersHorizontal size={13} /> Toque para controlar
+          </span>
+        </button>
+      )}
+      {state === "loading" && (
+        <div className="gallery-video-status" role="status">
+          <LoaderCircle size={24} className="gallery-video-spinner" />
+          <span>Carregando vídeo</span>
+        </div>
+      )}
+      {(state === "error" || (!controls && state === "paused")) && (
+        <div className="gallery-video-fallback">
+          {state === "error" && <p>Não foi possível reproduzir o vídeo.</p>}
+          <button type="button" onClick={activate}>
+            {state === "error" ? <RotateCcw size={18} /> : <Play size={18} />}
+            {state === "error" ? "Tentar novamente" : "Reproduzir vídeo"}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export function ProductGallery({
   media,
@@ -53,7 +186,9 @@ export function ProductGallery({
     if (
       !multiple ||
       event.button !== 0 ||
-      (event.target as HTMLElement).closest("video, button")
+      (event.target as HTMLElement).closest(
+        "video[controls], button:not(.gallery-video-activate)",
+      )
     )
       return;
     swipe.current = { x: event.clientX, y: event.clientY };
@@ -113,13 +248,11 @@ export function ProductGallery({
         }}
       >
         {current?.type === "video" ? (
-          <video
+          <GalleryVideo
             key={current.id}
-            src={current.url}
-            controls
-            playsInline
-            preload="metadata"
-            aria-label={`Vídeo de ${name}`}
+            media={current}
+            name={name}
+            poster={media.find((item) => item.type === "image")?.url}
           />
         ) : href ? (
           <Link href={href} className="gallery-photo-link" draggable={false}>
@@ -213,7 +346,9 @@ export function ProductGallery({
             ))}
           </div>
           <p className="gallery-hint">
-            Use as setas ou deslize sobre a foto para explorar.
+            Use as setas ou deslize para explorar.
+            {media.some((item) => item.type === "video") &&
+              " Toque no vídeo para controlar."}
           </p>
         </>
       )}

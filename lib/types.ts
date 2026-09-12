@@ -53,4 +53,5 @@ export const categories = [
   "Linguagem e associação",
   "Cores e percepção",
   "Jogos",
+  "Sensoriais",
 ];
