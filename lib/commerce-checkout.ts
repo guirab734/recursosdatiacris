@@ -205,13 +205,15 @@ export async function createOrder(input: unknown): Promise<OrderRecord> {
     if (data.payment_method === "pix") {
       try {
         const limits = await getPaymentLimits();
-        if (
-          amounts.total_cents < limits.minCents ||
-          amounts.total_cents > limits.maxCents
-        )
+        if (amounts.total_cents < limits.minCents)
           throw new HttpError(
             422,
-            `A provedora aceita Pix de ${money(limits.minCents)} a ${money(limits.maxCents)}. Ajuste o pedido ou escolha atendimento por cartão.`,
+            `Pedidos abaixo de ${money(limits.minCents)} não são aceitos.`,
+          );
+        if (amounts.total_cents > limits.maxCents)
+          throw new HttpError(
+            422,
+            `Pedidos acima de ${money(limits.maxCents)} devem ser feitos pelo atendimento no WhatsApp.`,
           );
       } catch (error) {
         if (error instanceof VeloraError)

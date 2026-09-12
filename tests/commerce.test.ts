@@ -230,3 +230,64 @@ test("banco protege dados pessoais, confirma Pix uma vez e não duplica trabalho
     await pg.close();
   }
 });
+
+test("resumo exclui cancelados das contagens, preserva pagamentos e restringe acesso", async () => {
+  const pg = new PGlite();
+  try {
+    await pg.exec(
+      "create role anon; create role authenticated; create role service_role bypassrls; create schema auth; create table auth.users(id uuid primary key); grant usage on schema public,auth to anon,authenticated,service_role;",
+    );
+    for (const migration of ["003_commerce.sql", "006_order_summary.sql"])
+      await pg.exec(
+        await readFile(
+          new URL(`../supabase/migrations/${migration}`, import.meta.url),
+          "utf8",
+        ),
+      );
+    for (const role of ["anon", "authenticated"]) {
+      await pg.exec(`set role ${role}`);
+      await assert.rejects(
+        pg.query("select public.commerce_order_summary()"),
+        /permission denied/,
+      );
+      await pg.exec("reset role");
+    }
+    await pg.exec("set role service_role");
+    await pg.exec(`
+      insert into public.orders(
+        id, guest_hash, customer_email, idempotency_key, request_hash,
+        address, items, subtotal_cents, shipping_cents, total_cents,
+        local, payment_method, payment_status, fulfillment_status, needs_review
+      )
+      select gen_random_uuid(), 'guest', 'test@example.com', gen_random_uuid(),
+        'request', '{}', '[]', amount, 0, amount, true, 'whatsapp',
+        payment_status, fulfillment_status, needs_review
+      from (values
+        ('pending', 'awaiting_payment', 100, false),
+        ('creating', 'awaiting_payment', 100, false),
+        ('paid', 'freight_pending', 1000, false),
+        ('paid', 'posted', 2000, false),
+        ('paid', 'delivered', 3000, false),
+        ('failed', 'attention', 400, true),
+        ('pending', 'cancelled', 500, true),
+        ('creating', 'cancelled', 600, true),
+        ('paid', 'cancelled', 7000, true),
+        ('refunded', 'cancelled', 8000, true)
+      ) as fixtures(payment_status, fulfillment_status, amount, needs_review);
+    `);
+    const { rows } = await pg.query<{ summary: Record<string, number> }>(
+      "select public.commerce_order_summary() as summary",
+    );
+    assert.deepEqual(rows[0].summary, {
+      total: 6,
+      paid_cents: 13000,
+      pending: 2,
+      to_post: 1,
+      posted: 1,
+      delivered: 1,
+      attention: 1,
+    });
+  } finally {
+    await pg.close();
+  }
+});

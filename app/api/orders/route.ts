@@ -46,6 +46,7 @@ export async function GET() {
         .from("orders")
         .select("*")
         .eq(field, value)
+        .neq("fulfillment_status", "cancelled")
         .order("created_at", { ascending: false })
         .limit(50);
       if (error)

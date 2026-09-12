@@ -78,19 +78,6 @@ type Confirmation = {
   checkbox?: string;
   danger?: boolean;
 };
-type IntegrationStatus = {
-  pix_configured: boolean;
-  pix_webhook_configured: boolean;
-  shipping_configured: boolean;
-  customer_signup_enabled: boolean;
-  google_enabled: boolean;
-  apple_enabled: boolean;
-  scheduler: {
-    active: boolean;
-    last_run: string | null;
-    pending_jobs: number;
-  } | null;
-};
 const filters: { id: Filter; label: string; icon: typeof Package }[] = [
   { id: "all", label: "Todos", icon: ShoppingBag },
   { id: "pending", label: "Aguardando pagamento", icon: Clock3 },
@@ -154,10 +141,18 @@ function Status({ order }: { order: AdminOrder }) {
   );
 }
 
-export function AdminOrders({ email }: { email: string }) {
+export function AdminOrders({
+  email,
+  initialFilter,
+}: {
+  email: string;
+  initialFilter?: string;
+}) {
   const [orders, setOrders] = useState<AdminOrder[]>([]);
   const [summary, setSummary] = useState<Summary | null>(null);
-  const [filter, setFilter] = useState<Filter>("all");
+  const [filter, setFilter] = useState<Filter>(
+    filters.find(({ id }) => id === initialFilter)?.id ?? "all",
+  );
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState({ total: 0, page_size: 30 });
   const [search, setSearch] = useState("");
@@ -165,10 +160,6 @@ export function AdminOrders({ email }: { email: string }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
-  const [integrations, setIntegrations] = useState<IntegrationStatus | null>(
-    null,
-  );
-  const [integrationError, setIntegrationError] = useState(false);
   const [detail, setDetail] = useState<Detail | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
   const [detailLoading, setDetailLoading] = useState(false);
@@ -254,31 +245,6 @@ export function AdminOrders({ email }: { email: string }) {
     return () => clearTimeout(timer);
   }, [notice]);
 
-  useEffect(() => {
-    let disposed = false;
-    async function readIntegrations() {
-      try {
-        const status = await api<IntegrationStatus>(
-          "/api/admin/commerce-status",
-        );
-        if (!disposed) {
-          setIntegrations(status);
-          setIntegrationError(false);
-        }
-      } catch {
-        if (!disposed) setIntegrationError(true);
-      }
-    }
-    void readIntegrations();
-    const timer = setInterval(() => {
-      if (document.visibilityState === "visible") void readIntegrations();
-    }, 60_000);
-    return () => {
-      disposed = true;
-      clearInterval(timer);
-    };
-  }, []);
-
   const loadDetail = useCallback(async (id: string, initialize = false) => {
     const request = ++detailRequest.current;
     const response = await api<Detail>(`/api/admin/orders/${id}`);
@@ -350,6 +316,18 @@ export function AdminOrders({ email }: { email: string }) {
       });
       confirmationDialog.current?.close();
       setConfirmation(null);
+      if (action === "cancel") {
+        selectedId.current = null;
+        ++detailRequest.current;
+        setDetailOpen(false);
+        setDetail(null);
+        detailsDialog.current?.close();
+        setOrders((current) => current.filter((item) => item.id !== id));
+        lastFocus.current?.focus();
+        setNotice("Pedido removido da lista.");
+        void refresh(true);
+        return;
+      }
       await loadDetail(id);
       void refresh(true);
       setNotice(
@@ -425,29 +403,6 @@ export function AdminOrders({ email }: { email: string }) {
     1,
     Math.ceil(pagination.total / pagination.page_size),
   );
-  const integrationWarnings = integrations
-    ? [
-        ...(!integrations.pix_configured
-          ? ["O Pix ainda precisa ser configurado."]
-          : !integrations.pix_webhook_configured
-            ? [
-                "Pix é consultado automaticamente; conecte o webhook para confirmação imediata.",
-              ]
-            : []),
-        ...(!integrations.shipping_configured
-          ? ["As cotações de frete aguardam a configuração do Melhor Envio."]
-          : []),
-        ...(!integrations.scheduler?.active
-          ? [
-              "As atualizações automáticas aguardam configuração. Enquanto isso, use Atualizar status nos pedidos.",
-            ]
-          : []),
-        ...(!integrations.customer_signup_enabled
-          ? ["O acesso de novos clientes por email ainda está desativado."]
-          : []),
-      ]
-    : [];
-
   return (
     <div className="admin-shell ao-shell">
       <aside className="admin-sidebar">
@@ -528,68 +483,6 @@ export function AdminOrders({ email }: { email: string }) {
               Atualizar
             </button>
           </div>
-
-          {integrationError ? (
-            <p className="ao-integration-summary ao-muted">
-              <AlertCircle size={13} />
-              Não foi possível conferir as integrações agora.
-            </p>
-          ) : (
-            integrations &&
-            (integrationWarnings.length ? (
-              <aside
-                className="ao-integration-notes"
-                aria-label="Configuração das integrações"
-              >
-                <details>
-                  <summary>
-                    <AlertCircle size={15} />
-                    <span>
-                      Integrações: {integrationWarnings.length}{" "}
-                      {integrationWarnings.length === 1
-                        ? "ponto para conferir"
-                        : "pontos para conferir"}
-                    </span>
-                  </summary>
-                  <div>
-                    {integrationWarnings.map((warning) => (
-                      <p key={warning}>{warning}</p>
-                    ))}
-                    {integrations.scheduler?.active && (
-                      <small>
-                        Última execução: {date(integrations.scheduler.last_run)}
-                        . {integrations.scheduler.pending_jobs} tarefas na fila.
-                      </small>
-                    )}
-                    <small>
-                      Login Google:{" "}
-                      {integrations.google_enabled
-                        ? "ativado"
-                        : "não configurado"}
-                      . Login Apple:{" "}
-                      {integrations.apple_enabled
-                        ? "ativado"
-                        : "não configurado"}
-                      .
-                    </small>
-                    <a
-                      href="https://github.com/guirab734/recursosdatiacris/blob/main/README.md"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Orientações de configuração
-                      <ArrowUpRight size={13} />
-                    </a>
-                  </div>
-                </details>
-              </aside>
-            ) : (
-              <p className="ao-integration-summary">
-                <CheckCircle2 size={13} />
-                Integrações conectadas
-              </p>
-            ))
-          )}
 
           <div className="ao-summary" aria-label="Resumo dos pedidos">
             <div className="ao-metric ao-metric-revenue">
@@ -1445,7 +1338,7 @@ export function AdminOrders({ email }: { email: string }) {
                         title: "Cancelar este pedido?",
                         message: paid
                           ? "O pagamento já foi recebido. Cancelar o pedido aqui não faz estorno. A devolução precisa ser feita na provedora de pagamento, e uma etiqueta já paga deve ser cancelada no Melhor Envio."
-                          : "O pedido ficará cancelado e não seguirá para envio. Se o pagamento for confirmado depois, confira a devolução na provedora.",
+                          : "O pedido será removido da lista e não seguirá para envio. Se o pagamento for confirmado depois, confira a devolução na provedora.",
                         button: "Cancelar pedido",
                         danger: true,
                       })

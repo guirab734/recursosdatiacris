@@ -23,6 +23,7 @@ import {
   RefreshCw,
   ShoppingBag,
   Ticket,
+  Clock3,
 } from "lucide-react";
 import { Brand } from "./header";
 import { useShop } from "./shop-provider";
@@ -35,6 +36,7 @@ import {
 import { ProductPrice } from "./product-price";
 import "./admin-orders.css";
 import "./admin-coupons.css";
+import "./admin-dashboard.css";
 type Metrics = {
   total_products: number;
   active_products: number;
@@ -495,6 +497,7 @@ export function AdminDashboard({
             <div className="loading-dot">Preparando seu ateliê...</div>
           ) : tab === "overview" ? (
             <>
+              <PendingOrdersAlert />
               <div className="metric-grid">
                 <Metric
                   icon={<Package />}
@@ -1141,6 +1144,87 @@ export function AdminDashboard({
           </button>
         </div>
       </dialog>
+    </div>
+  );
+}
+function PendingOrdersAlert() {
+  const [count, setCount] = useState<number | null>(null);
+  const [unavailable, setUnavailable] = useState(false);
+  useEffect(() => {
+    let stopped = false;
+    let inFlight = false;
+    let lastAttempt = 0;
+    let controller: AbortController | null = null;
+    async function update() {
+      if (
+        document.visibilityState !== "visible" ||
+        inFlight ||
+        Date.now() - lastAttempt < 15000
+      )
+        return;
+      inFlight = true;
+      lastAttempt = Date.now();
+      controller = new AbortController();
+      try {
+        const result = await api("/api/admin/orders?status=pending", {
+          cache: "no-store",
+          signal: controller.signal,
+        });
+        if (!Number.isSafeInteger(result.total) || result.total < 0)
+          throw new Error("Contagem de pedidos indisponível.");
+        if (!stopped) {
+          setCount(result.total);
+          setUnavailable(false);
+        }
+      } catch {
+        if (!stopped) setUnavailable(true);
+      } finally {
+        inFlight = false;
+      }
+    }
+    const refresh = () => void update();
+    refresh();
+    const interval = window.setInterval(refresh, 60000);
+    window.addEventListener("focus", refresh);
+    document.addEventListener("visibilitychange", refresh);
+    return () => {
+      stopped = true;
+      controller?.abort();
+      window.clearInterval(interval);
+      window.removeEventListener("focus", refresh);
+      document.removeEventListener("visibilitychange", refresh);
+    };
+  }, []);
+  if (!count)
+    return unavailable ? (
+      <p className="dashboard-order-status" role="status">
+        Não foi possível atualizar os pedidos.{" "}
+        <Link href="/admin/pedidos?status=pending">Consultar pendentes</Link>
+      </p>
+    ) : null;
+  return (
+    <div role="status" aria-live="polite">
+      <Link
+        href="/admin/pedidos?status=pending"
+        className="dashboard-pending-alert"
+      >
+        <span className="dashboard-pending-icon" aria-hidden="true">
+          <Clock3 size={21} />
+        </span>
+        <span className="dashboard-pending-copy">
+          <strong>
+            {count} {count === 1 ? "pedido pendente" : "pedidos pendentes"}
+          </strong>
+          <span>
+            {unavailable
+              ? "A contagem pode estar desatualizada. Abra a lista para conferir."
+              : "Acompanhe os pedidos que aguardam pagamento."}
+          </span>
+        </span>
+        <span className="dashboard-pending-action">
+          Ver pedidos <ArrowUpRight size={17} aria-hidden="true" />
+        </span>
+      </Link>
     </div>
   );
 }

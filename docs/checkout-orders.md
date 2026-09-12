@@ -18,6 +18,8 @@ Depois de pagar o frete, volte a `/admin/pedidos`, abra o pedido e clique em **A
 
 Na gestão, confira pedidos a postar, postados, entregues, pendentes e que precisam de atenção. O cartão é confirmado manualmente depois de conferir o recebimento. A confirmação grava o pagamento e o trabalho de envio na mesma transação. Rastreios são consultados a cada 30 minutos enquanto estão em trânsito e podem ser atualizados no pedido. A transportadora pode disponibilizar o código somente depois da postagem. Não há rastreio por GPS. Cancelamento na loja não realiza estorno ou cancelamento de etiqueta.
 
+Na visão geral, um aviso mostra a quantidade de pedidos aguardando pagamento e abre essa lista. Ao cancelar, o pedido sai das listas da gestão e do cliente, e das contagens operacionais. O registro interno permanece para conciliar pagamentos e impedir duplicações. Pagamentos já confirmados continuam na soma financeira, pois o cancelamento não realiza estorno. A migração `006_order_summary.sql` atualiza esses contadores.
+
 ## Cupons
 
 A migração `005_coupons.sql` adiciona a gestão em `/admin/cupons`. Cupons podem oferecer porcentagem, desconto em reais nos produtos ou um total final que inclui a entrega selecionada. Somente o backend consulta e aplica os valores; uma cotação precisa ser refeita quando o cupom ou suas condições financeiras mudarem. A meta de frete grátis considera o subtotal após cupons comuns. Cupons de total final incluem também a entrega local combinada pelo WhatsApp.

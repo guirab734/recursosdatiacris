@@ -14,6 +14,7 @@ export async function GET(request: Request) {
     let query = db()
       .from("orders")
       .select("*", { count: "exact" })
+      .neq("fulfillment_status", "cancelled")
       .order("created_at", { ascending: false })
       .range((page - 1) * 30, page * 30 - 1);
     const status = url.searchParams.get("status");
