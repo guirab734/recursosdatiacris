@@ -8,6 +8,6 @@ node_modules/
 .local/
 *.tsbuildinfo
 test-results/
-AGENTS.md
-CLAUDE.md
 __pycache__/
+
+# Configuração local de desenvolvimento
